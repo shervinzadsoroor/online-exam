@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>instructor Form</title>
+</head>
+<body>
+instructorForm
+<div>
+    <h1>add new instructor</h1>
+    <form action="#" th:action="@{/instructor/save}" th:object="${instructor}" method="post">
+        <p>firstName:* <input type="text" th:field="*{firstName}"/></p>
+        <p>lastName:* <input type="text" th:field="*{lastName}"/></p>
+        <p>phoneNumber:* <input type="text" th:field="*{phoneNumber}"/></p>
+        <p>email:* <input type="text" th:field="*{email}"/></p>
+        <p>degree: <input type="text" th:field="*{degree}"/></p>
+        <p><input type="submit" value="save"/> <input type="reset" value="Reset"/></p>
+    </form>
+
+    <form>
+<!--        <button formaction="/drug/list">show all</button>-->
+        <button formaction="/">back</button>
+    </form>
+</div>
+</body>
+</html>
