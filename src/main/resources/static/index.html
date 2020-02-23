@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>home</title>
 </head>
 <body>
-hello, this is the home page of online exam web application
+welcome to the online exam web application
+
 <form>
-    <button formaction="/instructor/form">add instructor</button>
+    <button formaction="/account/login" formmethod="get">login</button>
+    <button formaction="/account/signUp" formmethod="get">sign up</button>
 </form>
 </body>
 </html>
