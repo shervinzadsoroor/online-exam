@@ -13,7 +13,7 @@ public class InstructorService  {
 //        this.instructorRepository = instructorRepository;
 //    }
 
-    public void saveInstructor(Instructor instructor){
-        instructorRepository.save(instructor);
+    public Instructor saveInstructor(Instructor instructor){
+        return instructorRepository.save(instructor);
     }
 }

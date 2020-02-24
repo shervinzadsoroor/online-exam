@@ -15,7 +15,7 @@ public class AccountService {
     private AccountRepository accountRepository;
 
     public void saveAccount(Account account) {
-        accountRepository.save(account);
+       Account persistedAccount = accountRepository.save(account);
     }
 
     public Optional<Account> findAccountById(Long id) {

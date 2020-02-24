@@ -5,10 +5,32 @@
     <title>register</title>
 </head>
 <body>
-<select>
-    <option value="0">select role</option>
-    <option value="2">instructor</option>
-    <option value="3">collegian</option>
-</select>
+
+
+<form action="#" th:action="@{/account/register}" th:object="${person}" method="post">
+
+    <p>firstName:* <input type="text" th:field="*{firstName}"/></p>
+    <p>lastName:* <input type="text" th:field="*{lastName}"/></p>
+    <p>email:* <input type="text" th:field="*{email}"/></p>
+    <p>phoneNumber:* <input type="text" th:field="*{phoneNumber}"/></p>
+    <p>account:* <input type="text" th:field="*{account.id}"/></p>
+    <p>account role:* <input type="text" th:field="*{account.role.id}"/>
+<!--        <select>-->
+<!--            <option value="2">instructor</option>-->
+<!--            <option value="3" selected>collegian</option>-->
+<!--        </select></p>-->
+
+    <!--    <select>-->
+    <!--        <option value="0">select role</option>-->
+    <!--        <option value="2">instructor</option>-->
+    <!--        <option value="3">collegian</option>-->
+    <!--    </select>-->
+    <br>
+    <br>
+    <br>
+    <input type="submit" value="sign up"/>
+
+
+</form>
 </body>
 </html>

@@ -21,4 +21,15 @@ public class Person {
     @OneToOne
     private Account account;
 
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber=" + phoneNumber +
+                ", email='" + email + '\'' +
+                ", account=" + account.toString() +
+                '}';
+    }
 }

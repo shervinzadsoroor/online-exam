@@ -17,4 +17,8 @@ public class PersonService {
         List<Person> list = personRepository.findByAccount(account);
         return list.size() > 0;
     }
+
+    public Person savePerson(Person person) {
+        return personRepository.save(person);
+    }
 }

@@ -1,0 +1,9 @@
+package com.shervin.maktabfinalproject.crudrepositories.rolerepository;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@RequestMapping("/role")
+@Controller
+public class RoleController {
+}

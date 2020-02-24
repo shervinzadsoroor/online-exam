@@ -26,4 +26,17 @@ public class Account {
     @OneToOne(mappedBy = "account")
     private Person person;
 
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", isActive=" + isActive +
+                ", lastLoginDate=" + lastLoginDate +
+                ", status='" + status + '\'' +
+                ", role=" + role.getTitle() +
+                ", person=" + person.toString() +
+                '}';
+    }
 }
