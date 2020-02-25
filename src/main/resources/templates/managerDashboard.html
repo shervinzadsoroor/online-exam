@@ -7,11 +7,13 @@
 <body>
 <h2>hello manager, this is your dashboard</h2>
 <form>
-    <button disabled rmaction="/account/registered/all">registered accounts</button>
+    <button formaction="/manager/home">manager home</button><br><br>
+    <button disabled formaction="/account/registered/all">registered accounts</button>
     <button disabled formaction="/account/waiting/all">waiting requests</button>
     <button formaction="/account/instructor/all">instructors accounts</button>
-    <button formaction="/account/collegian/all">collegians accounts</button>
+    <button formaction="/account/collegian/all">collegians accounts</button><br>
     <button formaction="/course/create">define new course</button>
+    <button formaction="/course/all">show all courses</button>
 </form>
 </body>
 </html>

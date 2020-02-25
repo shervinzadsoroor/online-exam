@@ -18,8 +18,10 @@ public class Course {
     private Long id;
 
     private String title;
-    private Date startDate;
-    private Date endDate;
+//    private Date startDate;
+    private String startDate;
+//    private Date endDate;
+    private String endDate;
     private boolean isActive;
 
     @OneToMany(mappedBy = "course")

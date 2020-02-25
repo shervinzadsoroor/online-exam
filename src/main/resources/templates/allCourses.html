@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>all courses</title>
+</head>
+<body>
+<div style="display: flex; justify-content: center; margin-top: 30px"><h2>all courses</h2></div>
+<form th:action="@{/manager/dashboard}">
+    <input type="submit" value="dashboard"/>
+</form>
+
+<table>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>title</th>
+        <th>start date</th>
+        <th>end date</th>
+        <th>active</th>
+        <th>instructor</th>
+        <th>action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="course : ${courses}">
+        <td><span th:text="${course.id}"></span></td>
+        <td><span th:text="${course.title}"></span></td>
+        <td><span th:text="${course.startDate}"></span></td>
+        <td><span th:text="${course.endDate}"></span></td>
+        <td><span th:text="${course.active}"></span></td>
+        <td><span th:text="${course.instructor}"></span></td>
+        <td><a th:href="@{/course/edit/__${course.id}__}">edit</a></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

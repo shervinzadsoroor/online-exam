@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>edit course</title>
+</head>
+<body>
+<div style="display: flex; justify-content: center; margin-top: 30px"><h2>edit course</h2></div>
+<div style="display: flex; justify-content: center; margin-top: 10px">
+
+    <div style="display: flex ; justify-content: center; align-items: center; width: 300px; height: 400px;
+                                        background-color: lightblue ; padding: 10px; border-radius: 10px">
+        <form action="#" th:action="@{/course/edit/save}" th:object="${courseForEdit}" method="post">
+            <input type="hidden" th:field="*{id}"/>
+            title: <br><input type="text" th:field="*{title}"/><br>
+            active: <br><input type="checkbox" th:field="*{active}"/><br>
+            start date: <br><input type="text" th:field="*{startDate}"/><br>
+            end date: <br><input type="text" th:field="*{endDate}"/><br>
+            instructor: <br><input type="text" th:field="*{instructor}"/><br>
+            <br><input type="button" disabled value="edit exams"/>
+            <input type="button" disabled value="edit collegians"/><br>
+<!--            exams: <br><input type="text" th:field="*{exams}"/><br>-->
+<!--            collegians: <br><input type="text" th:field="*{collegians}"/><br>-->
+            <br><input type="submit" value="save changes"/><input type="reset" value="reset"><br>
+
+        </form>
+    </div>
+</div>
+</body>
+</html>

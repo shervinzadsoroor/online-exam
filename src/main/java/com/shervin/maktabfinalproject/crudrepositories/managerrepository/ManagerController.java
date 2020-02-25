@@ -11,6 +11,13 @@ public class ManagerController {
     @Autowired
     private ManagerService managerService;
 
+
+    @GetMapping("/home")
+    public String showWelcomePage() {
+        return "managerWelcomePage";
+    }
+
+
     @GetMapping("/dashboard")
     public String showDashboard() {
         return "managerDashboard";
