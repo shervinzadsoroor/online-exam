@@ -29,7 +29,7 @@ public class Person {
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber=" + phoneNumber +
                 ", email='" + email + '\'' +
-                ", account=" + account.toString() +
+                ", account=" + account.getUsername() +
                 '}';
     }
 }

@@ -14,8 +14,8 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
-    public void saveAccount(Account account) {
-       Account persistedAccount = accountRepository.save(account);
+    public Account saveAccount(Account account) {
+       return  accountRepository.save(account);
     }
 
     public Optional<Account> findAccountById(Long id) {
@@ -39,4 +39,9 @@ public class AccountService {
     public Account findAccountByUsername(String username){
        return accountRepository.findByUsername(username);
     }
+
+    public List<Account> showWaitingAccountsList(){
+       return accountRepository.findAllByStatus("waiting");
+    }
+
 }

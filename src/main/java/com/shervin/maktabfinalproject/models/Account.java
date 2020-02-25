@@ -19,6 +19,7 @@ public class Account {
     private boolean isActive;
     private Date lastLoginDate;
     private String status;
+    private boolean isConfirmed;
 
     @ManyToOne
     private Role role;
@@ -36,7 +37,8 @@ public class Account {
                 ", lastLoginDate=" + lastLoginDate +
                 ", status='" + status + '\'' +
                 ", role=" + role.getTitle() +
-                ", person=" + person.toString() +
+                ", isConfirmed=" + isConfirmed +
+                ", person id=" + person.getId() +
                 '}';
     }
 }

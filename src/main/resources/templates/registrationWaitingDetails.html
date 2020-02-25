@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>registration successful</title>
+</head>
+<body>
+
+<h2>you have registered successfully </h2>
+<br>
+<h4>your account is waiting for confirmation</h4>
+
+
+<div>
+    <table>
+        <thead>
+        <tr>
+            <th> Id</th>
+            <th> username</th>
+            <th> firstName</th>
+            <th> lastName</th>
+            <th> email</th>
+            <th> phoneNumber</th>
+            <th> role</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:object="${account}">
+
+            <td><span th:text="*{id}"> Id </span></td>
+            <td><span th:text="*{username}"> username </span></td>
+            <td><span th:text="*{person.firstName}"> firstName </span></td>
+            <td><span th:text="*{person.lastName}"> lastName </span></td>
+            <td><span th:text="*{person.email}"> email </span></td>
+            <td><span th:text="*{person.phoneNumber}"> phoneNumber </span></td>
+            <td><span th:text="*{role.title}"> role </span></td>
+<!--            -->
+<!--            <td><a th:href="@{/drug/edit/__${d.id}__}">edit</a></td>-->
+<!--            <td><a th:href="@{/drug/deleteConfirm/__${d.id}__}">delete</a></td>-->
+
+        </tr>
+        <form>
+            <button formaction="/">home</button>
+        </form>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>

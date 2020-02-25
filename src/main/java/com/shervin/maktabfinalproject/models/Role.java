@@ -3,7 +3,9 @@ package com.shervin.maktabfinalproject.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,5 +25,5 @@ public class Role {
     private Set<Privilege> privileges = new HashSet<>();
 
     @OneToMany(mappedBy = "role")
-    private Set<Account> accounts = new HashSet<>();
+    private List<Account> accounts = new ArrayList<>();
 }

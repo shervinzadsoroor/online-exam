@@ -49,22 +49,35 @@ public class AccountController {
             if (loggedInAccount.getStatus().equals("not registered")) {
                 Person person = new Person();
                 person.setAccount(loggedInAccount);
-//                Collegian collegian  = new Collegian();
-//                collegian.setAccount(loggedInAccount);
                 model.addAttribute("person", person);
                 return "registrationForm";
             }
-            if (loggedInAccount.getStatus().equals("waiting for confirmation")) {
-
+            if (loggedInAccount.getStatus().equals("waiting")) {
+                model.addAttribute("account", loggedInAccount);
+                return "registrationWaitingDetails";
             }
-            if (loggedInAccount.getStatus().equals("registered")) {
+            if (loggedInAccount.getStatus().equals("registered")
+                    && loggedInAccount.getRole().getTitle().equals("instructor")) {
 
+                // TODO: 2/24/20 show dashboard to the instructor
+            }
+
+            if (loggedInAccount.getStatus().equals("registered")
+                    && loggedInAccount.getRole().getTitle().equals("collegian")) {
+
+                // TODO: 2/24/20 show dashboard to the collegian
+            }
+
+            if (loggedInAccount.getStatus().equals("registered")
+                    && loggedInAccount.getRole().getTitle().equals("manager")) {
+
+                // TODO: 2/24/20 show dashboard to the manager
+                return "managerWelcomePage";
             }
             return "loginSuccessful";
         }
         return "errorInLogin";
     }
-
 
     @GetMapping("/signUp")
     public String sendSignUpForm(Model model) {
@@ -87,12 +100,27 @@ public class AccountController {
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute Person person) {
-//        accountService.saveAccount(person.getAccount());
+    public String register(@ModelAttribute Person person, Model model) {
         Account account = accountService.findAccountById(person.getAccount().getId()).get();
-        Role role = roleService.findRoleByd(person.getAccount().getRole().getId());
+        Role role = roleService.findRoleById(person.getAccount().getRole().getId());
         account.setRole(role);
         accountService.saveAccount(account);
+
+        if (role.getId() == 2) {
+            Instructor instructor = new Instructor();
+
+            instructor.setAccount(account);
+            instructor.setEmail(person.getEmail());
+            instructor.setFirstName(person.getFirstName());
+            instructor.setLastName(person.getLastName());
+            instructor.setPhoneNumber(person.getPhoneNumber());
+
+            Instructor persistedInstructor = instructorService.saveInstructor(instructor);
+            Account account1 = persistedInstructor.getAccount();
+            account1.setStatus("waiting");
+            Account account2 = accountService.saveAccount(account1);
+//            model.addAttribute("account",account2);
+        }
 
         if (role.getId() == 3) {
             Collegian collegian = new Collegian();
@@ -105,27 +133,99 @@ public class AccountController {
 
             Collegian persistedCollegian = collegianService.saveCollegian(collegian);
             Account account1 = persistedCollegian.getAccount();
-            account1.setStatus("waiting for confirmation");
-            accountService.saveAccount(account1);
-        }
-        if (role.getId() == 2) {
-            Instructor instructor = new Instructor();
-
-            instructor.setAccount(account);
-            instructor.setEmail(person.getEmail());
-            instructor.setFirstName(person.getFirstName());
-            instructor.setLastName(person.getLastName());
-            instructor.setPhoneNumber(person.getPhoneNumber());
-
-            Instructor persistedInstructor = instructorService.saveInstructor(instructor);
-            Account account1 = persistedInstructor.getAccount();
-            account1.setStatus("waiting for confirmation");
-            accountService.saveAccount(account1);
+            account1.setStatus("waiting");
+            Account account2 = accountService.saveAccount(account1);
+//            model.addAttribute("account",account2);
         }
 
+        return "registrationSuccessful";
+    }
 
-//        System.out.println(person.toString());
-//        System.out.println(account.toString());
+
+    @PostMapping("/confirm")
+    public String confirmAccounts() {
+        // TODO: 2/24/20
         return null;
+    }
+
+
+    @GetMapping("/waiting/all")
+    public String showAllWaitingAccounts(Model model) {
+
+        Role roleCollegian = roleService.findRoleById(3L);
+        Role roleInstructor = roleService.findRoleById(2L);
+        model.addAttribute("roleCollegian", roleCollegian);
+        model.addAttribute("roleInstructor", roleInstructor);
+        return "allWaitingAccounts";
+    }
+
+    @PostMapping("/waiting/all")
+    public String saveAllWaitingAccountsChanges(@ModelAttribute("roleCollegian") Role roleCollegian,
+                                                @ModelAttribute("roleInstructor") Role roleInstructor) {
+
+        for (Account account : roleCollegian.getAccounts()) {
+            if (account.isConfirmed()) {
+                account.setStatus("registered");
+            } else if (!account.isConfirmed()) {
+                account.setStatus("waiting");
+                System.out.println("1");
+            }
+            accountService.saveAccount(account);
+        }
+        for (Account account : roleInstructor.getAccounts()) {
+            if (account.isConfirmed()) {
+                account.setStatus("registered");
+            } else if (!account.isConfirmed()) {
+                account.setStatus("waiting");
+                System.out.println("2");
+            }
+            accountService.saveAccount(account);
+        }
+        return "managerDashboard";
+    }
+
+
+    @GetMapping("/collegian/all")
+    public String showAllCollegianAccounts(Model model) {
+
+        Role role = roleService.findRoleById(3L); // ROLE_COLLEGIAN
+        model.addAttribute("role", role);
+        return "allCollegianAccounts";
+    }
+
+    @PostMapping("/collegian/all")
+    public String saveAllCollegianChanges(@ModelAttribute Role role) {
+
+        for (Account account : role.getAccounts()) {
+            if (account.isConfirmed()) {
+                account.setStatus("registered");
+            } else if (!account.isConfirmed()) {
+                account.setStatus("waiting");
+            }
+            accountService.saveAccount(account);
+        }
+        return "managerDashboard";
+    }
+
+    @GetMapping("/instructor/all")
+    public String showAllInstructorAccounts(Model model) {
+
+        Role role = roleService.findRoleById(2L); // ROLE_INSTRUCTOR
+        model.addAttribute("role", role);
+        return "allInstructorAccounts";
+    }
+
+    @PostMapping("/instructor/all")
+    public String saveAllInstructorChanges(@ModelAttribute Role role) {
+
+        for (Account account : role.getAccounts()) {
+            if (account.isConfirmed()) {
+                account.setStatus("registered");
+            } else if (!account.isConfirmed()) {
+                account.setStatus("waiting");
+            }
+            accountService.saveAccount(account);
+        }
+        return "managerDashboard";
     }
 }

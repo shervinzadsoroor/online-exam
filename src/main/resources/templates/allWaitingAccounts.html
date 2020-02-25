@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>all waiting accounts</title>
+</head>
+<body>
+
+<div style="display: flex; justify-content: center">
+    <h3>all waiting accounts</h3>
+</div>
+
+<form action="#" th:action="@{/account/waiting/all}" th:object="${roleCollegian}" method="post">
+
+    <fieldset>
+        <input type="submit" th:value="Save">
+        <input type="reset" name="reset" th:value="Reset"/>
+        <table>
+            <thead>
+            <tr>
+
+                <th> active</th>
+                <th> username</th>
+                <th> role</th>
+                <th> status</th>
+                <th> confirmed</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="account, itemStat : ${roleCollegian.accounts}"
+                th:if="${account.status.equals('waiting')}">
+
+                <input type="hidden" th:field="*{accounts[__${itemStat.index}__].id}"/>
+                <td><input type="checkbox" th:field="*{accounts[__${itemStat.index}__].active}"/></td>
+                <td><input type="text" th:field="*{accounts[__${itemStat.index}__].username}"/></td>
+                <input type="hidden" th:field="*{accounts[__${itemStat.index}__].password}"/>
+                <td><input type="text" th:field="*{accounts[__${itemStat.index}__].role}"/></td>
+                <td><input type="text" th:field="*{accounts[__${itemStat.index}__].status}"/></td>
+                <td><input type="checkbox" th:field="*{accounts[__${itemStat.index}__].confirmed}"/></td>
+                <input type="hidden" th:field="*{accounts[__${itemStat.index}__].person}"/>
+
+            </tr>
+            <!--            <tr th:object="${roleInstructor}" th:each="account, itemStat : ${roleInstructor.accounts}"-->
+            <!--                th:if="${account.status.equals('waiting')}">-->
+
+            <!--                <input type="hidden" th:field="*{accounts[__${itemStat.index}__].id}"/>-->
+            <!--                <td><input type="checkbox" th:field="*{accounts[__${itemStat.index}__].active}"/></td>-->
+            <!--                <td><input type="text" th:field="*{accounts[__${itemStat.index}__].username}"/></td>-->
+            <!--                <input type="hidden" th:field="*{accounts[__${itemStat.index}__].password}"/>-->
+            <!--                <td><input type="text" th:field="*{accounts[__${itemStat.index}__].role}"/></td>-->
+            <!--                <td><input type="text" th:field="*{accounts[__${itemStat.index}__].status}"/></td>-->
+            <!--                <td><input type="checkbox" th:field="*{accounts[__${itemStat.index}__].confirmed}"/></td>-->
+            <!--                <input type="hidden" th:field="*{accounts[__${itemStat.index}__].person}"/>-->
+
+            <!--            </tr>-->
+            </tbody>
+        </table>
+    </fieldset>
+
+</form>
+
+
+<form action="#" th:action="@{/account/waiting/all}" th:object="${roleInstructor}" method="post">
+
+    <fieldset>
+        <input type="submit" th:value="Save">
+        <input type="reset" name="reset" th:value="Reset"/>
+        <table>
+            <thead>
+            <tr>
+
+                <th> active</th>
+                <th> username</th>
+                <th> role</th>
+                <th> status</th>
+                <th> confirmed</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="account, itemStat : ${roleInstructor.accounts}"
+                th:if="${account.status.equals('waiting')}">
+
+                <input type="hidden" th:field="*{accounts[__${itemStat.index}__].id}"/>
+                <td><input type="checkbox" th:field="*{accounts[__${itemStat.index}__].active}"/></td>
+                <td><input type="text" th:field="*{accounts[__${itemStat.index}__].username}"/></td>
+                <input type="hidden" th:field="*{accounts[__${itemStat.index}__].password}"/>
+                <td><input type="text" th:field="*{accounts[__${itemStat.index}__].role}"/></td>
+                <td><input type="text" th:field="*{accounts[__${itemStat.index}__].status}"/></td>
+                <td><input type="checkbox" th:field="*{accounts[__${itemStat.index}__].confirmed}"/></td>
+                <input type="hidden" th:field="*{accounts[__${itemStat.index}__].person}"/>
+
+            </tr>
+            </tbody>
+        </table>
+    </fieldset>
+
+</form>
+</body>
+</html>
