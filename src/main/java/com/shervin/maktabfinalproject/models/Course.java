@@ -23,6 +23,7 @@ public class Course {
 //    private Date endDate;
     private String endDate;
     private boolean isActive;
+    private boolean hasInstructor;
 
     @OneToMany(mappedBy = "course")
     private Set<Exam> exams = new HashSet<>();

@@ -1,7 +1,10 @@
 package com.shervin.maktabfinalproject.crudrepositories.courserepository;
 
+import com.shervin.maktabfinalproject.crudrepositories.instructorrepository.InstructorService;
 import com.shervin.maktabfinalproject.models.Course;
+import com.shervin.maktabfinalproject.models.Instructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jmx.export.naming.IdentityNamingStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +16,8 @@ import java.util.Date;
 public class CourseController {
     @Autowired
     private CourseService courseService;
+    @Autowired
+    private InstructorService instructorService;
 
     @GetMapping("/create")
     public String sendCreationForm(Model model) {
@@ -42,5 +47,22 @@ public class CourseController {
     public String saveChangesToCourse(@ModelAttribute Course course) {
         courseService.saveCourse(course);
         return "managerDashboard";
+    }
+
+    @GetMapping("/addInstructor/{id}")
+    public String showInstructorsToChooseOne(@PathVariable("id") Long courseId, Model model) {
+        Course course = courseService.findById(courseId);
+        model.addAttribute("course", course);
+        model.addAttribute("instructors", instructorService.findAll());
+        return "addInstructorToCourse";
+    }
+
+    @PostMapping("/addInstructor")
+    public String addInstructor(@ModelAttribute Course course) {
+        System.out.println("course = " + course);
+        course.setHasInstructor(true);
+        courseService.saveCourse(course);
+        System.out.println("course = " + course);
+        return null;
     }
 }

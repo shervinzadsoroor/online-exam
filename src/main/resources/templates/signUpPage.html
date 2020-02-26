@@ -2,18 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>sign up page</title>
+    <title>ثبت نام</title>
 </head>
 <body>
-sign up
+ثبت نام
 
 <form action="#" th:action="@{/account/signUp}" th:object="${account}" method="post">
 
-    <p>username:* <input type="text" th:field="*{username}"/></p>
-    <p>password:* <input type="text" th:field="*{password}"/></p>
+    <p>نام کاربری:* <input type="text" th:field="*{username}"/></p>
+    <p>کلمه‌ی عبور:* <input type="text" th:field="*{password}"/></p>
     <input type="hidden" th:field="*{active}"/>
     <input type="hidden" th:field="*{status}"/>
-    <input type="submit" value="sign up"/>
+    <input type="submit" value="ثبت نام"/>
 </form>
 </body>
 </html>

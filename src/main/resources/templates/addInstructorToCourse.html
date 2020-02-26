@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>add Instructor To Course</title>
+</head>
+<body>
+
+
+<form th:action="@{/course/addInstructor}" th:object="${course}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <input type="hidden" th:field="*{title}"/>
+    <input type="hidden" th:field="${course.collegians}"/>
+    <input type="hidden" th:field="*{startDate}"/>
+    <input type="hidden" th:field="*{endDate}"/>
+    <input type="hidden" th:field="*{active}"/>
+    <fieldset>
+        <legend>instructors</legend>
+        <ul>
+            <li th:each="instructor : ${instructors}">
+                <input type="radio" th:field="${course.instructor}"
+                       th:value="${instructor.id}"/>
+                <label th:for="${instructor.id}" th:text="${instructor}"></label>
+            </li>
+        </ul>
+    </fieldset>
+    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
+</form>
+
+<!--<form th:object="${address}" method="post">-->
+<!--    <fieldset>-->
+<!--        <legend>Your addresses</legend>-->
+<!--        <ul>-->
+<!--            <li th:each="destinationAddress : ${destinationAddresses}">-->
+<!--                <input type="radio" th:field="${address.destinationAddressId}" th:value="${destinationAddress.destinationAddressId}" />-->
+<!--                <label th:for="${destinationAddress.destinationAddressId}" th:text="${destinationAddress}"></label>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </fieldset>-->
+<!--    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>-->
+<!--</form>-->
+
+</body>
+</html>

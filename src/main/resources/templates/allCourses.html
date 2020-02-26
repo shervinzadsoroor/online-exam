@@ -5,32 +5,33 @@
     <title>all courses</title>
 </head>
 <body>
-<div style="display: flex; justify-content: center; margin-top: 30px"><h2>all courses</h2></div>
+<div style="display: flex; justify-content: center; margin-top: 30px"><h2>تمام دوره‌ها</h2></div>
 <form th:action="@{/manager/dashboard}">
-    <input type="submit" value="dashboard"/>
+    <input type="submit" value="داشبورد"/>
 </form>
 
 <table>
     <thead>
     <tr>
-        <th>id</th>
-        <th>title</th>
-        <th>start date</th>
-        <th>end date</th>
-        <th>active</th>
-        <th>instructor</th>
+        <th>شناسه‌ی یکتا</th>
+        <th>عنوان</th>
+        <th>تاریخ شروع</th>
+        <th>تاریخ پایان</th>
+        <th>وضعیت(فعال)</th>
+        <th>استاد</th>
         <th>action</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="course : ${courses}">
+    <tr th:each="course : ${courses}" >
         <td><span th:text="${course.id}"></span></td>
         <td><span th:text="${course.title}"></span></td>
         <td><span th:text="${course.startDate}"></span></td>
         <td><span th:text="${course.endDate}"></span></td>
         <td><span th:text="${course.active}"></span></td>
-        <td><span th:text="${course.instructor}"></span></td>
-        <td><a th:href="@{/course/edit/__${course.id}__}">edit</a></td>
+        <td th:if="${course.hasInstructor}"><span th:text="${course.instructor}"></span></td>
+        <td th:if="${not course.hasInstructor}"><a th:href="@{/course/addInstructor/__${course.id}__}">افزودن استاد</a></td>
+        <td><a th:href="@{/course/edit/__${course.id}__}">ویرایش</a></td>
     </tr>
     </tbody>
 </table>
