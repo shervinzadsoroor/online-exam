@@ -1,27 +1,38 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html dir="rtl" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>edit course</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
+          crossorigin="anonymous" type="text/css">
+    <title>ویرایش دوره</title>
 </head>
 <body>
-<div style="display: flex; justify-content: center; margin-top: 30px"><h2>edit course</h2></div>
+<div style="display: flex; justify-content: center; margin-top: 30px"><h2>ویرایش دوره</h2></div>
 <div style="display: flex; justify-content: center; margin-top: 10px">
 
-    <div style="display: flex ; justify-content: center; align-items: center; width: 300px; height: 400px;
+    <div style="display: flex ; justify-content: center; align-items: center; width: 300px; height: 450px;
                                         background-color: lightblue ; padding: 10px; border-radius: 10px">
         <form action="#" th:action="@{/course/edit/save}" th:object="${courseForEdit}" method="post">
             <input type="hidden" th:field="*{id}"/>
-            title: <br><input type="text" th:field="*{title}"/><br>
-            active: <br><input type="checkbox" th:field="*{active}"/><br>
-            start date: <br><input type="text" th:field="*{startDate}"/><br>
-            end date: <br><input type="text" th:field="*{endDate}"/><br>
-            instructor: <br><input type="text" th:field="*{instructor}"/><br>
-            <br><input type="button" disabled value="edit exams"/>
-            <input type="button" disabled value="edit collegians"/><br>
-<!--            exams: <br><input type="text" th:field="*{exams}"/><br>-->
-<!--            collegians: <br><input type="text" th:field="*{collegians}"/><br>-->
-            <br><input type="submit" value="save changes"/><input type="reset" value="reset"><br>
+
+            عنوان: <br><input type="text" th:field="*{title}"/><br>
+            فعال: <br><input type="checkbox" th:field="*{active}"/><br>
+            تاریخ شروع: <br><input type="text" th:field="*{startDate}"/><br>
+            تاریخ پایان: <br><input type="text" th:field="*{endDate}"/><br><br>
+            نام کاربری استاد: <p th:if="*{hasInstructor}" th:text="*{instructor.account.username}"></p>
+            <p th:if="*{not hasInstructor}">استادی تعیین نشده است</p>
+
+            <input type="hidden" th:field="*{instructor}"/>
+            <input type="hidden" th:field="*{hasInstructor}"/>
+            <br><input type="button" disabled value="ویرایش آزمون‌ها"/>
+            <input type="button" disabled value="ویرایش دانشجویان"/><br>
+            <p th:if="${not courseForEdit.hasInstructor}"><input type="button" disabled value="تغییر استاد"/></p>
+            <p th:if="${courseForEdit.hasInstructor}"><input type="button" value="تغییر استاد"/></p>
+            <!--            exams: <br><input type="text" th:field="*{exams}"/><br>-->
+            <!--            collegians: <br><input type="text" th:field="*{collegians}"/><br>-->
+            <input type="submit" value="‌‌ذخیره تغییرات"/><input type="reset" value="تنظیم مجدد"><br>
 
         </form>
     </div>

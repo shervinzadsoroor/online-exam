@@ -6,10 +6,11 @@
 
     <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
           crossorigin="anonymous" type="text/css">
-    <title>دوره‌ها</title>
+    <title>جزییات دوره</title>
 </head>
+
 <body style="margin: 30px">
-<div style="display: flex; justify-content: center; margin-top: 30px"><h2>لیست دوره‌ها</h2></div>
+<div style="display: flex; justify-content: center; margin-top: 30px"><h2>اطلاعات دوره‌</h2></div>
 <form th:action="@{/manager/dashboard}">
     <input type="submit" value="داشبورد"/>
 </form>
@@ -23,11 +24,10 @@
         <th>تاریخ پایان</th>
         <th>وضعیت</th>
         <th>استاد</th>
-        <th>action</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="course : ${courses}">
+    <tr>
         <td><span th:text="${course.id}"></span></td>
         <td><span th:text="${course.title}"></span></td>
         <td><span th:text="${course.startDate}"></span></td>
@@ -35,20 +35,31 @@
         <td th:if="${course.active}">فعال</td>
         <td th:if="${not course.active}">غیر فعال</td>
         <td th:if="${course.hasInstructor}"><span th:text="${course.instructor}"></span></td>
-        <td th:if="${not course.hasInstructor}"><a th:href="@{/course/addInstructor/__${course.id}__}">افزودن استاد</a>
-        </td>
-        <td><a th:href="@{/course/addCollegians/__${course.id}__}">افزودن دانشجو</a></td>
-        <td><a th:href="@{/course/edit/__${course.id}__}">ویرایش</a></td>
-        <td><a th:href="@{/course/details/__${course.id}__}">جزییات</a></td>
+        <td th:if="${not course.hasInstructor}">--------</td>
     </tr>
     </tbody>
 </table>
 
-<script src="../static/bootstrap/js/jquery-3.4.1.slim.min.js"
-        crossorigin="anonymous"></script>
-<script src="../static/bootstrap/js/popper.min.js"
-        crossorigin="anonymous"></script>
-<script src="../static/bootstrap/js/bootstrap.min.js"
-        crossorigin="anonymous"></script>
+<div style="display: flex; justify-content: center; margin-top: 30px"><h2>اطلاعات دانشجو‌ها</h2></div>
+<table class="table table-responsive table-bordered">
+    <thead>
+    <tr>
+        <th> شناسه‌</th>
+        <th> نام</th>
+        <th>نام خانوادگی</th>
+        <th> حساب کاربری</th>
+        <th> تایید شده</th>
+    </tr>
+    </thead>
+    <tbody th:object="${course}">
+    <tr th:each="collegian : *{collegians}">
+        <td><span th:text="${collegian.id}"></span></td>
+        <td><span th:text="${collegian.firstName}"></span></td>
+        <td><span th:text="${collegian.lastName}"></span></td>
+        <td><span th:text="${collegian.account.username}"></span></td>
+
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

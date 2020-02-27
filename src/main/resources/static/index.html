@@ -1,16 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html dir="rtl" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"
+          crossorigin="anonymous" type="text/css">
+    <title>صفحه اصلی</title>
 </head>
-<body>
-به سایت آزمون آنلاین خوش آمدید
+<body style="background-color: lavender">
+<div style="display: flex ; justify-content: center;">
+    <div style="background-color: lightblue; width: 250px; height: 170px;
+padding: 20px; margin-top: 165px; border-radius: 5px; border: darkcyan solid thin">
 
-<form>
-    <button formaction="/account/login" formmethod="get">ورود</button>
-    <button formaction="/account/signUp" formmethod="get">ثبت نام</button>
+        <p>به سایت آزمون آنلاین خوش آمدید</p>
+        <br>
+        <form class="form-text">
+            <button style="width: 100%" disabled formmethod="get">درباره‌ی سایت</button>
+            <br>
+            <button style="width: 100%" formaction="/account/login" formmethod="get">ورود</button>
+            <button style="width: 100%" formaction="/account/signUp" formmethod="get">ثبت نام</button>
 
-</form>
+        </form>
+    </div>
+</div>
 </body>
 </html>

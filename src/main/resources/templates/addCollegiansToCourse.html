@@ -6,12 +6,12 @@
 
     <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
           crossorigin="anonymous" type="text/css">
-    <title>افزودن استاد به دوره</title>
+    <title>افزودن دانشجو به دوره</title>
 </head>
 <body>
 
 
-<form th:action="@{/course/addInstructor}" th:object="${course}" method="post">
+<form th:action="@{/course/addCollegians}" th:object="${course}" method="post">
     <input type="hidden" th:field="*{id}"/>
     <input type="hidden" th:field="*{title}"/>
     <input type="hidden" th:field="${course.collegians}"/>
@@ -19,12 +19,12 @@
     <input type="hidden" th:field="*{endDate}"/>
     <input type="hidden" th:field="*{active}"/>
     <fieldset>
-        <legend>استاد‌ها</legend>
+        <legend>دانشجو‌ها</legend>
         <ul>
-            <li th:each="instructor : ${instructors}">
-                <input type="radio" th:field="${course.instructor}"
-                       th:value="${instructor.id}"/>
-                <label th:for="${instructor.id}" th:text="${instructor}"></label>
+            <li th:each="collegian : ${collegians}">
+                <input type="checkbox" th:field="${course.collegians}"
+                       th:value="${collegian.id}"/>
+                <label th:for="${collegian.id}" th:text="${collegian}"></label>
             </li>
         </ul>
     </fieldset>

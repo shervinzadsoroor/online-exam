@@ -2,9 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
+          crossorigin="anonymous" type="text/css">
     <title>all waiting accounts</title>
 </head>
-<body>
+<body style="margin: 30px">
 
 <div style="display: flex; justify-content: center">
     <h3>all waiting accounts</h3>
@@ -15,7 +19,7 @@
     <fieldset>
         <input type="submit" th:value="Save">
         <input type="reset" name="reset" th:value="Reset"/>
-        <table>
+        <table class="table table-responsive table-bordered">
             <thead>
             <tr>
 
@@ -66,7 +70,7 @@
     <fieldset>
         <input type="submit" th:value="Save">
         <input type="reset" name="reset" th:value="Reset"/>
-        <table>
+        <table class="table table-responsive table-bordered">
             <thead>
             <tr>
 

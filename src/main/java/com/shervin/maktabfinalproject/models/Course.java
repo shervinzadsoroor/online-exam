@@ -3,9 +3,8 @@ package com.shervin.maktabfinalproject.models;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -35,5 +34,5 @@ public class Course {
     @JoinTable(name = "course_collegian",
             joinColumns = {@JoinColumn(name = "course_id", nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "collegian_id", nullable = false)})
-    private Set<Collegian> collegians = new HashSet<>();
+    private List<Collegian> collegians = new ArrayList<>();
 }

@@ -1,17 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html dir="rtl" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>login page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
+          crossorigin="anonymous" type="text/css">
+    <title>صفحه‌ی ورود</title>
 </head>
-<body>
-login
+<body style="background-color: lavender">
+<div style="display: flex ; justify-content: center;">
+    <div style="background-color: lightblue; width: 250px; height: 250px;
+         padding: 5px 20px 20px 20px; margin-top: 150px; border-radius: 5px; border: darkcyan solid thin">
 
-<form action="#" th:action="@{/account/login}" th:object="${account}" method="post">
+        <div style="display: flex; justify-content: center; height: 20%"><h3>ورود</h3></div>
+        <form action="#" th:action="@{/account/login}" th:object="${account}" method="post">
+            <p>نام کاربری:* <input dir="ltr" type="text" th:field="*{username}"/></p>
+            <p>کلمه‌ی عبور:* <input dir="ltr" type="text" th:field="*{password}"/></p><br>
+            <div style="display: flex; justify-content: center">
+                <input style="width: 100%" type="submit" value="ورود"/>
+            </div>
 
-    <p>username:* <input type="text" th:field="*{username}"/></p>
-    <p>password:* <input type="text" th:field="*{password}"/></p>
-    <input type="submit" value="login"/>
-</form>
+        </form>
+    </div>
+</div>
 </body>
 </html>

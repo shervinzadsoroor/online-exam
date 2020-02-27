@@ -1,5 +1,6 @@
 package com.shervin.maktabfinalproject.crudrepositories.courserepository;
 
+import com.shervin.maktabfinalproject.crudrepositories.collegianrepository.CollegianService;
 import com.shervin.maktabfinalproject.crudrepositories.instructorrepository.InstructorService;
 import com.shervin.maktabfinalproject.models.Course;
 import com.shervin.maktabfinalproject.models.Instructor;
@@ -18,6 +19,8 @@ public class CourseController {
     private CourseService courseService;
     @Autowired
     private InstructorService instructorService;
+    @Autowired
+    private CollegianService collegianService;
 
     @GetMapping("/create")
     public String sendCreationForm(Model model) {
@@ -59,10 +62,29 @@ public class CourseController {
 
     @PostMapping("/addInstructor")
     public String addInstructor(@ModelAttribute Course course) {
-        System.out.println("course = " + course);
         course.setHasInstructor(true);
         courseService.saveCourse(course);
-        System.out.println("course = " + course);
         return null;
+    }
+
+    @GetMapping("/addCollegians/{id}")
+    public String sendTableOfCollegiansForAdding(@PathVariable("id") Long courseId, Model model) {
+        Course course = courseService.findById(courseId);
+        model.addAttribute("course", course);
+        model.addAttribute("collegians", collegianService.finaAll());
+        return "addCollegiansToCourse";
+    }
+
+    @PostMapping("/addCollegians")
+    public String addCollegians(@ModelAttribute Course course) {
+        courseService.saveCourse(course);
+        return null;
+    }
+
+    @GetMapping("/details/{id}")
+    public String showCourseDetails(@PathVariable("id") Long courseId, Model model) {
+        Course course = courseService.findById(courseId);
+        model.addAttribute("course", course);
+        return "courseDetails";
     }
 }

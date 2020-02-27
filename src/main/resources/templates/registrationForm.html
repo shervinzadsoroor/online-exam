@@ -1,36 +1,60 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html dir="rtl" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
+          crossorigin="anonymous" type="text/css">
+    <title>ثبت اطلاعات شخصی</title>
 </head>
-<body>
+<body style="background-color: lavender">
+<div style="display: flex ; justify-content: center;">
+    <div style="background-color: lightblue; width: 500px; height: 450px;
+padding: 20px; margin-top: 50px; border-radius: 5px; border: darkcyan solid thin">
 
+        <div style="display: flex; justify-content: center"><h3>فرم اطلاعات شخصی و درخواست</h3></div>
+        <br>
+        <form action="#" th:action="@{/account/register}" th:object="${person}" method="post">
 
-<form action="#" th:action="@{/account/register}" th:object="${person}" method="post">
+            <div>
+                نام:*
+                <div dir="ltr" style="padding-left: 50px"><input dir="rtl" style="width: 70%" type="text"
+                                                                 th:field="*{firstName}"/></div>
+                <br>
+                نام خانوادگی:*
+                <div dir="ltr" style="padding-left: 50px"><input dir="rtl" style="width: 70%" type="text" th:field="*{lastName}"/>
+                </div>
+                <br>
+                پست الکترونیک:*
+                <div dir="ltr" style="padding-left: 50px"><input dir="ltr" style="width: 70%" type="text"
+                                                                 th:field="*{email}"/></div>
+                <br>
+                شماره‌ي تلفن:*
+                <div dir="ltr" style="padding-left: 50px"><input style="width: 70%" type="text"
+                                                                 th:field="*{phoneNumber}"/></div>
+                <br>
+                <input type="hidden" th:field="*{account.id}"/>
+                نقش(رول):*
+                <div dir="ltr" style="padding-left: 50px"><input style="width: 70%" type="text"
+                                                                 th:field="*{account.role.id}"/></div>
+            </div>
+            <!--        <select>-->
+            <!--            <option value="2">instructor</option>-->
+            <!--            <option value="3" selected>collegian</option>-->
+            <!--        </select></p>-->
 
-    <p>firstName:* <input type="text" th:field="*{firstName}"/></p>
-    <p>lastName:* <input type="text" th:field="*{lastName}"/></p>
-    <p>email:* <input type="text" th:field="*{email}"/></p>
-    <p>phoneNumber:* <input type="text" th:field="*{phoneNumber}"/></p>
-   <input type="hidden" th:field="*{account.id}"/>
-    <p>role:* <input type="text" th:field="*{account.role.id}"/>
-<!--        <select>-->
-<!--            <option value="2">instructor</option>-->
-<!--            <option value="3" selected>collegian</option>-->
-<!--        </select></p>-->
+            <!--    <select>-->
+            <!--        <option value="0">select role</option>-->
+            <!--        <option value="2">instructor</option>-->
+            <!--        <option value="3">collegian</option>-->
+            <!--    </select>-->
+            <br>
 
-    <!--    <select>-->
-    <!--        <option value="0">select role</option>-->
-    <!--        <option value="2">instructor</option>-->
-    <!--        <option value="3">collegian</option>-->
-    <!--    </select>-->
-    <br>
-    <br>
-    <br>
-    <input type="submit" value="sign up"/>
+            <div style="display: flex; justify-content: center"><input type="submit" value="ثبت درخواست"/></div>
 
-
-</form>
+        </form>
+    </div>
+</div>
 </body>
 </html>

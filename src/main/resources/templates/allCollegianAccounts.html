@@ -1,29 +1,33 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html dir="rtl" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>all collegian accounts</title>
-</head>
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<div style="display: flex; justify-content: center">
-    <h3>all collegian accounts</h3>
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
+          crossorigin="anonymous" type="text/css">
+    <title>حساب کاربری دانشجویان</title>
+</head>
+<body style="margin: 30px">
+
+<div style="display: flex; justify-content: center; margin-top: 20px">
+    <h3>حساب کاربری دانشجوها</h3>
 </div>
 
 <form action="#" th:action="@{/account/collegian/all}" th:object="${role}" method="post">
 
-    <fieldset>
-        <input type="submit" id="submitButton" th:value="Save">
-        <input type="reset" id="resetButton" name="reset" th:value="Reset"/>
-        <table>
+    <fieldset class="form-check">
+        <input type="submit" id="submitButton" value="ذخیره">
+        <input type="reset" id="resetButton" name="reset" value="تنظیم مجدد"/>
+        <table class="table table-responsive table-bordered">
             <thead>
             <tr>
 
-                <th> active</th>
-                <th> username</th>
-                <th> role</th>
-                <th> status</th>
-                <th> confirmed</th>
+                <th> فعال</th>
+                <th> نام کاربری</th>
+                <th> نقش(رول)</th>
+                <th> وضعیت</th>
+                <th> تایید شده</th>
 
             </tr>
             </thead>

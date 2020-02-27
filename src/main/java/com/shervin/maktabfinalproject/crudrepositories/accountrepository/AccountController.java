@@ -1,6 +1,7 @@
 package com.shervin.maktabfinalproject.crudrepositories.accountrepository;
 
 import com.shervin.maktabfinalproject.crudrepositories.collegianrepository.CollegianService;
+import com.shervin.maktabfinalproject.crudrepositories.courserepository.CourseService;
 import com.shervin.maktabfinalproject.crudrepositories.instructorrepository.InstructorService;
 import com.shervin.maktabfinalproject.crudrepositories.personrepository.PersonService;
 import com.shervin.maktabfinalproject.crudrepositories.rolerepository.RoleService;
@@ -8,10 +9,7 @@ import com.shervin.maktabfinalproject.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
@@ -29,6 +27,8 @@ public class AccountController {
     private CollegianService collegianService;
     @Autowired
     private InstructorService instructorService;
+    @Autowired
+    private CourseService courseService;
 
     @GetMapping("/login")
     public String sendLoginForm(Model model) {
@@ -228,4 +228,7 @@ public class AccountController {
         }
         return "managerDashboard";
     }
+
+
+
 }
