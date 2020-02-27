@@ -11,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @RequestMapping("/account")
 @Controller
@@ -50,6 +52,11 @@ public class AccountController {
                 Person person = new Person();
                 person.setAccount(loggedInAccount);
                 model.addAttribute("person", person);
+
+                List<Role> roles = new ArrayList<>();
+                roles.add(roleService.findRoleById(2L)); //  retrieves ROLE_INSTRUCTOR
+                roles.add(roleService.findRoleById(3L)); //  retrieves ROLE_COLLEGIAN
+                model.addAttribute("roles", roles);
                 return "registrationForm";
             }
             if (loggedInAccount.getStatus().equals("waiting")) {
@@ -228,7 +235,6 @@ public class AccountController {
         }
         return "managerDashboard";
     }
-
 
 
 }

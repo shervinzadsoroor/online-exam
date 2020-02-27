@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>جستجو</title>
+</head>
+<body style="background-color: lavender">
+
+<div style="display: flex; justify-content: center"><h3>جستجو</h3></div>
+
+<div style="display: flex ; justify-content: center;">
+    <div style="background-color: lightblue; width: 250px; height: 250px;
+         padding: 5px 20px 20px 20px; margin-top: 50px; border-radius: 5px; border: darkcyan solid thin">
+
+        <div style="display: flex; justify-content: center; height: 20%"><h5>فیلتر مورد نظر را اعمال فرمایید</h5></div>
+        <form action="#" th:action="@{/person/search}" th:object="${account}" method="post">
+             نقش(رول):
+
+            <select th:field="${account.role}">
+                <option value="1"> همه</option>
+                <option th:each="role : ${roles}"
+                        th:value="${role.id}"
+                        th:text="${role.title}">select role
+                </option>
+            </select>
+
+
+            <div style="display: flex; justify-content: center">
+                <input style="width: 100%" type="submit" value="جستجو"/>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

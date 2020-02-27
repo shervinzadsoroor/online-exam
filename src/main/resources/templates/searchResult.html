@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>نتایج جستجو</title>
+</head>
+<body style="background-color: lavender">
+<div style="display: flex; justify-content: center"><h3>نتایج جستجو</h3></div>
+
+
+<table class="table table-responsive table-bordered">
+    <thead>
+    <tr>
+        <th>شناسه‌ی یکتا</th>
+        <th>نام کاربری</th>
+        <th>نقش</th>
+        <th>وضعیت</th>
+        <th>تایید شده</th>
+        <th>فعال</th>
+        <th>نام</th>
+        <th>نام خانوادگی</th>
+        <th>ایمیل</th>
+        <th>تلفن</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="account : ${accounts}">
+        <td><span th:text="${account.id}"></span></td>
+        <td><span th:text="${account.username}"></span></td>
+        <td><span th:text="${account.role.title}"></span></td>
+        <td><span th:text="${account.status}"></span></td>
+        <td><span th:text="${account.confirmed}"></span></td>
+        <td><span th:text="${account.active}"></span></td>
+        <td><span th:text="${account.person.firstName}"></span></td>
+        <td><span th:text="${account.person.lastName}"></span></td>
+        <td><span th:text="${account.person.email}"></span></td>
+        <td><span th:text="${account.person.phoneNumber}"></span></td>
+
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

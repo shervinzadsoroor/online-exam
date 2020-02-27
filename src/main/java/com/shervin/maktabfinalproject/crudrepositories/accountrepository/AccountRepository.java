@@ -20,4 +20,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     List<Account> findAllByPassword(String password);
 
     List<Account> findAllByStatus(String status);
+
+    List<Account> findAllByRole_Id(Long roleId);
 }

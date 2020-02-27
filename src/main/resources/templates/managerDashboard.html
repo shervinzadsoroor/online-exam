@@ -4,20 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
-          crossorigin="anonymous" type="text/css">
-    <title>manager dashboard</title>
+    <!--    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"-->
+    <!--          crossorigin="anonymous" type="text/css">-->
+    <title>داشبورد مدیر</title>
 </head>
-<body>
-<h2>hello manager, this is your dashboard</h2>
-<form>
-    <button formaction="/manager/home">manager home</button><br><br>
-    <button disabled formaction="/account/registered/all">registered accounts</button>
-    <button disabled formaction="/account/waiting/all">waiting requests</button>
-    <button formaction="/account/instructor/all">instructors accounts</button>
-    <button formaction="/account/collegian/all">collegians accounts</button><br>
-    <button formaction="/course/create">define new course</button>
-    <button formaction="/course/all">show all courses</button>
-</form>
+<body style="background-color: lavender">
+<div style="display: flex; justify-content: center; height: 20%"><h3>داشبورد مدیر</h3></div>
+<div style="display: flex ; justify-content: center;">
+    <div style="background-color: lightblue; width: 250px; height: 250px;
+         padding: 20px 20px 20px 20px; margin-top: 50px; border-radius: 5px; border: darkcyan solid thin">
+        <form>
+            <button style="width: 100%" formaction="/manager/home">صفحه اصلی مدیر</button>
+            <br><br>
+            <button style="width: 100%" disabled formaction="/account/registered/all">اکانت‌های ثبت شده</button>
+            <button style="width: 100%" disabled formaction="/account/waiting/all">درخواست‌های در حال انتظار</button>
+            <button style="width: 100%" formaction="/account/instructor/all">اکانت‌ استاد‌ها</button>
+            <button style="width: 100%" formaction="/account/collegian/all">اکانت‌ دانشجو‌ها</button>
+            <button style="width: 100%" formaction="/person/search">جستجو</button>
+            <br>
+            <button style="width: 100%" formaction="/course/create">تعریف دوره‌ی جدید</button>
+            <button style="width: 100%" formaction="/course/all">لیست دوره‌ها</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>

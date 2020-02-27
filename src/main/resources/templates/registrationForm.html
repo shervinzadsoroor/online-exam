@@ -23,7 +23,8 @@ padding: 20px; margin-top: 50px; border-radius: 5px; border: darkcyan solid thin
                                                                  th:field="*{firstName}"/></div>
                 <br>
                 نام خانوادگی:*
-                <div dir="ltr" style="padding-left: 50px"><input dir="rtl" style="width: 70%" type="text" th:field="*{lastName}"/>
+                <div dir="ltr" style="padding-left: 50px"><input dir="rtl" style="width: 70%" type="text"
+                                                                 th:field="*{lastName}"/>
                 </div>
                 <br>
                 پست الکترونیک:*
@@ -36,22 +37,28 @@ padding: 20px; margin-top: 50px; border-radius: 5px; border: darkcyan solid thin
                 <br>
                 <input type="hidden" th:field="*{account.id}"/>
                 نقش(رول):*
-                <div dir="ltr" style="padding-left: 50px"><input style="width: 70%" type="text"
-                                                                 th:field="*{account.role.id}"/></div>
-            </div>
-            <!--        <select>-->
-            <!--            <option value="2">instructor</option>-->
-            <!--            <option value="3" selected>collegian</option>-->
-            <!--        </select></p>-->
+                <div dir="ltr" style="padding-left: 50px">
+                    <!--                    <input style="width: 70%" type="text" th:field="*{account.role.id}"/></div>-->
+                    <select th:field="*{account.role}">
+                        <option th:each="role : ${roles}"
+                                th:value="${role.id}"
+                                th:text="${role.title}">select role
+                        </option>
+                    </select>
+                </div>
+                <!--        <select>-->
+                <!--            <option value="2">instructor</option>-->
+                <!--            <option value="3" selected>collegian</option>-->
+                <!--        </select></p>-->
 
-            <!--    <select>-->
-            <!--        <option value="0">select role</option>-->
-            <!--        <option value="2">instructor</option>-->
-            <!--        <option value="3">collegian</option>-->
-            <!--    </select>-->
-            <br>
+                <!--    <select>-->
+                <!--        <option value="0">select role</option>-->
+                <!--        <option value="2">instructor</option>-->
+                <!--        <option value="3">collegian</option>-->
+                <!--    </select>-->
+                <br>
 
-            <div style="display: flex; justify-content: center"><input type="submit" value="ثبت درخواست"/></div>
+                <div style="display: flex; justify-content: center"><input type="submit" value="ثبت درخواست"/></div>
 
         </form>
     </div>
