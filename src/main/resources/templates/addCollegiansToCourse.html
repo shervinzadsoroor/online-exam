@@ -14,7 +14,7 @@
 <form th:action="@{/course/addCollegians}" th:object="${course}" method="post">
     <input type="hidden" th:field="*{id}"/>
     <input type="hidden" th:field="*{title}"/>
-    <input type="hidden" th:field="${course.collegians}"/>
+<!--    <input type="hidden" th:field="${course.collegians}"/>-->
     <input type="hidden" th:field="*{startDate}"/>
     <input type="hidden" th:field="*{endDate}"/>
     <input type="hidden" th:field="*{active}"/>
