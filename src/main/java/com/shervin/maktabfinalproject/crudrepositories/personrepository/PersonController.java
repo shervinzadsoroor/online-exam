@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequestMapping("/person")
 @Controller
@@ -39,17 +40,46 @@ public class PersonController {
     @PostMapping("/search")
     public String searchAccounts(@ModelAttribute Account account, Model model) {
         List<Account> accountList = new ArrayList<>();
+        //retrieves all accounts
         if (account.getRole().getId() == 1) {
             accountList.addAll(accountService.findAllAccountsByRoleId(2L));
             accountList.addAll(accountService.findAllAccountsByRoleId(3L));
         }
+        //retrieves instructor accounts
         if (account.getRole().getId() == 2) {
             accountList.addAll(accountService.findAllAccountsByRoleId(2L));
         }
+
+        //retrieves collegian accounts
         if (account.getRole().getId() == 3) {
             accountList.addAll(accountService.findAllAccountsByRoleId(3L));
         }
-        model.addAttribute("accounts", accountList);
+
+        if (account.getPerson().getFirstName().isBlank() && account.getPerson().getLastName().isBlank()) {
+            model.addAttribute("accounts", accountList);
+        }
+
+        if (!account.getPerson().getFirstName().isBlank() && account.getPerson().getLastName().isBlank()) {
+            List<Account> filteredAccounts = accountList.stream().filter(account1 -> account1.getPerson().getFirstName()
+                    .equals(account.getPerson().getFirstName())).collect(Collectors.toList());
+            model.addAttribute("accounts", filteredAccounts);
+        }
+
+        if (!account.getPerson().getLastName().isBlank() && account.getPerson().getFirstName().isBlank()) {
+            List<Account> filteredAccounts = accountList.stream().filter(account1 -> account1.getPerson().getLastName()
+                    .equals(account.getPerson().getLastName())).collect(Collectors.toList());
+            model.addAttribute("accounts", filteredAccounts);
+        }
+
+        if (!account.getPerson().getLastName().isBlank() && !account.getPerson().getFirstName().isBlank()) {
+            List<Account> filteredAccounts = accountList.stream().filter(account1 -> account1.getPerson().getLastName()
+                    .equals(account.getPerson().getLastName()))
+                    .filter(account1 -> account1.getPerson().getFirstName()
+                            .equals(account.getPerson().getFirstName()))
+                    .collect(Collectors.toList());
+
+            model.addAttribute("accounts", filteredAccounts);
+        }
         return "searchResult";
     }
 
