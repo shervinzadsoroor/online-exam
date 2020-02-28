@@ -64,19 +64,19 @@ public class AccountController {
                 return "registrationWaitingDetails";
             }
             if (loggedInAccount.getStatus().equals("registered")
-                    && loggedInAccount.getRole().getTitle().equals("instructor")) {
+                    && loggedInAccount.getRole().getTitle().equals("ROLE_INSTRUCTOR")) {
 
                 // TODO: 2/24/20 show dashboard to the instructor
             }
 
             if (loggedInAccount.getStatus().equals("registered")
-                    && loggedInAccount.getRole().getTitle().equals("collegian")) {
+                    && loggedInAccount.getRole().getTitle().equals("ROLE_COLLEGIAN")) {
 
                 // TODO: 2/24/20 show dashboard to the collegian
             }
 
             if (loggedInAccount.getStatus().equals("registered")
-                    && loggedInAccount.getRole().getTitle().equals("manager")) {
+                    && loggedInAccount.getRole().getTitle().equals("ROLE_MANAGER")) {
 
                 // TODO: 2/24/20 show dashboard to the manager
                 return "managerWelcomePage";
@@ -89,6 +89,10 @@ public class AccountController {
     @GetMapping("/signUp")
     public String sendSignUpForm(Model model) {
         model.addAttribute("account", new Account());
+        List<Role> roles = new ArrayList<>();
+        roles.add(roleService.findRoleById(2L)); //  retrieves ROLE_INSTRUCTOR
+        roles.add(roleService.findRoleById(3L)); //  retrieves ROLE_COLLEGIAN
+        model.addAttribute("roles", roles);
         return "signUpPage";
     }
 

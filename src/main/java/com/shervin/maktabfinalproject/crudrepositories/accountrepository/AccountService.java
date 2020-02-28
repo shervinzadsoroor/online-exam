@@ -12,7 +12,7 @@ import java.util.Optional;
 public class AccountService {
 
     @Autowired
-    private AccountRepository accountRepository;
+    AccountRepository accountRepository;
 
     public Account saveAccount(Account account) {
         return accountRepository.save(account);

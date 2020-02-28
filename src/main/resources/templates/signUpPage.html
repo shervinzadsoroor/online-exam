@@ -9,14 +9,21 @@
     <title>ثبت نام</title>
 </head>
 <body style="background-color: lavender">
-<div style="display: flex ; justify-content: center;">
-    <div style="background-color: lightblue; width: 250px; height: 250px;
+<div style="display: flex ; justify-content: center">
+    <div style="background-color: lightblue; width: 250px; height: 300px;
          padding: 5px 20px 20px 20px; margin-top: 150px; border-radius: 5px; border: darkcyan solid thin">
 
         <div style="display: flex; justify-content: center; height: 20%"><h3>ثبت نام</h3></div>
         <form action="#" th:action="@{/account/signUp}" th:object="${account}" method="post">
             <p>نام کاربری:* <input dir="ltr" type="text" th:field="*{username}"/></p>
-            <p>کلمه‌ی عبور:* <input dir="ltr" type="text" th:field="*{password}"/></p><br>
+            <p>کلمه‌ی عبور:* <input dir="ltr" type="text" th:field="*{password}"/></p>
+            <select th:field="${account.role}">
+                <option th:each="role : ${roles}"
+                        th:value="${role.id}"
+                        th:text="${role.title}">select role
+                </option>
+            </select>
+            <br><br>
             <div style="display: flex; justify-content: center">
                 <input style="width: 100%" type="submit" value="ثبت نام"/>
             </div>
