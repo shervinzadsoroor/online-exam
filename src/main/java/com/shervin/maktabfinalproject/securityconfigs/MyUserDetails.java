@@ -1,5 +1,6 @@
 package com.shervin.maktabfinalproject.securityconfigs;
 
+import com.shervin.maktabfinalproject.models.Account;
 import com.shervin.maktabfinalproject.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,34 +13,32 @@ import java.util.stream.Collectors;
 
 public class MyUserDetails implements UserDetails {
     private String userName;
-//    private String password;
-//    private boolean active;
-//    private List<GrantedAuthority> authorities;
-
-    public MyUserDetails(String userName) {
-        this.userName = userName;
-    }
+    private String password;
+    private boolean active;
+    private List<GrantedAuthority> authorities;
 
     public MyUserDetails() {
     }
 
-//    public MyUserDetails(User user) {
-//        this.userName = user.getUserName();
-//        this.password = user.getPassword();
-//        this.active = user.isActive();
-//        this.authorities = Arrays.stream(user.getRoles().split(","))
-//                .map(SimpleGrantedAuthority::new)
-//                .collect(Collectors.toList());
-//    }
+    public MyUserDetails(Account account) {
+        this.userName = account.getUsername();
+        this.password = account.getPassword();
+        this.active = account.isActive();
+
+        String role = account.getRole().getTitle();
+        SimpleGrantedAuthority simple = new SimpleGrantedAuthority(role);
+
+        this.authorities = Arrays.asList(simple);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority("ROLE_COLLEGIAN"));
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return "{noop}1111";
+        return "{noop}" + password;
     }
 
     @Override
@@ -64,6 +63,6 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return active;
     }
 }

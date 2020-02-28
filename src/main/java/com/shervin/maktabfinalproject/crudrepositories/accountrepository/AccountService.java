@@ -38,7 +38,7 @@ public class AccountService {
     }
 
     public Account findAccountByUsername(String username) {
-        return accountRepository.findByUsername(username);
+        return accountRepository.findByUsername(username).get();
     }
 
     public List<Account> showWaitingAccountsList() {

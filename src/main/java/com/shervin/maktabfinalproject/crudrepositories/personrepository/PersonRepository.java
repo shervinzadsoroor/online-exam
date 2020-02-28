@@ -11,5 +11,4 @@ import java.util.List;
 public interface PersonRepository extends JpaRepository<Person, Long> {
     List<Person> findByAccount(Account account);
 
-    //Person findByFirstNameAndPhoneNumberAndLastNameAndEmail(String firstName, Long phoneNumber, String lastName, String email);
 }

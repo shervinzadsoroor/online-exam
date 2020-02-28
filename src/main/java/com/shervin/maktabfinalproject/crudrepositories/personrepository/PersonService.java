@@ -10,8 +10,12 @@ import java.util.List;
 @Service
 public class PersonService {
 
-    @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    public void setPersonRepository(PersonRepository personRepository) {
+        this.personRepository = personRepository;
+    }
 
     public boolean isPersonHasAccount(Account account) {
         List<Person> list = personRepository.findByAccount(account);

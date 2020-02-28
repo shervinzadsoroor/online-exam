@@ -1,6 +1,7 @@
 package com.shervin.maktabfinalproject.securityconfigs;
 
 import com.shervin.maktabfinalproject.crudrepositories.accountrepository.AccountRepository;
+import com.shervin.maktabfinalproject.crudrepositories.accountrepository.AccountService;
 import com.shervin.maktabfinalproject.models.Account;
 import com.shervin.maktabfinalproject.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +15,16 @@ import java.util.Optional;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
+    @Autowired
+    AccountRepository accountRepository;
 //    @Autowired
-//    UserRepository userRepository;
+//    AccountService accountService;
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-//        Optional<User> user = userRepository.findByUserName(userName);
-//        user.orElse(() -> new UsernameNotFoundException("not found:" + userName));
-//        return user.map(MyUserDetails::new).get();
-        return new MyUserDetails(userName);
+        Optional<Account> account = accountRepository.findByUsername(userName);
+        account.orElseThrow(() -> new UsernameNotFoundException("not found:" + userName));
+        return account.map(MyUserDetails::new).get();
+//        return new MyUserDetails(userName);
     }
 }
