@@ -24,10 +24,8 @@ public class ManagerController {
 
 
     @GetMapping("/dashboard/{userName}")
-    public String showCollegianDashboard(@PathVariable("userName") String username) {
-
+    public String showManagerDashboard(@PathVariable("userName") String username) {
         Account account = accountService.findAccountByUsername(username);
-        System.out.println("username = " + username);
         return "managerDashboard";
     }
 

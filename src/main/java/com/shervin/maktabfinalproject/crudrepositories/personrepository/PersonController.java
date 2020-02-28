@@ -40,6 +40,7 @@ public class PersonController {
     @PostMapping("/search")
     public String searchAccounts(@ModelAttribute Account account, Model model) {
         List<Account> accountList = new ArrayList<>();
+
         //retrieves all accounts
         if (account.getRole().getId() == 1) {
             accountList.addAll(accountService.findAllAccountsByRoleId(2L));

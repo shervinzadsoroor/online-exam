@@ -119,7 +119,6 @@ public class AccountController {
 
         if (role.getId() == 2) {
             Instructor instructor = new Instructor();
-
             instructor.setAccount(account);
             instructor.setEmail(person.getEmail());
             instructor.setFirstName(person.getFirstName());

@@ -38,7 +38,7 @@ public class Account {
                 ", status='" + status + '\'' +
                 ", role=" + role.getTitle() +
                 ", isConfirmed=" + isConfirmed +
-                ", person id=" + person.getId() +
+//                ", person id=" + person.getId() +
                 '}';
     }
 

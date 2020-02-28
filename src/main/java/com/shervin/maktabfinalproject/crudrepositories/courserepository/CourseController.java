@@ -61,10 +61,11 @@ public class CourseController {
     }
 
     @PostMapping("/addInstructor")
-    public String addInstructor(@ModelAttribute Course course) {
+    public String addInstructor(@ModelAttribute Course course, Model model) {
         course.setHasInstructor(true);
         courseService.saveCourse(course);
-        return null;
+        model.addAttribute("courses", courseService.showAllCourses());
+        return "allCourses";
     }
 
     @GetMapping("/addCollegians/{id}")
@@ -76,9 +77,10 @@ public class CourseController {
     }
 
     @PostMapping("/addCollegians")
-    public String addCollegians(@ModelAttribute Course course) {
+    public String addCollegians(@ModelAttribute Course course, Model model) {
         courseService.saveCourse(course);
-        return null;
+        model.addAttribute("courses", courseService.showAllCourses());
+        return "allCourses";
     }
 
     @GetMapping("/details/{id}")
