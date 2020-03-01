@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
+          crossorigin="anonymous" type="text/css">
+    <title>تایید حذف آزمون</title>
+</head>
+<body style="margin: 30px">
+<div style="display: flex; justify-content: center; margin-top: 30px"><h3>آیا از حذف آزمون اطمینان کامل دارید؟</h3>
+</div>
+
+<div style="display: flex; justify-content: center; margin-top: 10px">
+
+    <div style="display: flex ; justify-content: center; align-items: center; width: 500px; height: 400px;
+                                        background-color: lightblue ; padding: 10px; border-radius: 10px">
+        <form style="width: 450px; height: 300px;" action="#" th:object="${exam}">
+            <label/>
+
+            <!--            <label>Hello <span th:text="${worldText}"></span></label>-->
+            <h4> شناسه: <label th:text="${exam.id}"></label></h4>
+            <h4> عنوان: <label th:text="${exam.title}"></label></h4>
+            <h4> زمان برگزاری: <label th:text="${exam.heldDate}"></label></h4>
+            <h4> مدت زمان: <label th:text="${exam.duration}"></label></h4>
+            <h4> سقف نمره: <label th:text="${exam.score}"></label></h4><br>
+
+        </form>
+
+        <form style="display: flex; justify-content: center" action="#" th:action="@{/exam/list/__${exam.course.id}__}"
+              method="get">
+            <input style="width: 50%" type="submit" value="خیر"/>
+        </form>
+        <br>
+        <form style="display: flex; justify-content: center" action="#" th:action="@{/exam/delete/__${exam.id}__}"
+              method="post">
+            <input style="width: 50%" type="submit" value="بله"/>
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

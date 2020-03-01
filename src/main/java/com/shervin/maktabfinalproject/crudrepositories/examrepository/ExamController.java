@@ -31,12 +31,28 @@ public class ExamController {
     }
 
     @PostMapping("/edit")
-    public String editExam(@ModelAttribute Exam exam, Model model){
+    public String editExam(@ModelAttribute Exam exam, Model model) {
         examService.saveExam(exam);
         //after saving the edited exam, the following lines collects the required info of the course
         //and redirects to allExams page
         model.addAttribute("exams", examService.findAllExamsByCourseId(exam.getCourse().getId()));
         model.addAttribute("course", courseService.findById(exam.getCourse().getId()));
+        return "allExams";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String showConfirmationForDelete(@PathVariable("id") Long examId, Model model) {
+        model.addAttribute("exam", examService.findById(examId));
+        return "deleteExamConfirmation";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteExam(@PathVariable("id") Long examId, Model model) {
+        Exam exam = examService.findById(examId);
+        Long courseId = exam.getCourse().getId();
+        examService.deleteExamById(examId);
+        model.addAttribute("exams", examService.findAllExamsByCourseId(courseId));
+        model.addAttribute("course", courseService.findById(courseId));
         return "allExams";
     }
 }
