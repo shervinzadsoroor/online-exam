@@ -20,9 +20,9 @@ public class Exam {
 
     private String title;
     private Double score;
-    private Time duration;
-    private Date heldDate;
-    private Time startingTime;
+    private double duration;
+    private String heldDate;
+//    private Time startingTime;
     private boolean isMultipleChoice;
 
     @ManyToOne
