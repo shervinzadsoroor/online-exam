@@ -3,7 +3,9 @@ package com.shervin.maktabfinalproject.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,4 +18,7 @@ public class Instructor extends Person{
 
     @OneToMany(mappedBy = "instructor")
     private Set<Course> courses = new HashSet<>();
+
+    @OneToMany(mappedBy = "instructor")
+    private List<Exam> exams = new ArrayList<>();
 }

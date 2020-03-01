@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
+          crossorigin="anonymous" type="text/css">
+    <title>لیست آزمون‌های شما</title>
+</head>
+<body style="margin: 30px">
+<div style="display: flex; justify-content: center; margin-top: 30px"><h2>لیست آزمون‌های شما</h2></div>
+
+<form th:action="@{/instructor/dashboard}">
+    <input type="submit" value="داشبورد"/>
+
+</form>
+
+<table class="table table-responsive table-bordered">
+    <thead>
+    <tr>
+        <th>شناسه</th>
+        <th>عنوان</th>
+        <th>تاریخ برگزاری</th>
+        <th>مدت زمان</th>
+        <th>سقف نمره</th>
+        <th>نوع آزمون</th>
+        <th>نام استاد طراح آزمون</th>
+        <th>action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:object="${course}" th:each="exam : ${exams}">
+        <td><span th:text="${exam.id}"></span></td>
+        <td><span th:text="${exam.title}"></span></td>
+        <td><span th:text="${exam.heldDate}"></span></td>
+        <td><span th:text="${exam.duration}"></span></td>
+        <td><span th:text="${exam.score}"></span></td>
+
+        <td th:if="${exam.multipleChoice}">چند گزینه‌ای</td>
+        <td th:if="${not exam.multipleChoice}">تشریحی</td>
+
+        <td><span th:text="${exam.instructor.lastName}"></span></td>
+
+        <td th:if="${#strings.equals(#strings.toString(course.instructor.id),
+        #strings.toString(exam.instructor.id))}">
+            <a th:href="@{/exam/edit/__${exam.id}__}">ویرایش</a>
+            <a th:href="@{/exam/delete/__${exam.id}__}">حذف</a>
+        </td>
+
+        <td th:if="${not #strings.equals(#strings.toString(course.instructor.id),
+        #strings.toString(exam.instructor.id))}">
+         این آزمون توسط استاد/های قبلی طراحی شده
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+
+<script src="../static/bootstrap/js/jquery-3.4.1.slim.min.js"
+        crossorigin="anonymous"></script>
+<script src="../static/bootstrap/js/popper.min.js"
+        crossorigin="anonymous"></script>
+<script src="../static/bootstrap/js/bootstrap.min.js"
+        crossorigin="anonymous"></script>
+</body>
+</html>

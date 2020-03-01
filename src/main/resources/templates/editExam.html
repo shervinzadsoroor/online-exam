@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
+          crossorigin="anonymous" type="text/css">
+    <title>ویرایش آزمون</title>
+</head>
+<body>
+<div style="display: flex; justify-content: center; margin-top: 30px"><h2>ویرایش آزمون</h2></div>
+<div style="display: flex; justify-content: center; margin-top: 10px">
+
+    <div style="display: flex ; justify-content: center; align-items: center; width: 300px; height: 450px;
+                                        background-color: lightblue ; padding: 10px; border-radius: 10px">
+        <form action="#" th:action="@{/exam/edit}" th:object="${exam}" method="post">
+            <input type="hidden" th:field="*{id}"/>
+
+            عنوان: <br><input dir="rtl" type="text" th:field="*{title}"/><br>
+            تاریخ برگزاری: <br><input dir="rtl" type="text" th:field="*{heldDate}"/><br>
+            مدت زمان: <br><input dir="rtl" type="text" th:field="*{duration}"/><br>
+            سقف نمره: <br><input dir="rtl" type="text" th:field="*{score}"/><br><br>
+            ساعت شروع: <br><input dir="rtl" type="text" th:field="*{startingTime}"/><br><br>
+
+            <input type="hidden" th:field="*{instructor}"/>
+            <input type="hidden" th:field="*{course}"/>
+            <input type="hidden" th:field="*{multipleChoice}"/>
+
+            <input type="submit" value="‌‌ذخیره تغییرات"/><input type="reset" value="تنظیم مجدد"><br>
+
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,13 +1,17 @@
 package com.shervin.maktabfinalproject.crudrepositories.instructorrepository;
 
 import com.shervin.maktabfinalproject.crudrepositories.accountrepository.AccountService;
+import com.shervin.maktabfinalproject.crudrepositories.courserepository.CourseService;
 import com.shervin.maktabfinalproject.models.Account;
 import com.shervin.maktabfinalproject.models.Collegian;
+import com.shervin.maktabfinalproject.models.Course;
 import com.shervin.maktabfinalproject.models.Instructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/instructor")
 @Controller
@@ -16,6 +20,8 @@ public class InstructorController {
     private InstructorService instructorService;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private CourseService courseService;
 
 //    public InstructorController(InstructorService instructorService) {
 //        this.instructorService = instructorService;
@@ -42,7 +48,9 @@ public class InstructorController {
             return "registrationWaitingDetails";
 
         }else if (account.getStatus().equalsIgnoreCase("registered")){
-
+            List<Course> courseList = courseService
+                    .findAllCoursesOfTheInstructor(account.getPerson().getId());
+            model.addAttribute("courses", courseList);
         }
         return "instructorDashboard";
     }

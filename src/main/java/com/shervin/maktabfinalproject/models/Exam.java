@@ -7,6 +7,7 @@ import java.sql.Time;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -17,6 +18,7 @@ public class Exam {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String title;
     private Double score;
     private Time duration;
     private Date heldDate;
@@ -28,5 +30,8 @@ public class Exam {
 
     @OneToMany(mappedBy = "exam")
     private Set<Question> questions = new HashSet<>();
+
+    @ManyToOne
+    private Instructor instructor;
 
 }
