@@ -11,10 +11,15 @@
 <body style="margin: 30px">
 <div style="display: flex; justify-content: center; margin-top: 30px"><h2>لیست آزمون‌های شما</h2></div>
 
+<div style="display: flex; justify-content: flex-start">
 <form th:action="@{/instructor/dashboard}">
     <input type="submit" value="داشبورد"/>
-
 </form>
+
+<form th:action="@{/exam/create/__${course.id}__}" method="get">
+    <input type="submit" value="افزودن آزمون جدید"/>
+</form>
+</div>
 
 <table class="table table-responsive table-bordered">
     <thead>
