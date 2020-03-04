@@ -16,6 +16,7 @@ import java.util.List;
 @RequestMapping("/question")
 @Controller
 public class QuestionController {
+
     @Autowired
     private QuestionService questionService;
     @Autowired
