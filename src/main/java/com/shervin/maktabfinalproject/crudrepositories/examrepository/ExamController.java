@@ -1,6 +1,7 @@
 package com.shervin.maktabfinalproject.crudrepositories.examrepository;
 
 import com.shervin.maktabfinalproject.crudrepositories.courserepository.CourseService;
+import com.shervin.maktabfinalproject.crudrepositories.examquestionsscorerepository.ExamQuestionsScoreService;
 import com.shervin.maktabfinalproject.models.Course;
 import com.shervin.maktabfinalproject.models.Exam;
 import com.shervin.maktabfinalproject.models.ExamQuestionsScore;
@@ -20,6 +21,9 @@ public class ExamController {
 
     @Autowired
     private CourseService courseService;
+
+    @Autowired
+    private ExamQuestionsScoreService examQuestionsScoreService;
 
     @GetMapping("/list/{id}")
     public String sendListOfExamsOfCourse(@PathVariable("id") Long courseId, Model model) {
@@ -85,5 +89,34 @@ public class ExamController {
         List<ExamQuestionsScore> list = exam.getExamQuestionsScores();
         model.addAttribute("examQuestionScores", list);
         return "allQuestionsOfExam";
+    }
+
+    @GetMapping("/questions/assign-score/{id}")
+    public String showQuestionsOfExamToAssignScore(@PathVariable("id") Long examId, Model model) {
+
+        Exam exam = examService.findById(examId);
+//        List<ExamQuestionsScore> list = exam.getExamQuestionsScores();
+//        model.addAttribute("examQuestionScores", list);
+        model.addAttribute("exam", exam);
+
+        return "allQuestionsToAssignScore";
+    }
+
+    @PostMapping("/questions/assign-score")
+    public String assignScoreToQuestionsOfExam(@ModelAttribute Exam exam) {
+        double sum = 0;
+        for (ExamQuestionsScore eqs : exam.getExamQuestionsScores()) {
+            examQuestionsScoreService.save(eqs);
+            sum+=eqs.getScore();
+        }
+        System.out.println("sum = " + sum);
+        System.out.println("exam = " + exam.toString());
+        exam.setScore(sum);
+        Exam persistedExam = examService.saveExam(exam);
+////        List<ExamQuestionsScore> list = exam.getExamQuestionsScores();
+////        model.addAttribute("examQuestionScores", list);
+//        model.addAttribute("exam", exam);
+
+        return null;
     }
 }

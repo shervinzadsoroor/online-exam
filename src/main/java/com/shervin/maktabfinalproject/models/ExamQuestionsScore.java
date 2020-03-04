@@ -26,17 +26,10 @@ public class ExamQuestionsScore implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @EmbeddedId
-//    private ExamQuestionsScoreId examQuestionsScoreId;
-
-    //    @Id
     @ManyToOne
-//    @JoinColumn
     private Exam exam;
 
-    //    @Id
     @ManyToOne
-//    @JoinColumn
     private Question question;
 
     private double score;

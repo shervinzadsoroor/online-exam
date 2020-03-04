@@ -10,24 +10,28 @@
 </head>
 <body>
 <div style="display: flex; justify-content: center; margin-top: 30px"><h2>ویرایش آزمون</h2></div>
+<div style="display: flex; justify-content: space-around;padding: 10px; background-color: #7abaff">
+    <form th:action="@{/question/list/__${exam.id}__}" method="get">
+        <input type="submit" value="افزودن سوال از بانک سوالات"/>
+    </form>
+    <form th:action="@{/question/create/multipleChoice/__${exam.id}__}" method="get">
+        <input type="submit" value="افزودن سوال چند‌گزینه‌ای جدید"/>
+    </form>
+    <form th:action="@{/question/create/descriptive/__${exam.id}__}" method="get">
+        <input type="submit" value="افزودن سوال تشریحی جدید"/>
+    </form>
+    <form th:action="@{/exam/questions-list/__${exam.id}__}" method="get">
+        <input type="submit" value="مشاهده‌ی لیست سوالات آزمون"/>
+    </form>
+    <form th:action="@{/exam/questions/assign-score/__${exam.id}__}" method="get">
+        <input type="submit" value=" نمره‌دهی به سوالات آزمون"/>
+    </form>
+</div>
 <div style="display: flex; justify-content: center; margin-top: 10px">
 
-    <div style="display: flex ; justify-content: center; align-items: center; width: 300px; height: 450px;
+    <div style="display: flex ; justify-content: center; align-items: center; width: 300px; height: 320px;
                                         background-color: lightblue ; padding: 10px; border-radius: 10px">
-        <div>
-            <form th:action="@{/question/list/__${exam.id}__}" method="get">
-                <input type="submit" value="افزودن سوال از بانک سوالات"/>
-            </form>
-            <form th:action="@{/question/create/multipleChoice/__${exam.id}__}" method="get">
-                <input type="submit" value="افزودن سوال چند‌گزینه‌ای جدید"/>
-            </form>
-            <form th:action="@{/question/create/descriptive/__${exam.id}__}" method="get">
-                <input type="submit" value="افزودن سوال تشریحی جدید"/>
-            </form>
-            <form th:action="@{/exam/questions-list/__${exam.id}__}" method="get">
-                <input type="submit" value="مشاهده‌ی لیست سوالات آزمون"/>
-            </form>
-        </div>
+
         <form action="#" th:action="@{/exam/edit}" th:object="${exam}" method="post">
             <input type="hidden" th:field="*{id}"/>
 

@@ -47,7 +47,7 @@ public class QuestionController {
     /**
      * a trick is used here! a list of chosen questions from question bank
      * required , but each exam has the list of examQuestionScore not questions,
-     * so i have used a course to do this. naturally when we get the list of questions,
+     * so i have used a course object to do this. naturally when we get the list of questions,
      * the course will not be persist and will be omitted automatically,
      * this course is created in @GetMapping("/list/{id}") and is caught
      * in @PostMapping("/addToExam") APIs

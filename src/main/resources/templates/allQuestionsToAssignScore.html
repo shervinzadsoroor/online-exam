@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
+          crossorigin="anonymous" type="text/css">
+    <title>لیست سوالات آزمون</title>
+</head>
+<body style="margin: 30px">
+<div style="display: flex; justify-content: center; margin-top: 30px"><h2>لیست سوالات آزمون</h2></div>
+
+<div style="display: flex; justify-content: flex-start">
+    <!--    <form th:action="@{/instructor/dashboard}">-->
+    <!--        <input type="submit" value="داشبورد"/>-->
+    <!--    </form>-->
+
+    <!--    <form th:action="@{/exam/create/__${course.id}__}" method="get">-->
+    <!--        <input type="submit" value="افزودن آزمون جدید"/>-->
+    <!--    </form>-->
+</div>
+<form th:object="${exam}" th:action="@{/exam/questions/assign-score}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <input type="hidden" th:field="*{score}"/>
+    <input type="hidden" th:field="*{title}"/>
+    <input type="hidden" th:field="*{heldDate}"/>
+    <input type="hidden" th:field="*{duration}"/>
+    <input type="hidden" th:field="*{multipleChoice}"/>
+    <input type="hidden" th:field="*{course}"/>
+    <input type="hidden" th:field="*{instructor}"/>
+    <table class="table table-responsive table-bordered">
+        <thead>
+        <tr>
+            <th>شناسه</th>
+            <th>عنوان آزمون</th>
+            <th>عنوان سوال</th>
+            <th>صورت سوال</th>
+            <th>نوع سوال</th>
+            <th>نمره</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="eqs, itemStat : *{examQuestionsScores}">
+            <input type="hidden" th:field="*{examQuestionsScores[__${itemStat.index}__].id}"/>
+            <input type="hidden" th:field="*{examQuestionsScores[__${itemStat.index}__].question}"/>
+            <input type="hidden" th:field="*{examQuestionsScores[__${itemStat.index}__].exam}"/>
+
+            <td><span th:text="${eqs.question.id}"></span></td>
+            <td><span th:text="${eqs.exam.title}"></span></td>
+            <td><span th:text="${eqs.question.title}"></span></td>
+            <td><span th:text="${eqs.question.content}"></span></td>
+
+            <td><span th:if="${eqs.question.multipleChoice}">چندگزینه‌ای</span></td>
+            <td><span th:if="${not eqs.question.multipleChoice}">تشریحی</span></td>
+
+           <td> <input style="width: 30px" type="text" th:field="*{examQuestionsScores[__${itemStat.index}__].score}"/></td>
+
+        </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="ثبت نمرات"/>
+</form>
+
+<script src="../static/bootstrap/js/jquery-3.4.1.slim.min.js"
+        crossorigin="anonymous"></script>
+<script src="../static/bootstrap/js/popper.min.js"
+        crossorigin="anonymous"></script>
+<script src="../static/bootstrap/js/bootstrap.min.js"
+        crossorigin="anonymous"></script>
+</body>
+</html>

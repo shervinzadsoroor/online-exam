@@ -42,4 +42,17 @@ public class Exam implements Serializable {
     @ManyToOne
     private Instructor instructor;
 
+    @Override
+    public String toString() {
+        return "Exam{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", score=" + score +
+                ", duration=" + duration +
+                ", heldDate='" + heldDate + '\'' +
+                ", isMultipleChoice=" + isMultipleChoice +
+                ", course=" + course.getId() +
+                ", instructor=" + instructor.getId() +
+                '}';
+    }
 }

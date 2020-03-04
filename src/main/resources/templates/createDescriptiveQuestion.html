@@ -23,8 +23,6 @@
 
             <fieldset th:each="examQuestionScore, itemStat : *{examQuestionsScores}">
                 <input type="hidden" th:field="*{examQuestionsScores[__${itemStat.index}__].exam}"/>
-                <!--                <input type="hidden" th:field="*{examQuestionsScores[__${itemStat.index}__].}"/>-->
-                <!--                <input type="hidden" th:field="*{examQuestionsScores[__${itemStat.index}__].exam}"/>-->
             </fieldset>
 
             عنوان*: <br><input type="text" th:field="*{title}"/><br><br>
