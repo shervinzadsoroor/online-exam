@@ -24,6 +24,9 @@
             <form th:action="@{/question/create/descriptive/__${exam.id}__}" method="get">
                 <input type="submit" value="افزودن سوال تشریحی جدید"/>
             </form>
+            <form th:action="@{/exam/questions-list/__${exam.id}__}" method="get">
+                <input type="submit" value="مشاهده‌ی لیست سوالات آزمون"/>
+            </form>
         </div>
         <form action="#" th:action="@{/exam/edit}" th:object="${exam}" method="post">
             <input type="hidden" th:field="*{id}"/>

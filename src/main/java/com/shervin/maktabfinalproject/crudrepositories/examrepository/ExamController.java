@@ -3,10 +3,13 @@ package com.shervin.maktabfinalproject.crudrepositories.examrepository;
 import com.shervin.maktabfinalproject.crudrepositories.courserepository.CourseService;
 import com.shervin.maktabfinalproject.models.Course;
 import com.shervin.maktabfinalproject.models.Exam;
+import com.shervin.maktabfinalproject.models.ExamQuestionsScore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/exam")
 @Controller
@@ -74,5 +77,13 @@ public class ExamController {
         model.addAttribute("exams", examService.findAllExamsByCourseId(courseId));
         model.addAttribute("course", courseService.findById(courseId));
         return "allExams";
+    }
+
+    @GetMapping("/questions-list/{id}")
+    public String showExamQuestions(@PathVariable("id") Long examId, Model model) {
+        Exam exam = examService.findById(examId);
+        List<ExamQuestionsScore> list = exam.getExamQuestionsScores();
+        model.addAttribute("examQuestionScores", list);
+        return "allQuestionsOfExam";
     }
 }
