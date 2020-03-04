@@ -7,13 +7,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
 
-public class Instructor extends Person{
+public class Instructor extends Person {
     private String degree;
 
     @OneToMany(mappedBy = "instructor")
@@ -21,4 +22,7 @@ public class Instructor extends Person{
 
     @OneToMany(mappedBy = "instructor")
     private List<Exam> exams = new ArrayList<>();
+
+    @OneToMany(mappedBy = "instructor")
+    private List<Question> questions = new ArrayList<>();
 }

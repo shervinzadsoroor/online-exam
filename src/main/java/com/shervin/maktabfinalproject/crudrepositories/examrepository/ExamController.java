@@ -3,7 +3,6 @@ package com.shervin.maktabfinalproject.crudrepositories.examrepository;
 import com.shervin.maktabfinalproject.crudrepositories.courserepository.CourseService;
 import com.shervin.maktabfinalproject.models.Course;
 import com.shervin.maktabfinalproject.models.Exam;
-import org.hibernate.cache.spi.access.CachedDomainDataAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,7 +36,7 @@ public class ExamController {
     }
 
     @PostMapping("/create")
-    public String createExamByInstructor(@ModelAttribute Exam exam, Model model){
+    public String createExamByInstructor(@ModelAttribute Exam exam, Model model) {
         examService.saveExam(exam);
         //after saving the new exam, we update and show the list of exams of this course by the following codes
         model.addAttribute("exams", examService.findAllExamsByCourseId(exam.getCourse().getId()));

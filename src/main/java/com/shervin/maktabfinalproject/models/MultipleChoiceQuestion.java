@@ -9,9 +9,9 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-public class MultipleChoiceQuestion extends Question{
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
+public class MultipleChoiceQuestion extends Question {
+
     private String answerKey;
+//    final private boolean isMultipleChoice = true;
+
 }

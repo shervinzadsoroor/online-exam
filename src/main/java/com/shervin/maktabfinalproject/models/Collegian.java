@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 @AllArgsConstructor
@@ -15,7 +16,7 @@ import java.util.List;
 @Setter
 @Entity
 
-public class Collegian  extends Person{
+public class Collegian  extends Person {
     private Double GPA;
 
     @ManyToMany(mappedBy = "collegians")
