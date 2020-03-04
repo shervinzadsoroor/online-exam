@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RequestMapping("/question")
@@ -33,31 +34,49 @@ public class QuestionController {
         Exam exam = examService.findById(examId);
         List<Question> questions = questionService.findAllQuestionsByInstructor(exam.getInstructor().getId());
 
-        List<ExamQuestionsScore> examQuestionsScores = new ArrayList<>();
+        Course course = new Course();
+        course.setExams(Arrays.asList(examService.findById(examId)));
 
-        for (int i = 0; i < questions.size(); i++) {
-            ExamQuestionsScore examQuestionsScore = new ExamQuestionsScore();
-//
-//            ExamQuestionsScoreId examQuestionsScoreId = new ExamQuestionsScoreId(examId, questions.get(i).getId());
-//            examQuestionsScore.setExamQuestionsScoreId(examQuestionsScoreId);
+        model.addAttribute("course", course);
 
-            examQuestionsScore.setExam(exam);
-            examQuestionsScore.setQuestion(questions.get(i));
-            examQuestionsScores.add(examQuestionsScore);
-        }
+        model.addAttribute("questions", questions);
 
-//        model.addAttribute("examQuestionsScores", examQuestionsScores);
-
-        model.addAttribute("questions", questionService.findAllQuestions());
-        model.addAttribute("exam", exam);
         return "addQuestionsToExamFromBank";
     }
 
+    /**
+     * a trick is used here! a list of chosen questions from question bank
+     * required , but each exam has the list of examQuestionScore not questions,
+     * so i have used a course to do this. naturally when we get the list of questions,
+     * the course will not be persist and will be omitted automatically,
+     * this course is created in @GetMapping("/list/{id}") and is caught
+     * in @PostMapping("/addToExam") APIs
+     */
     @PostMapping("/addToExam")
-    public String addQuestionsToExam(@ModelAttribute Exam exam) {
-        System.out.println("sddddddddddddddddddddddddddddddddddddddddd");
+    public String addQuestionsToExam(@ModelAttribute Course course) {
+
+        Exam exam = course.getExams().get(0);
+        List<ExamQuestionsScore> examQuestionsScores = exam.getExamQuestionsScores();
+        System.out.println("course.getQuestions() = " + course.getQuestions());
         System.out.println("exam.getExamQuestionsScores() = " + exam.getExamQuestionsScores());
-        examService.saveExam(exam);
+        for (Question question : course.getQuestions()) {
+            boolean isExamHasThisQuestion = false;
+
+            // we use equals for compare ids because the have been created
+            // with wrapper class(Long) instead of primitive type(long)
+            for (ExamQuestionsScore eqs : exam.getExamQuestionsScores()) {
+                if (question.getId().equals(eqs.getQuestion().getId())) {
+                    isExamHasThisQuestion = true;
+                }
+            }
+            if (!isExamHasThisQuestion) {
+                ExamQuestionsScore examQuestionsScore = new ExamQuestionsScore();
+                examQuestionsScore.setQuestion(question);
+                examQuestionsScore.setExam(exam);
+                examQuestionsScoreService.save(examQuestionsScore);
+            }
+        }
+
         return null;
     }
 

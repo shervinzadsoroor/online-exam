@@ -44,10 +44,10 @@ public class ExamQuestionsScore implements Serializable {
     @Override
     public String toString() {
         return "ExamQuestionsScore{" +
-//                "id=" + id +
+                "id=" + id +
                 ", exam=" + exam.getTitle() +
-//                ", question=" + question.getTitle() +
-//                ", score=" + score +
+                ", question=" + question.getTitle() +
+                ", score=" + score +
                 '}';
     }
 }

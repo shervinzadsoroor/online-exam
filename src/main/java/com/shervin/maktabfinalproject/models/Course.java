@@ -1,10 +1,14 @@
 package com.shervin.maktabfinalproject.models;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,10 +30,13 @@ public class Course implements Serializable {
     private boolean hasInstructor;
 
     @OneToMany(mappedBy = "course")
-    private Set<Exam> exams = new HashSet<>();
+    private List<Exam> exams = new ArrayList<>();
 
     @ManyToOne
     private Instructor instructor;
+
+    @OneToMany(mappedBy = "course")
+    List<Question> questions = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "course_collegian",

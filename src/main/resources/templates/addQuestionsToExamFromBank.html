@@ -10,45 +10,21 @@
 </head>
 <body style="margin: 30px">
 
-<div style="display: flex; justify-content: flex-start">
-    <form th:action="@{/question/create/__${exam.id}__}" method="get">
-        <input type="submit" value="افزودن سوال جدید"/>
-    </form>
-</div>
+<form th:action="@{/question/addToExam}" th:object="${course}" method="post">
 
+    <input type="hidden" th:field="*{exams}"/>
 
-<form th:action="@{/question/addToExam}" th:object="${exam}" method="post">
-    <input type="hidden" th:field="*{id}"/>
-    <input type="hidden" th:field="*{title}"/>
-    <!--    <input type="hidden" th:field="${course.collegians}"/>-->
-    <input type="hidden" th:field="*{instructor}"/>
-    <input type="hidden" th:field="*{multipleChoice}"/>
-    <input type="hidden" th:field="*{duration}"/>
-    <input type="hidden" th:field="*{course}"/>
-    <input type="hidden" th:field="*{score}"/>
-    <input type="hidden" th:field="*{heldDate}"/>
     <fieldset>
-        <legend>بانک سوالات</legend>
+        <legend>بانک سوال</legend>
         <ul>
-
-<!--            <li th:each="examQuestionsScore : ${examQuestionsScores}">-->
-<!--                <input type="checkbox" th:field="${exam.examQuestionsScores}"-->
-<!--                       th:value="${examQuestionsScore.examQuestionsScoreId}"/>-->
-<!--                <label th:for="${examQuestionsScore.examQuestionsScoreId}" th:text="${examQuestionsScore}"></label>-->
-<!--            </li>-->
-
-<!--            <li th:each="examQuestionsScore : ${examQuestionsScores}">-->
-<!--                <input type="checkbox" th:field="${exam.examQuestionsScores}"-->
-<!--                       th:value="${examQuestionsScore.examQuestionsScoreId}"/>-->
-<!--                <label th:for="${examQuestionsScore.examQuestionsScoreId}" th:text="${examQuestionsScore}"></label>-->
-<!--            </li>-->
-
             <li th:each="question : ${questions}">
-                <input type="checkbox" th:field="${exam.questions}" th:value="${question.id}"/>
+                <input type="checkbox" th:field="${course.questions}"
+                       th:value="${question.id}"/>
                 <label th:for="${question.id}" th:text="${question}"></label>
             </li>
         </ul>
     </fieldset>
+
     <p><input type="submit" value="افزودن"/> <input type="reset" value="تنظیم مجدد"/></p>
 </form>
 

@@ -33,6 +33,9 @@ public class Question implements Serializable {
     @ManyToOne
     private Instructor instructor;
 
+    @ManyToOne
+    private Course course;
+
     @Override
     public String toString() {
         return "Question{" +
