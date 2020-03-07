@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html dir="rtl" lang="en" xmlns:th="http://www.thymeleaf.org">
+<html  dir="rtl" lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
-          crossorigin="anonymous" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <title>افزودن سوال چند‌گزینه‌ای</title>
 </head>
 <body style="margin: 30px">
@@ -23,13 +22,27 @@
 
             <fieldset th:each="examQuestionScore, itemStat : *{examQuestionsScores}">
                 <input type="hidden" th:field="*{examQuestionsScores[__${itemStat.index}__].exam}"/>
-<!--                <input type="hidden" th:field="*{examQuestionsScores[__${itemStat.index}__].}"/>-->
-<!--                <input type="hidden" th:field="*{examQuestionsScores[__${itemStat.index}__].exam}"/>-->
+                <!--                <input type="hidden" th:field="*{examQuestionsScores[__${itemStat.index}__].}"/>-->
+                <!--                <input type="hidden" th:field="*{examQuestionsScores[__${itemStat.index}__].exam}"/>-->
             </fieldset>
 
             عنوان*: <br><input type="text" th:field="*{title}"/><br><br>
-            صورت سوال*: <br><input type="text" th:field="*{content}"/><br><br>
+<!--            صورت سوال*: <br><input type="text" th:field="*{content}"/><br><br>-->
             گزینه‌ی صحیح*: <br><input type="text" th:field="*{answerKey}"/><br><br>
+
+            <!--            <button id="btn" onclick="$('#choice').toggle();">افزودن گزینه‌ی جدید</button>-->
+
+            <!--            <input type="hidden" id="choice"/>-->
+
+
+            <div class="field_wrapper">
+                <div>
+<!--                    <input type="text" name="field_name[]" value="" />-->
+                    صورت سوال:<input type="text" name="field_name[]" value="" />
+                    <a href="javascript:void(0);" class="add_button" title="Add field">add</a>
+                </div>
+            </div>
+
 
             <div style="display: flex; justify-content: center">
                 <input style="width: 50%" type="submit" value="افزودن"/>
@@ -38,5 +51,36 @@
         </form>
     </div>
 </div>
+
+<!--<script src="/static/js/jquery-3.4.1.min.js"></script>-->
+
 </body>
 </html>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        const maxField = 10; //Input fields increment limitation
+        const addButton = $('.add_button'); //Add button selector
+        const wrapper = $('.field_wrapper'); //Input field wrapper
+        // let fieldHTML = '<div><input type="text" name="field_name[]" value=""/>' +
+        let fieldHTML = '<div><input type="text"  th:field="${multipleChoiceQuestion.content}"/>' +
+            '<a href="javascript:void(0);" class="remove_button">delete</a></div>'; //New input field html
+        let x = 1; //Initial field counter is 1
+
+        //Once add button is clicked
+        $(addButton).click(function () {
+            //Check maximum number of input fields
+            if (x < maxField) {
+                x++; //Increment field counter
+                $(wrapper).append(fieldHTML); //Add field html
+            }
+        });
+
+        //Once remove button is clicked
+        $(wrapper).on('click', '.remove_button', function (e) {
+            e.preventDefault();
+            $(this).parent('div').remove(); //Remove field html
+            x--; //Decrement field counter
+        });
+    });
+</script>

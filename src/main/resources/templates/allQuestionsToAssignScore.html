@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html dir="rtl" lang="en" xmlns:th="http://www.thymeleaf.org">
+<html  dir="rtl" lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
-          crossorigin="anonymous" type="text/css">
     <title>لیست سوالات آزمون</title>
 </head>
 <body style="margin: 30px">
@@ -52,10 +50,11 @@
             <td><span th:text="${eqs.question.title}"></span></td>
             <td><span th:text="${eqs.question.content}"></span></td>
 
-            <td><span th:if="${eqs.question.multipleChoice}">چندگزینه‌ای</span></td>
-            <td><span th:if="${not eqs.question.multipleChoice}">تشریحی</span></td>
+            <td><span th:if="${eqs.question.multipleChoice}">چندگزینه‌ای</span>
+                <span th:if="${not eqs.question.multipleChoice}">تشریحی</span></td>
 
-           <td> <input style="width: 30px" type="text" th:field="*{examQuestionsScores[__${itemStat.index}__].score}"/></td>
+            <td><input style="width: 50px" type="text" th:field="*{examQuestionsScores[__${itemStat.index}__].score}"/>
+            </td>
 
         </tr>
         </tbody>

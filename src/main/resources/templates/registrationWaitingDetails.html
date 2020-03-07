@@ -1,31 +1,33 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html dir="rtl" lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
-          crossorigin="anonymous" type="text/css">
     <title>registration successful</title>
 </head>
 <body>
 
-<h2>you have registered successfully </h2>
-<br>
-<h4>your account is waiting for confirmation</h4>
+<div dir="rtl" style="display: flex; justify-content: center; margin-top: 50px">
+    <h2>شما با موفقیت ثبت نام کرده‌اید</h2>
+</div>
 
+<div style="display: flex; justify-content: center">
+    <h4>ثبت نام شما در انتظار تایید است</h4>
+</div>
 
-<div>
-    <table>
+<div style="display: flex; justify-content: center">
+<div style="width: 800px">
+    <table class="table table-dark table-responsive">
         <thead>
         <tr>
-            <th> Id</th>
-            <th> username</th>
-            <th> firstName</th>
-            <th> lastName</th>
-            <th> email</th>
-            <th> phoneNumber</th>
-            <th> role</th>
+            <th> شناسه</th>
+            <th> نام کاربری</th>
+            <th> نام</th>
+            <th> نام خانوادگی</th>
+            <th> پست الکترونیک</th>
+            <th> شماره‌ی تلفن</th>
+            <th> نقش</th>
         </tr>
         </thead>
         <tbody>
@@ -39,17 +41,17 @@
             <td><span th:text="*{person.email}"> email </span></td>
             <td><span th:text="*{person.phoneNumber}"> phoneNumber </span></td>
             <td><span th:text="*{role.title}"> role </span></td>
-<!--            -->
-<!--            <td><a th:href="@{/drug/edit/__${d.id}__}">edit</a></td>-->
-<!--            <td><a th:href="@{/drug/deleteConfirm/__${d.id}__}">delete</a></td>-->
+            <!--            -->
+            <!--            <td><a th:href="@{/drug/edit/__${d.id}__}">edit</a></td>-->
+            <!--            <td><a th:href="@{/drug/deleteConfirm/__${d.id}__}">delete</a></td>-->
 
         </tr>
         <form>
-            <button formaction="/">home</button>
+            <button style="margin: 10px" formaction="/" class="btn-primary">خانه</button>
         </form>
         </tbody>
     </table>
-
+</div>
 </div>
 
 </body>

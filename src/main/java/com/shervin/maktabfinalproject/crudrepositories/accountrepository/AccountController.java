@@ -43,6 +43,7 @@ public class AccountController {
         //checks the existence of the account by username
         boolean isAccountExist = accountService.isAccountExist(account);
         boolean isPasswordValid = accountService.isPasswordValid(account);
+
         if (isAccountExist && isPasswordValid) {
             Account loggedInAccount = accountService.findAccountByUsername(account.getUsername());
             loggedInAccount.setLastLoginDate(new Date());
@@ -239,5 +240,9 @@ public class AccountController {
         return "managerDashboard";
     }
 
+    @GetMapping("/test")
+    public String test(){
+        return "test";
+    }
 
 }

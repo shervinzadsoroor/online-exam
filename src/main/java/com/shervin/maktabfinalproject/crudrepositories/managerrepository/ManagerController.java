@@ -26,6 +26,8 @@ public class ManagerController {
     @GetMapping("/dashboard/{userName}")
     public String showManagerDashboard(@PathVariable("userName") String username) {
         Account account = accountService.findAccountByUsername(username);
+        //the account is not been used.
+        // TODO: 3/7/20 use manager account details in manager dashboard page
         return "managerDashboard";
     }
 
