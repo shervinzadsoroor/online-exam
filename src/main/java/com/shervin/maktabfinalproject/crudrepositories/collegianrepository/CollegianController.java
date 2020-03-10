@@ -28,6 +28,7 @@ public class CollegianController {
         //else if status is waiting redirect to registrationWaitingDetails.html
         //and else if status is registered show the dashboard to the collegian
         Account account = accountService.findAccountByUsername(username);
+
         if (account.getStatus().equalsIgnoreCase("not registered")){
 
             Collegian collegian = new Collegian();
@@ -41,9 +42,11 @@ public class CollegianController {
             model.addAttribute("account", account);
             return "registrationWaitingDetails";
 
-        }else if (account.getStatus().equalsIgnoreCase("registered")){
-
         }
+//        else if (account.getStatus().equalsIgnoreCase("registered")){
+//
+//        }
+        model.addAttribute("collegian", (Collegian)account.getPerson());
         return "collegianDashboard";
     }
 

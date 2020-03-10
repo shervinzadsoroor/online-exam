@@ -1,10 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
+<html dir="rtl" lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>داشبورد دانشجو</title>
 </head>
 <body>
 داشبورد دانشجو
+<div style="display: flex; justify-content: center"><h3>لیست دوره‌های شما</h3></div>
+<table class="table table-info table-bordered">
+    <thead>
+    <tr>
+        <th>شناسه</th>
+        <th>عنوان</th>
+        <th>تاریخ شروع</th>
+        <th>تاریخ پایان</th>
+        <th>فعال</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="course : ${collegian.courses}">
+        <td th:text="${course.id}"></td>
+        <td th:text="${course.title}"></td>
+        <td th:text="${course.startDate}"></td>
+        <td th:text="${course.endDate}"></td>
+        <td th:text="${course.active}"></td>
+
+        <td th:if="${course.active}">
+            <form th:action="@{/exam/list/__${course.id}__}">
+                <button class="btn-outline-primary" type="submit">آزمون‌ها</button>
+            </form>
+        </td>
+
+        <!--        <td th:if="${course.active}"><button><a th:href="@{/exam/list/__${course.id}__}">آزمون‌ها</a></button></td>-->
+        <td th:if="${not course.active}">
+            <button disabled>آزمون‌ها</button>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
