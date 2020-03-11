@@ -18,4 +18,8 @@ public class CollegianService {
     public List<Collegian> finaAll() {
         return collegianRepository.findAll();
     }
+
+    public Collegian findById(Long id){
+        return collegianRepository.findById(id).get();
+    }
 }

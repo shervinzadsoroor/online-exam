@@ -27,8 +27,14 @@
         <td th:text="${course.endDate}"></td>
         <td th:text="${course.active}"></td>
 
+<!--        <td th:if="${course.active}">-->
+<!--            <form th:action="@{/exam/collegian-exam-list/__${course.id}__}">-->
+<!--                <button class="btn-outline-primary" type="submit">آزمون‌ها</button>-->
+<!--            </form>-->
+<!--        </td>-->
+
         <td th:if="${course.active}">
-            <form th:action="@{/exam/list/__${course.id}__}">
+            <form th:action="@{/collegian/course-exam-list/__${course.id}__/__${collegian.id}__}">
                 <button class="btn-outline-primary" type="submit">آزمون‌ها</button>
             </form>
         </td>

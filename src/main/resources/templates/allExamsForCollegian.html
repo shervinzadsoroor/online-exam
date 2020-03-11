@@ -1,0 +1,62 @@
+<html  dir="rtl" lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لیست آزمون‌های دوره</title>
+</head>
+<body style="margin: 30px">
+<div style="display: flex; justify-content: center; margin-top: 30px"><h2>لیست آزمون‌های دوره</h2></div>
+
+<div style="display: flex; justify-content: flex-start">
+    <form th:action="@{/collegian/dashboard}">
+        <input type="submit" value="داشبورد"/>
+    </form>
+</div>
+
+<table class="table table-responsive table-bordered">
+    <thead>
+    <tr>
+        <th>شناسه</th>
+        <th>عنوان</th>
+        <th>زمان برگزاری</th>
+        <th>مدت زمان</th>
+        <th>سقف نمره</th>
+        <th>نوع آزمون</th>
+        <th>نام استاد طراح آزمون</th>
+        <th>action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:object="${course}" th:each="exam : ${exams}">
+        <td><span th:text="${exam.id}"></span></td>
+        <td><span th:text="${exam.title}"></span></td>
+        <td><span th:text="${exam.heldDate}"></span></td>
+        <td><span th:text="${exam.duration}"></span></td>
+        <td><span th:text="${exam.score}"></span></td>
+
+        <td th:if="${exam.multipleChoice}">چند گزینه‌ای</td>
+        <td th:if="${not exam.multipleChoice}">تشریحی</td>
+
+        <td><span th:text="${exam.instructor.lastName}"></span></td>
+
+        <td>
+            <form th:action="@{/collegian/participate-exam/__${exam.id}__/__${collegian.id}__}">
+                <button class="btn-outline-primary" type="submit">شرکت در آزمون</button>
+            </form>
+        </td>
+
+
+    </tr>
+    </tbody>
+</table>
+
+<script src="../static/bootstrap/js/jquery-3.4.1.slim.min.js"
+        crossorigin="anonymous"></script>
+<script src="../static/bootstrap/js/popper.min.js"
+        crossorigin="anonymous"></script>
+<script src="../static/bootstrap/js/bootstrap.min.js"
+        crossorigin="anonymous"></script>
+</body>
+</html>

@@ -240,9 +240,5 @@ public class AccountController {
         return "managerDashboard";
     }
 
-    @GetMapping("/test")
-    public String test(){
-        return "test";
-    }
 
 }

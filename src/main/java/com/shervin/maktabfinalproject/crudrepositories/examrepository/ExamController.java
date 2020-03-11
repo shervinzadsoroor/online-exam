@@ -6,6 +6,7 @@ import com.shervin.maktabfinalproject.models.Course;
 import com.shervin.maktabfinalproject.models.Exam;
 import com.shervin.maktabfinalproject.models.ExamQuestionsScore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ public class ExamController {
     @Autowired
     private ExamQuestionsScoreService examQuestionsScoreService;
 
+    //showing the list of exams to instructor
     @GetMapping("/list/{id}")
     public String sendListOfExamsOfCourse(@PathVariable("id") Long courseId, Model model) {
         model.addAttribute("exams", examService.findAllExamsByCourseId(courseId));
@@ -32,6 +34,13 @@ public class ExamController {
         return "allExams";
     }
 
+//    //showing the list of exams to collegian
+//    @GetMapping("/collegian-exam-list/{id}")
+//    public String sendListOfExamsOfCourseForCollegian(@PathVariable("id") Long courseId, Model model) {
+//        model.addAttribute("exams", examService.findAllExamsByCourseId(courseId));
+//        model.addAttribute("course", courseService.findById(courseId));
+//        return "allExamsForCollegian";
+//    }
     @GetMapping("/create/{id}")
     public String sendCreateForm(@PathVariable("id") Long courseId, Model model) {
         Exam exam = new Exam();
