@@ -1,0 +1,71 @@
+
+    // Set the date we're counting down to
+    function startTimer(duration, display) {
+        var timer = duration, minutes, seconds;
+        setInterval(function () {
+            minutes = parseInt(timer / 60, 10)
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + " " + " " + seconds;
+
+            if (--timer < 0) {
+                timer = duration;
+            }
+            console.log(parseInt(seconds))
+            window.localStorage.setItem("seconds",seconds)
+            window.localStorage.setItem("minutes",minutes)
+        }, 1000);
+    }
+
+    window.onload = function () {
+        sec  = parseInt(window.localStorage.getItem("seconds"))
+        min = parseInt(window.localStorage.getItem("minutes"))
+
+        if(parseInt(min*sec)){
+            var fiveMinutes = (parseInt(min*60)+sec);
+        }else{
+            var fiveMinutes = 60 * 5;
+        }
+        // var fiveMinutes = 60 * 5;
+        display = document.querySelector('#demo');
+        startTimer(fiveMinutes, display);
+    };
+
+
+<script>
+    // Set the date we're counting down to
+    let date = new Date();
+    let minute = date.setMinutes(date.getMinutes() + 1);
+    var countDownDate = minute;
+
+    // Update the count down every 1 second
+    var x = setInterval(function () {
+
+        // Get today's date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Output the result in an element with id="demo"
+        document.getElementById("demo").innerHTML = minutes + "m " + seconds + "s ";
+
+        if (distance < 0) {
+            $('#sb').click();
+        }
+        // If the count down is over, write some text
+        // if (distance < 0) {
+        //     clearInterval(x);
+        //     document.getElementById("demo").innerHTML = "EXPIRED";
+        // }
+    }, 1000);
+
+</script>

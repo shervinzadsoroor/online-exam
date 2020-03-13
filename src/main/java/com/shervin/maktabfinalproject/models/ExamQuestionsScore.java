@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,6 +33,9 @@ public class ExamQuestionsScore implements Serializable {
 
     @ManyToOne
     private Question question;
+
+    @OneToMany(mappedBy = "examQuestionsScore")
+    private List<Answer> answers = new ArrayList<>();
 
     private double score;
 

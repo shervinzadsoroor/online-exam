@@ -27,6 +27,9 @@ public class Exam implements Serializable {
     @ManyToOne
     private Course course;
 
+    @ManyToMany(mappedBy = "participatedExams")
+    private List<Collegian> participatedCollegians = new ArrayList<>();
+
     @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL)
     private List<ExamQuestionsScore> examQuestionsScores = new ArrayList<>();
 

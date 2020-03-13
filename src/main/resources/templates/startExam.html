@@ -1,23 +1,101 @@
 <html dir="rtl" lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>شروع آزمون</title>
 </head>
 <body>
 
-you are connecting
-
 <p id="demo"></p>
 
-<form action="#" th:action="@{/collegian/dashboard}" method="get">
-    <input id="sb" type="submit" value="ثبت جواب"/>
+<form action="#" th:object="${answer}">
+    <h3>متن سوال</h3>
+    <h5><p th:text="${answer.examQuestionsScore.question.content}"></p></h5>
+
+    <input type="hidden" th:field="*{id}"/>
+    <input type="hidden" th:field="*{examQuestionsScore}"/>
+    <input type="hidden" th:field="*{collegian}"/>
+    <input type="hidden" th:field="*{grade}"/>
+    <h4>جواب را وارد کنید</h4><input type="text" th:field="*{content}"/>
+
+    <input type="submit" formaction="/collegian/answer/next"  value="سوال بعد"/>
+    <input type="submit" formaction="/collegian/answer/previous" value="سوال قبل"/>
+    <input id="sb" type="submit" formaction="/collegian/answer/submit" value="ثبت جواب"/>
 </form>
 
+<div class="pagination-container">
+    <div style="display: flex; justify-content: center">
+        <div data-page="1">
+            <p>Content for Div Number 1</p>
+        </div>
+        <div data-page="2" style="display:none;">
+            <p>Content for Div Number 2</p>
+        </div>
+        <div data-page="3" style="display:none;">
+            <p>Content for Div Number 3</p>
+        </div>
+        <div data-page="4" style="display:none;">
+            <p>Content for Div Number 4</p>
+        </div>
+        <div data-page="5" style="display:none;">
+            <p>Content for Div Number 5</p>
+        </div>
+    </div>
+
+    <div class="text-center">
+
+        <div class="pagination pagination-lg">
+            <ul class="pagination">
+                <li data-page="-"><a href="#">&gt;</a></li>
+                <li data-page="1"><a href="#">1</a></li>
+                <li data-page="2"><a href="#">2</a></li>
+                <li data-page="3"><a href="#">3</a></li>
+                <li data-page="4"><a href="#">4</a></li>
+                <li data-page="5"><a href="#">5</a></li>
+                <li data-page="+"><a href="#">&lt;</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script>
+    var paginationHandler = function () {
+        // store pagination container so we only select it once
+        var $paginationContainer = $(".pagination-container"),
+            $pagination = $paginationContainer.find('.pagination ul');
+        // click event
+        $pagination.find("li a").on('click.pageChange', function (e) {
+            e.preventDefault();
+            // get parent li's data-page attribute and current page
+            var parentLiPage = $(this).parent('li').data("page"),
+                currentPage = parseInt($(".pagination-container div[data-page]:visible").data('page')),
+                numPages = $paginationContainer.find("div[data-page]").length;
+            // make sure they aren't clicking the current page
+            if (parseInt(parentLiPage) !== parseInt(currentPage)) {
+                // hide the current page
+                $paginationContainer.find("div[data-page]:visible").hide();
+                if (parentLiPage === '+') {
+                    // next page
+                    $paginationContainer.find("div[data-page=" + (currentPage + 1 > numPages ? numPages : currentPage + 1) + "]").show();
+                } else if (parentLiPage === '-') {
+                    // previous page
+                    $paginationContainer.find("div[data-page=" + (currentPage - 1 < 1 ? 1 : currentPage - 1) + "]").show();
+                } else {
+                    // specific page
+                    $paginationContainer.find("div[data-page=" + parseInt(parentLiPage) + "]").show();
+                }
+            }
+        });
+    };
+    $(document).ready(paginationHandler);
+</script>
+
+
 <script>
     // Set the date we're counting down to
     let date = new Date();
@@ -50,6 +128,7 @@ you are connecting
         //     document.getElementById("demo").innerHTML = "EXPIRED";
         // }
     }, 1000);
+
 </script>
 </body>
 </html>
