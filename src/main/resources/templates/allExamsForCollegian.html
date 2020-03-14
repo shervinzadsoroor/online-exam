@@ -25,6 +25,7 @@
         <th>سقف نمره</th>
         <th>نوع آزمون</th>
         <th>نام استاد طراح آزمون</th>
+        <th>وضعیت</th>
         <th>action</th>
     </tr>
     </thead>
@@ -41,10 +42,16 @@
 
         <td><span th:text="${exam.instructor.lastName}"></span></td>
 
-        <td>
+        <td th:if="${exam.active}">فعال</td>
+        <td th:if="${not exam.active}">غیرفعال</td>
+
+        <td th:if="${exam.active}">
             <form th:action="@{/collegian/participate-exam/__${exam.id}__/__${collegian.id}__}">
-                <button class="btn-outline-primary" type="submit">شرکت در آزمون</button>
+                <button class="btn-primary" type="submit">شرکت در آزمون</button>
             </form>
+        </td>
+        <td th:if="${not exam.active}">
+            <button class="btn-outline-primary" type="submit" disabled>شرکت در آزمون</button>
         </td>
 
 

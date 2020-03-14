@@ -23,6 +23,7 @@ public class Exam implements Serializable {
     private String heldDate;
     //    private Time startingTime;
     private boolean isMultipleChoice;
+    private boolean isActive;
 
     @ManyToOne
     private Course course;

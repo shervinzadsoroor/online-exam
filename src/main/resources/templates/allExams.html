@@ -1,4 +1,4 @@
-<html  dir="rtl" lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html dir="rtl" lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -10,13 +10,13 @@
 <div style="display: flex; justify-content: center; margin-top: 30px"><h2>لیست آزمون‌های دوره</h2></div>
 
 <div style="display: flex; justify-content: flex-start">
-<form th:action="@{/instructor/dashboard}">
-    <input type="submit" value="داشبورد"/>
-</form>
+    <form th:action="@{/instructor/dashboard}">
+        <input type="submit" value="داشبورد"/>
+    </form>
 
-<form th:action="@{/exam/create/__${course.id}__}" method="get">
-    <input type="submit" value="افزودن آزمون جدید"/>
-</form>
+    <form th:action="@{/exam/create/__${course.id}__}" method="get">
+        <input type="submit" value="افزودن آزمون جدید"/>
+    </form>
 </div>
 
 <table class="table table-responsive table-bordered">
@@ -29,6 +29,7 @@
         <th>سقف نمره</th>
         <th>نوع آزمون</th>
         <th>نام استاد طراح آزمون</th>
+        <th>فعال</th>
         <th>action</th>
     </tr>
     </thead>
@@ -45,6 +46,9 @@
 
         <td><span th:text="${exam.instructor.lastName}"></span></td>
 
+        <td th:if="${exam.active}">فعال</td>
+        <td th:if="${not exam.active}">غیرفعال</td>
+
         <td th:if="${#strings.equals(#strings.toString(course.instructor.id),
         #strings.toString(exam.instructor.id))}">
             <a th:href="@{/exam/edit/__${exam.id}__}">ویرایش</a>
@@ -53,7 +57,7 @@
 
         <td th:if="${not #strings.equals(#strings.toString(course.instructor.id),
         #strings.toString(exam.instructor.id))}">
-         این آزمون توسط استاد/های قبلی طراحی شده
+            این آزمون توسط استاد/های قبلی طراحی شده
         </td>
 
     </tr>

@@ -108,12 +108,9 @@ public class CollegianController {
 
         int order = (int) request.getSession().getAttribute("order");
 
-        //content is the answer that must fill out by collegian
-
         boolean isTheFirstTime = (boolean) request.getSession().getAttribute("isTheFirstTime");
 
-
-        //application enters this 'if scope' only for the first time
+        //application enters the 'if scope' only for the first time
         if (isTheFirstTime) {
 
             List<ExamQuestionsScore> eqsList = exam.getExamQuestionsScores();
