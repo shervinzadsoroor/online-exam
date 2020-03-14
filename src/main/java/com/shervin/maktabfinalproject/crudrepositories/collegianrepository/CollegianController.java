@@ -99,18 +99,20 @@ public class CollegianController {
                                   HttpServletRequest request,
                                   Model model) {
 
+        Answer persistedAnswer = (Answer) model.getAttribute("persistedAnswer");
+
         Exam exam = examService.findById(examId);
         List<ExamQuestionsScore> eqsList = exam.getExamQuestionsScores();
 
         int numberOfQuestions = eqsList.size();
+        request.getSession().setAttribute("numOfQuestions", numberOfQuestions);
         ExamQuestionsScore eqs = null;
-
         int order = (int) request.getSession().getAttribute("order");
         if (order <= numberOfQuestions) {
             eqs = eqsList.get(order - 1);
         }
-        Collegian collegian = collegianService.findById(collegianId);
 
+        Collegian collegian = collegianService.findById(collegianId);
         //content is the answer that must fill out by collegian
         Answer answer = new Answer(null, null, 0, collegian, eqs);
 
@@ -129,10 +131,10 @@ public class CollegianController {
         return "startExam";
     }
 
-    @GetMapping("/answer/next")
+    @GetMapping("/answer-next")
     public String saveAnswerAndGoToNextQuestion(@ModelAttribute Answer answer,
-                             Model model,
-                             HttpServletRequest request) {
+                                                Model model,
+                                                HttpServletRequest request) {
 
         int order = (int) request.getSession().getAttribute("order");
         Answer persistedAnswer = answerService.saveAnswer(answer);
@@ -140,14 +142,15 @@ public class CollegianController {
         Collegian collegian = answer.getCollegian();
         order++;
         request.getSession().setAttribute("order", order);
+        model.addAttribute("persistedAnswer", persistedAnswer);
         String redirect = "redirect:/collegian/participate-exam/" + exam.getId() + "/" + collegian.getId();
         return redirect;
     }
 
-    @GetMapping("/answer/previous")
+    @GetMapping("/answer-previous")
     public String saveAnswerAndGoToPreviousQuestion(@ModelAttribute Answer answer,
-                                                Model model,
-                                                HttpServletRequest request) {
+                                                    Model model,
+                                                    HttpServletRequest request) {
 
         int order = (int) request.getSession().getAttribute("order");
         Answer persistedAnswer = answerService.saveAnswer(answer);
@@ -159,7 +162,7 @@ public class CollegianController {
         return redirect;
     }
 
-    @GetMapping("/answer/submit")
+    @GetMapping("/answer-submit")
     public String submitAnswers(@ModelAttribute Answer answer) {
         answerService.saveAnswer(answer);
         return "answersRegistered";

@@ -9,8 +9,6 @@
 </head>
 <body>
 
-<p id="demo"></p>
-
 <form action="#" th:object="${answer}">
     <h3>متن سوال</h3>
     <h5><p th:text="${answer.examQuestionsScore.question.content}"></p></h5>
@@ -20,11 +18,33 @@
     <input type="hidden" th:field="*{collegian}"/>
     <input type="hidden" th:field="*{grade}"/>
     <h4>جواب را وارد کنید</h4><input type="text" th:field="*{content}"/>
+    <div th:text="${session.order}"></div>
+    <div th:text="${session.numOfQuestions}"></div>
 
-    <input type="submit" formaction="/collegian/answer/next"  value="سوال بعد"/>
-    <input type="submit" formaction="/collegian/answer/previous" value="سوال قبل"/>
-    <input id="sb" type="submit" formaction="/collegian/answer/submit" value="ثبت جواب"/>
+    <!----------------------------------------------------------------------------------------->
+    <div th:if="${#strings.equals(session.order, session.numOfQuestions)}">
+        <input type="submit" disabled value="سوال بعد" />
+    </div>
+
+    <div th:if="${not #strings.equals(session.order, session.numOfQuestions)}">
+        <input type="submit" formaction="/collegian/answer-next"  value="سوال بعد" />
+    </div>
+    <!----------------------------------------------------------------------------------------->
+
+    <div th:if="${#strings.equals(session.order, 1)}">
+        <input type="submit" disabled value="سوال قبل" />
+    </div>
+
+    <div th:if="${not #strings.equals(session.order, 1)}">
+        <input type="submit" formaction="/collegian/answer-previous" value="سوال قبل"/>
+    </div>
+    <!----------------------------------------------------------------------------------------->
+
+    <input id="sb" type="submit" formaction="/collegian/answer-submit" value="ثبت جواب"/>
+
 </form>
+
+<p id="demo"></p>
 
 <div class="pagination-container">
     <div style="display: flex; justify-content: center">
