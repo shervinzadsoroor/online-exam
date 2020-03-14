@@ -20,20 +20,20 @@ padding: 20px; margin-top: 50px; border-radius: 5px; border: darkcyan solid thin
             <div>
                 نام:*
                 <div dir="ltr" style="padding-left: 50px"><input dir="rtl" style="width: 70%" type="text"
-                                                                 th:field="*{firstName}"/></div>
+                                                                 th:field="*{firstName}" required/></div>
                 <br>
                 نام خانوادگی:*
                 <div dir="ltr" style="padding-left: 50px"><input dir="rtl" style="width: 70%" type="text"
-                                                                 th:field="*{lastName}"/>
+                                                                 th:field="*{lastName}" required/>
                 </div>
                 <br>
                 پست الکترونیک:*
                 <div dir="ltr" style="padding-left: 50px"><input dir="ltr" style="width: 70%" type="text"
-                                                                 th:field="*{email}"/></div>
+                                                                 th:field="*{email}" required/></div>
                 <br>
                 شماره‌ي تلفن:*
                 <div dir="ltr" style="padding-left: 50px"><input style="width: 70%" type="text"
-                                                                 th:field="*{phoneNumber}"/></div>
+                                                                 th:field="*{phoneNumber}" required/></div>
                 <br>
                 <input type="hidden" th:field="*{account.id}"/>
 <!--                نقش(رول):*-->

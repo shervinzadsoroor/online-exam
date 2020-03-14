@@ -19,10 +19,10 @@
         <form action="#" th:action="@{/exam/create}" th:object="${exam}" method="post">
             <input type="hidden" th:field="*{instructor}"/><br>
             <input type="hidden" th:field="*{course}"/><br>
-            عنوان*: <br><input type="text" th:field="*{title}"/><br><br>
+            عنوان*: <br><input type="text" th:field="*{title}" required/><br><br>
             زمان برگزاری*: <br><input type="date" th:field="*{heldDate}"/><br><br>
-            سقف نمره*: <br><input type="text" th:field="*{score}"/><br><br>
-            مدت زمان*: <br><input type="text" th:field="*{duration}"/><br><br>
+<!--            سقف نمره*: <br><input type="text" th:field="*{score}"/><br><br>-->
+            مدت زمان*: <br><input type="text" th:field="*{duration}" required/><br><br>
             چند‌گزینه‌ای*: <input type="checkbox" th:field="*{multipleChoice}"/><br><br>
             فعال*: <input type="checkbox" th:field="*{active}"/><br><br>
             <div style="display: flex; justify-content: center"><input style="width: 50%" type="submit" value="افزودن"/>

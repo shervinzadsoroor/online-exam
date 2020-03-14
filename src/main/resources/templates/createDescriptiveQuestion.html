@@ -23,8 +23,8 @@
                 <input type="hidden" th:field="*{examQuestionsScores[__${itemStat.index}__].exam}"/>
             </fieldset>
 
-                عنوان*: <br><input type="text" th:field="*{title}"/><br><br>
-                صورت سوال*: <br><input type="text" th:field="*{content}"/><br><br>
+                عنوان*: <br><input type="text" th:field="*{title}" required/><br><br>
+                صورت سوال*: <br><input type="text" th:field="*{content}" required/><br><br>
                 <!--            گزینه‌ی صحیح*: <br><input type="text" th:field="*{answerKey}"/><br><br>-->
 
             <div style="display: flex; justify-content: center">

@@ -16,9 +16,9 @@
                                         background-color: lightblue ; padding: 20px; border-radius: 10px">
 
         <form action="#" th:action="@{/course/create}" th:object="${course}" method="post">
-            title*: <br><input type="text" th:field="*{title}"/><br><br>
-            startDate*: <br><input type="date" th:field="*{startDate}"/><br><br>
-            endDate*: <br><input type="date" th:field="*{endDate}"/><br><br>
+            title*: <br><input type="text" th:field="*{title}"required/><br><br>
+            startDate*: <br><input type="date" th:field="*{startDate}" required/><br><br>
+            endDate*: <br><input type="date" th:field="*{endDate}" required/><br><br>
             active*: <input type="checkbox" th:field="*{active}"/><br><br>
             <input type="submit" value="create"/>
 
