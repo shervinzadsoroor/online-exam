@@ -85,6 +85,8 @@ public class CollegianController {
                                                       Model model) {
 
         request.getSession().setAttribute("order", 1);
+        request.getSession().setAttribute("isTheFirstTime", true);
+        request.getSession().setAttribute("answers", new ArrayList<>());
 
         model.addAttribute("exams", examService.findAllExamsByCourseId(courseId));
         model.addAttribute("course", courseService.findById(courseId));
@@ -99,27 +101,39 @@ public class CollegianController {
                                   HttpServletRequest request,
                                   Model model) {
 
-        Answer persistedAnswer = (Answer) model.getAttribute("persistedAnswer");
+        List<Answer> answers = (List<Answer>) request.getSession().getAttribute("answers");
 
         Exam exam = examService.findById(examId);
-        List<ExamQuestionsScore> eqsList = exam.getExamQuestionsScores();
+        Collegian collegian = collegianService.findById(collegianId);
 
-        int numberOfQuestions = eqsList.size();
-        request.getSession().setAttribute("numOfQuestions", numberOfQuestions);
-        ExamQuestionsScore eqs = null;
         int order = (int) request.getSession().getAttribute("order");
-        if (order <= numberOfQuestions) {
-            eqs = eqsList.get(order - 1);
+
+        //content is the answer that must fill out by collegian
+
+        boolean isTheFirstTime = (boolean) request.getSession().getAttribute("isTheFirstTime");
+
+
+        //application enters this 'if scope' only for the first time
+        if (isTheFirstTime) {
+
+            List<ExamQuestionsScore> eqsList = exam.getExamQuestionsScores();
+            int numberOfQuestions = eqsList.size();
+            request.getSession().setAttribute("numOfQuestions", numberOfQuestions);
+            ExamQuestionsScore eqs = null;
+
+            for (int i = 0; i < eqsList.size(); i++) {
+                eqs = eqsList.get(i);
+                Answer answer = new Answer(null, null, 0, collegian, eqs);
+                Answer persisted = answerService.saveAnswer(answer);
+                answers.add(persisted);
+            }
+            request.getSession().setAttribute("isTheFirstTime", false);
         }
 
-        Collegian collegian = collegianService.findById(collegianId);
-        //content is the answer that must fill out by collegian
-        Answer answer = new Answer(null, null, 0, collegian, eqs);
+        request.getSession().setAttribute("answers", answers);
+        request.getSession().setAttribute("isTheFirstTime", false);
 
-        model.addAttribute("answer", answer);
-//        model.addAttribute("order", order);
-//        request.setAttribute("order", order);
-
+        model.addAttribute("answer", answers.get(order - 1));
 
 //        Date date = Calendar.getInstance().getTime();
 //        Long finish = System.currentTimeMillis() + ((long)exam.getDuration()*60_000);
@@ -135,14 +149,20 @@ public class CollegianController {
     public String saveAnswerAndGoToNextQuestion(@ModelAttribute Answer answer,
                                                 Model model,
                                                 HttpServletRequest request) {
+        List<Answer> answers = (List<Answer>) request.getSession().getAttribute("answers");
 
         int order = (int) request.getSession().getAttribute("order");
+
         Answer persistedAnswer = answerService.saveAnswer(answer);
+        //replace the new answer with the previous one
+        answers.set((order - 1), persistedAnswer);
+        request.getSession().setAttribute("answers", answers);
+
         Exam exam = answer.getExamQuestionsScore().getExam();
         Collegian collegian = answer.getCollegian();
         order++;
         request.getSession().setAttribute("order", order);
-        model.addAttribute("persistedAnswer", persistedAnswer);
+//        model.addAttribute("persistedAnswer", persistedAnswer);
         String redirect = "redirect:/collegian/participate-exam/" + exam.getId() + "/" + collegian.getId();
         return redirect;
     }
@@ -151,9 +171,15 @@ public class CollegianController {
     public String saveAnswerAndGoToPreviousQuestion(@ModelAttribute Answer answer,
                                                     Model model,
                                                     HttpServletRequest request) {
+        List<Answer> answers = (List<Answer>) request.getSession().getAttribute("answers");
 
         int order = (int) request.getSession().getAttribute("order");
         Answer persistedAnswer = answerService.saveAnswer(answer);
+
+        //replace the new answer with the previous one
+        answers.set((order - 1), persistedAnswer);
+        request.getSession().setAttribute("answers", answers);
+
         Exam exam = answer.getExamQuestionsScore().getExam();
         Collegian collegian = answer.getCollegian();
         order--;
