@@ -23,9 +23,8 @@
 
             عنوان*: <input type="text" th:field="*{title}" required/><br><br>
             صورت سوال*: <input type="text" th:field="*{content}" required/><br><br>
-            <!--            صورت سوال*: <br><input type="text" th:field="*{content}"/><br><br>-->
+
             گزینه‌ی صحیح*:
-            <!--            <br><input type="text" th:field="*{answerKey}" required/><br><br>-->
 
             <select th:field="*{answerKey}">
                 <option th:each="option : *{options}"

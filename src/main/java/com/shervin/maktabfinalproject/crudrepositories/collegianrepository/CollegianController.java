@@ -4,6 +4,7 @@ import com.shervin.maktabfinalproject.crudrepositories.accountrepository.Account
 import com.shervin.maktabfinalproject.crudrepositories.answerrepository.AnswerService;
 import com.shervin.maktabfinalproject.crudrepositories.courserepository.CourseService;
 import com.shervin.maktabfinalproject.crudrepositories.examrepository.ExamService;
+import com.shervin.maktabfinalproject.crudrepositories.optionrepository.OptionService;
 import com.shervin.maktabfinalproject.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -33,6 +34,8 @@ public class CollegianController {
     private CourseService courseService;
     @Autowired
     private AnswerService answerService;
+    @Autowired
+    private OptionService optionService;
 
     @GetMapping("/dashboard")
     public String CollegianDashboard() {
@@ -116,7 +119,6 @@ public class CollegianController {
             List<ExamQuestionsScore> eqsList = exam.getExamQuestionsScores();
             int numberOfQuestions = eqsList.size();
             request.getSession().setAttribute("numOfQuestions", numberOfQuestions);
-
 //            for (ExamQuestionsScore e : eqsList) {
 //                Question question = e.getQuestion();
 //                if (question.isMultipleChoice()){
@@ -125,7 +127,6 @@ public class CollegianController {
 //                    e.setQuestion(((DescriptiveQuestion) e.getQuestion()));
 //                }
 //            }
-
             for (ExamQuestionsScore eqs : eqsList) {
                 Answer answer = new Answer(null, null, 0, collegian, eqs);
                 Answer persisted = answerService.saveAnswer(answer);
@@ -139,13 +140,19 @@ public class CollegianController {
 //                answers.add(persisted);
 //            }
             request.getSession().setAttribute("isTheFirstTime", false);
+            request.getSession().setAttribute("answers", answers);
         }
 
-        request.getSession().setAttribute("answers", answers);
-        request.getSession().setAttribute("isTheFirstTime", false);
+//        request.getSession().setAttribute("isTheFirstTime", false);
+        Answer answer = answers.get(order - 1);
 
-        model.addAttribute("answer", answers.get(order - 1));
+        if (answer.getExamQuestionsScore().getQuestion().isMultipleChoice()) {
+            List<QuestionOption> options = optionService
+                    .findAllByQuestionId(answer.getExamQuestionsScore().getQuestion().getId());
+            model.addAttribute("options", options);
+        }
 
+        model.addAttribute("answer", answer);
 //        Date date = Calendar.getInstance().getTime();
 //        Long finish = System.currentTimeMillis() + ((long)exam.getDuration()*60_000);
 //        request.getSession().setAttribute("examStarted", date.getTime());
@@ -163,8 +170,8 @@ public class CollegianController {
         List<Answer> answers = (List<Answer>) request.getSession().getAttribute("answers");
 
         int order = (int) request.getSession().getAttribute("order");
-
         Answer persistedAnswer = answerService.saveAnswer(answer);
+
         //replace the new answer with the previous one
         answers.set((order - 1), persistedAnswer);
         request.getSession().setAttribute("answers", answers);

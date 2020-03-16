@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
+
 public class QuestionOption {
 
     @Id

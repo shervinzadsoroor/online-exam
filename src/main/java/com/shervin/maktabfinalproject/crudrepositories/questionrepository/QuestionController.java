@@ -92,20 +92,11 @@ public class QuestionController {
                                                        HttpServletRequest request) {
         MultipleChoiceQuestion multipleChoiceQuestion = new MultipleChoiceQuestion();
 
-//        MultipleChoiceQuestion persistedQuestion =
-//                multipleChoiceQuestionService.save(new MultipleChoiceQuestion());
-
         Exam exam = examService.findById(examId);
 
         ExamQuestionsScore examQuestionsScore = new ExamQuestionsScore();
         examQuestionsScore.setExam(exam);
-//        examQuestionsScore.setQuestion(persistedQuestion);
-//        ExamQuestionsScore persistedEQS = examQuestionsScoreService.save(examQuestionsScore);
 
-//        List<ExamQuestionsScore> examQuestionsScores = new ArrayList<>();
-//        examQuestionsScores.add(persistedEQS);
-
-//        persistedQuestion.setExamQuestionsScores(examQuestionsScores);
         multipleChoiceQuestion.setInstructor(exam.getInstructor());
         multipleChoiceQuestion.setMultipleChoice(true);
 
@@ -114,15 +105,12 @@ public class QuestionController {
         for (int i = 1; i <= 3; i++) {
             QuestionOption option = new QuestionOption(null, null,
                     false, (i), null);
-//            QuestionOption persistedOption = optionService.save(option);
             options.add(option);
         }
         multipleChoiceQuestion.setOptions(options);
 
         request.getSession().setAttribute("exam", exam);
-//        request.getSession().setAttribute("options", options);
         model.addAttribute("multipleChoiceQuestion", multipleChoiceQuestion);
-//        model.addAttribute("options", options);
         return "createMultipleChoiceQuestion";
     }
 
@@ -136,14 +124,8 @@ public class QuestionController {
             option.setMultipleChoiceQuestion(persistedQuestion);
             optionService.save(option);
         }
-
         examQuestionsScoreService
                 .save(new ExamQuestionsScore(null,exam,persistedQuestion,null,0));
-
-//        persistedQuestion.setExamQuestionsScores();
-//        Scanner scanner = new Scanner(System.in);
-//        int n  = scanner.nextInt();
-
 
         return "redirect:/exam/edit/"+exam.getId();
     }

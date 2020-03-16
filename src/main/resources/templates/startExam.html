@@ -17,7 +17,8 @@
         <fieldset>
         <legend>گزینه‌ها</legend>
         <ul>
-            <li th:each="option : ${answer.examQuestionsScore.question.options}">
+
+            <li th:each="option : ${options}">
                 <input type="radio" th:field="${answer.content}"
                        th:value="${option.orderOfOption}"/>
                 <label th:for="${option.orderOfOption}" th:text="${option.content}"></label>

@@ -19,4 +19,8 @@ public class OptionService {
         return optionRepository.findById(id).get();
     }
 
+    public List<QuestionOption> findAllByQuestionId(Long id){
+        return optionRepository.findAllByMultipleChoiceQuestion_id(id);
+    }
+
 }
