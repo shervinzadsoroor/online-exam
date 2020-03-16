@@ -26,4 +26,18 @@ public class QuestionOption {
     @ManyToOne
     private MultipleChoiceQuestion multipleChoiceQuestion;
 
+//    @ManyToOne
+//    private Question question;
+
+
+    @Override
+    public String toString() {
+        return "QuestionOption{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", isCorrect=" + isCorrect +
+                ", orderOfOption=" + orderOfOption +
+//                ", multipleChoiceQuestion=" + multipleChoiceQuestion +
+                '}';
+    }
 }

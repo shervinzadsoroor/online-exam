@@ -21,12 +21,6 @@ public class Question implements Serializable {
     private String title;
     private boolean isMultipleChoice;
 
-//    @ManyToOne
-//    private Exam exam;
-
-//    @ManyToMany(mappedBy = "questions")
-//    private List<Exam> exams = new ArrayList<>();
-
     @OneToMany(mappedBy = "question")
     private List<ExamQuestionsScore> examQuestionsScores = new ArrayList<>();
 
@@ -35,6 +29,9 @@ public class Question implements Serializable {
 
     @ManyToOne
     private Course course;
+
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "question")
+//    private List<QuestionOption> options = new ArrayList<>();
 
     @Override
     public String toString() {

@@ -38,7 +38,7 @@
             عنوان: <br><input dir="rtl" type="text" th:field="*{title}"/><br>
             زمان برگزاری: <br><input dir="rtl" type="text" th:field="*{heldDate}"/><br>
             مدت زمان: <br><input dir="rtl" type="text" th:field="*{duration}"/><br>
-            سقف نمره: <br><input dir="rtl" type="text" th:field="*{score}"/><br><br>
+            سقف نمره: <input style="width: 50px" dir="rtl" type="text" th:field="*{score}" readonly/><br><br>
              فعال: <br><input dir="rtl" type="checkbox" th:field="*{active}"/><br><br>
 
             <input type="hidden" th:field="*{instructor}"/>

@@ -36,7 +36,7 @@ public class Course implements Serializable {
     private Instructor instructor;
 
     @OneToMany(mappedBy = "course")
-    List<Question> questions = new ArrayList<>();
+    private List<Question> questions = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "course_collegian",

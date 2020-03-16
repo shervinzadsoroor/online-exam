@@ -12,13 +12,14 @@ import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
 
-public class Collegian  extends Person {
+public class Collegian extends Person {
     private Double GPA;
 
     @ManyToMany(mappedBy = "collegians")
@@ -27,6 +28,9 @@ public class Collegian  extends Person {
     @ManyToMany
     private List<Exam> participatedExams = new ArrayList<>();
 
+
+    //each answer has some data in its own class such as question and exam in examQuestionScore object
     @OneToMany(mappedBy = "collegian")
     private List<Answer> answers = new ArrayList<>();
+
 }

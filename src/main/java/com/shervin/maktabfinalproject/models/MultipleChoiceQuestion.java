@@ -15,7 +15,14 @@ public class MultipleChoiceQuestion extends Question {
 
     private String answerKey;
 
-    @OneToMany(mappedBy = "multipleChoiceQuestion")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "multipleChoiceQuestion")
     private List<QuestionOption> options = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return "MultipleChoiceQuestion{" +
+                "answerKey='" + answerKey + '\'' +
+                ", options=" + options +
+                '}';
+    }
 }

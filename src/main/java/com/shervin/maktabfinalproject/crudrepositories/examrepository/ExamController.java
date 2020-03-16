@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RequestMapping("/exam")
@@ -34,7 +35,7 @@ public class ExamController {
         return "allExams";
     }
 
-//    //showing the list of exams to collegian
+    //    //showing the list of exams to collegian
 //    @GetMapping("/collegian-exam-list/{id}")
 //    public String sendListOfExamsOfCourseForCollegian(@PathVariable("id") Long courseId, Model model) {
 //        model.addAttribute("exams", examService.findAllExamsByCourseId(courseId));
@@ -61,8 +62,13 @@ public class ExamController {
     }
 
     @GetMapping("/edit/{id}")
-    public String sendExamEditForm(@PathVariable("id") Long examId, Model model) {
-        model.addAttribute("exam", examService.findById(examId));
+    public String sendExamEditForm(@PathVariable("id") Long examId,
+                                   Model model,
+                                   HttpServletRequest request) {
+        Exam exam = examService.findById(examId);
+        // TODO: 3/15/20  i know this is redundant and needs refactor
+        model.addAttribute("exam", exam);
+        request.getSession().setAttribute("exam", exam);
         return "editExam";
     }
 
@@ -112,11 +118,12 @@ public class ExamController {
     }
 
     @PostMapping("/questions/assign-score")
-    public String assignScoreToQuestionsOfExam(@ModelAttribute Exam exam) {
+    public String assignScoreToQuestionsOfExam(@ModelAttribute Exam exam,
+                                               HttpServletRequest request) {
         double sum = 0;
         for (ExamQuestionsScore eqs : exam.getExamQuestionsScores()) {
             examQuestionsScoreService.save(eqs);
-            sum+=eqs.getScore();
+            sum += eqs.getScore();
         }
         System.out.println("sum = " + sum);
         System.out.println("exam = " + exam.toString());
@@ -126,6 +133,8 @@ public class ExamController {
 ////        model.addAttribute("examQuestionScores", list);
 //        model.addAttribute("exam", exam);
 
-        return null;
+        //we set the exam attribute again because the exam have been changed
+        request.getSession().setAttribute("exam", persistedExam);
+        return "redirect:/exam/edit/"+persistedExam.getId();
     }
 }

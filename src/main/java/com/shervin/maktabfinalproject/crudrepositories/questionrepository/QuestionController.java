@@ -4,15 +4,19 @@ import com.shervin.maktabfinalproject.crudrepositories.descriptivequestionreposi
 import com.shervin.maktabfinalproject.crudrepositories.examquestionsscorerepository.ExamQuestionsScoreService;
 import com.shervin.maktabfinalproject.crudrepositories.examrepository.ExamService;
 import com.shervin.maktabfinalproject.crudrepositories.multiplechoicequestionrepository.MultipleChoiceQuestionService;
+import com.shervin.maktabfinalproject.crudrepositories.optionrepository.OptionService;
 import com.shervin.maktabfinalproject.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 @RequestMapping("/question")
 @Controller
@@ -28,6 +32,8 @@ public class QuestionController {
     private ExamService examService;
     @Autowired
     private ExamQuestionsScoreService examQuestionsScoreService;
+    @Autowired
+    private OptionService optionService;
 
     @GetMapping("/list/{id}")
     public String showAllQuestionsOfInstructor(@PathVariable("id") Long examId, Model model) {
@@ -81,44 +87,65 @@ public class QuestionController {
     }
 
     @GetMapping("/create/multipleChoice/{id}")
-    public String sendCreateMultipleChoiceQuestionForm(@PathVariable("id") Long examId, Model model) {
+    public String sendCreateMultipleChoiceQuestionForm(@PathVariable("id") Long examId,
+                                                       Model model,
+                                                       HttpServletRequest request) {
         MultipleChoiceQuestion multipleChoiceQuestion = new MultipleChoiceQuestion();
+
+//        MultipleChoiceQuestion persistedQuestion =
+//                multipleChoiceQuestionService.save(new MultipleChoiceQuestion());
 
         Exam exam = examService.findById(examId);
 
         ExamQuestionsScore examQuestionsScore = new ExamQuestionsScore();
         examQuestionsScore.setExam(exam);
+//        examQuestionsScore.setQuestion(persistedQuestion);
+//        ExamQuestionsScore persistedEQS = examQuestionsScoreService.save(examQuestionsScore);
 
-        List<ExamQuestionsScore> examQuestionsScores = new ArrayList<>();
-        examQuestionsScores.add(examQuestionsScore);
+//        List<ExamQuestionsScore> examQuestionsScores = new ArrayList<>();
+//        examQuestionsScores.add(persistedEQS);
 
-        multipleChoiceQuestion.setExamQuestionsScores(examQuestionsScores);
+//        persistedQuestion.setExamQuestionsScores(examQuestionsScores);
         multipleChoiceQuestion.setInstructor(exam.getInstructor());
         multipleChoiceQuestion.setMultipleChoice(true);
 
+        List<QuestionOption> options = new ArrayList<>();
+        // TODO: 3/14/20 options quantity is hard-coded but must be dynamical and this is a only for test
+        for (int i = 1; i <= 3; i++) {
+            QuestionOption option = new QuestionOption(null, null,
+                    false, (i), null);
+//            QuestionOption persistedOption = optionService.save(option);
+            options.add(option);
+        }
+        multipleChoiceQuestion.setOptions(options);
+
+        request.getSession().setAttribute("exam", exam);
+//        request.getSession().setAttribute("options", options);
         model.addAttribute("multipleChoiceQuestion", multipleChoiceQuestion);
+//        model.addAttribute("options", options);
         return "createMultipleChoiceQuestion";
     }
 
     @PostMapping("/create/multipleChoice")
-    public String createMultipleChoiceQuestion(@ModelAttribute MultipleChoiceQuestion question) {
+    public String createMultipleChoiceQuestion(@ModelAttribute MultipleChoiceQuestion question,
+                                               HttpServletRequest request) {
 
-        MultipleChoiceQuestion multipleChoiceQuestion = multipleChoiceQuestionService.save(question);
+        Exam exam = (Exam) request.getSession().getAttribute("exam");
+        MultipleChoiceQuestion persistedQuestion = multipleChoiceQuestionService.save(question);
+        for (QuestionOption option : question.getOptions()) {
+            option.setMultipleChoiceQuestion(persistedQuestion);
+            optionService.save(option);
+        }
 
-        List<ExamQuestionsScore> examQuestionsScores = multipleChoiceQuestion.getExamQuestionsScores();
+        examQuestionsScoreService
+                .save(new ExamQuestionsScore(null,exam,persistedQuestion,null,0));
 
-        ExamQuestionsScore examQuestionsScore = examQuestionsScores.get(0);
+//        persistedQuestion.setExamQuestionsScores();
+//        Scanner scanner = new Scanner(System.in);
+//        int n  = scanner.nextInt();
 
-        examQuestionsScore.setQuestion(multipleChoiceQuestion);
 
-        ExamQuestionsScore persistedExamQuestionsScore = examQuestionsScoreService.save(examQuestionsScore);
-        examQuestionsScores.remove(0);
-        examQuestionsScores.add(persistedExamQuestionsScore);
-
-        multipleChoiceQuestion.setExamQuestionsScores(examQuestionsScores);
-        multipleChoiceQuestionService.save(multipleChoiceQuestion);
-
-        return null;
+        return "redirect:/exam/edit/"+exam.getId();
     }
 
     @GetMapping("/create/descriptive/{id}")
@@ -142,7 +169,8 @@ public class QuestionController {
     }
 
     @PostMapping("/create/descriptive")
-    public String createDescriptiveQuestion(@ModelAttribute DescriptiveQuestion question) {
+    public String createDescriptiveQuestion(@ModelAttribute DescriptiveQuestion question,
+                                            HttpServletRequest request) {
 
         DescriptiveQuestion descriptiveQuestion = descriptiveQuestionService.save(question);
 
@@ -159,7 +187,8 @@ public class QuestionController {
         descriptiveQuestion.setExamQuestionsScores(examQuestionsScores);
         descriptiveQuestionService.save(descriptiveQuestion);
 
-        return null;
+        Exam exam = (Exam) request.getSession().getAttribute("exam");
+        return "redirect:/exam/edit/"+exam.getId();
     }
 
 }

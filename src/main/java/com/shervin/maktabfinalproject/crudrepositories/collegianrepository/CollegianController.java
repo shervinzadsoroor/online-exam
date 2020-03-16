@@ -116,14 +116,28 @@ public class CollegianController {
             List<ExamQuestionsScore> eqsList = exam.getExamQuestionsScores();
             int numberOfQuestions = eqsList.size();
             request.getSession().setAttribute("numOfQuestions", numberOfQuestions);
-            ExamQuestionsScore eqs = null;
 
-            for (int i = 0; i < eqsList.size(); i++) {
-                eqs = eqsList.get(i);
+//            for (ExamQuestionsScore e : eqsList) {
+//                Question question = e.getQuestion();
+//                if (question.isMultipleChoice()){
+//                    e.setQuestion(((MultipleChoiceQuestion) e.getQuestion()));
+//                }else {
+//                    e.setQuestion(((DescriptiveQuestion) e.getQuestion()));
+//                }
+//            }
+
+            for (ExamQuestionsScore eqs : eqsList) {
                 Answer answer = new Answer(null, null, 0, collegian, eqs);
                 Answer persisted = answerService.saveAnswer(answer);
                 answers.add(persisted);
             }
+//            ExamQuestionsScore eqs = null;
+//            for (int i = 0; i < eqsList.size(); i++) {
+//                eqs = eqsList.get(i);
+//                Answer answer = new Answer(null, null, 0, collegian, eqs);
+//                Answer persisted = answerService.saveAnswer(answer);
+//                answers.add(persisted);
+//            }
             request.getSession().setAttribute("isTheFirstTime", false);
         }
 

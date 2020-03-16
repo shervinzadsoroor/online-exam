@@ -34,15 +34,6 @@ public class Exam implements Serializable {
     @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL)
     private List<ExamQuestionsScore> examQuestionsScores = new ArrayList<>();
 
-//    @ManyToMany
-//    @JoinTable(name = "exam_question",
-//            joinColumns = {@JoinColumn(name = "exam_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "question_id")})
-//    private List<Question> questions = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "exam")
-//    private List<ExamQuestionsScore> examQuestionsScores = new ArrayList<>();
-
     @ManyToOne
     private Instructor instructor;
 

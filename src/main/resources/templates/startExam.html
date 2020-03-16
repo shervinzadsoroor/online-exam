@@ -13,12 +13,30 @@
     <h3>متن سوال</h3>
     <h5><p th:text="${answer.examQuestionsScore.question.content}"></p></h5>
 
+    <div th:if="${answer.examQuestionsScore.question.multipleChoice}">
+        <fieldset>
+        <legend>گزینه‌ها</legend>
+        <ul>
+            <li th:each="option : ${answer.examQuestionsScore.question.options}">
+                <input type="radio" th:field="${answer.content}"
+                       th:value="${option.orderOfOption}"/>
+                <label th:for="${option.orderOfOption}" th:text="${option.content}"></label>
+            </li>
+        </ul>
+        </fieldset>
+    </div>
+
+    <div th:if="${not answer.examQuestionsScore.question.multipleChoice}">
+        <h4>جواب را وارد کنید</h4><input type="text" th:field="*{content}"/>
+    </div>
+
     <input type="hidden" th:field="*{id}"/>
     <input type="hidden" th:field="*{examQuestionsScore}"/>
     <input type="hidden" th:field="*{collegian}"/>
     <input type="hidden" th:field="*{grade}"/>
-    <h4>جواب را وارد کنید</h4><input type="text" th:field="*{content}"/>
     <div th:text="${session.order}"></div>
+
+
     <div th:text="${session.numOfQuestions}"></div>
 
     <!----------------------------------------------------------------------------------------->
