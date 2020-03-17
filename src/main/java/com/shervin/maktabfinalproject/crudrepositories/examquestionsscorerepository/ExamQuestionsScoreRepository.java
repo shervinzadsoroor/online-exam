@@ -12,4 +12,6 @@ public interface ExamQuestionsScoreRepository extends JpaRepository<ExamQuestion
     List<ExamQuestionsScore> findAllByExam_Id(Long examId);
 
     List<ExamQuestionsScore> findAllByQuestion_Id(Long questionId);
+
+    ExamQuestionsScore findByExam_idAndQuestion_id(Long examId, Long questionId);
 }

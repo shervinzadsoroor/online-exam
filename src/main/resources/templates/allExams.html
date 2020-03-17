@@ -19,7 +19,7 @@
     </form>
 </div>
 
-<table class="table table-responsive table-bordered">
+<table class="table table-responsive table-hover" style="background-color: #17a2b8">
     <thead>
     <tr>
         <th>شناسه</th>
@@ -30,7 +30,7 @@
         <th>نوع آزمون</th>
         <th>نام استاد طراح آزمون</th>
         <th>فعال</th>
-        <th>action</th>
+        <th>عملیات</th>
     </tr>
     </thead>
     <tbody>
@@ -51,8 +51,20 @@
 
         <td th:if="${#strings.equals(#strings.toString(course.instructor.id),
         #strings.toString(exam.instructor.id))}">
-            <a th:href="@{/exam/edit/__${exam.id}__}">ویرایش</a>
-            <a th:href="@{/exam/delete/__${exam.id}__}">حذف</a>
+            <div style="display: flex; justify-content: space-around">
+
+                <form th:action="@{/exam/participant-list/__${exam.id}__}">
+                    <button class="btn-outline-primary rounded" type="submit">شرکت کنندگان</button>
+                </form>
+
+                <form th:action="@{/exam/edit/__${exam.id}__}">
+                    <button class="btn-outline-primary rounded" type="submit">ویرایش</button>
+                </form>
+
+                <form th:action="@{/exam/delete/__${exam.id}__}">
+                    <button class="btn-outline-danger rounded" type="submit">حذف</button>
+                </form>
+            </div>
         </td>
 
         <td th:if="${not #strings.equals(#strings.toString(course.instructor.id),

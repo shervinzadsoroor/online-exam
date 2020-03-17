@@ -28,7 +28,10 @@ public class Exam implements Serializable {
     @ManyToOne
     private Course course;
 
-    @ManyToMany(mappedBy = "participatedExams")
+    @ManyToMany
+    @JoinTable(name = "exams_participatedCollegians",
+            joinColumns = {@JoinColumn(name = "exam_id", nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "collegian_id", nullable = false)})
     private List<Collegian> participatedCollegians = new ArrayList<>();
 
     @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL)

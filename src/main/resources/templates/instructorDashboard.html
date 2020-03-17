@@ -17,6 +17,7 @@
         <th>تاریخ شروع</th>
         <th>تاریخ پایان</th>
         <th>فعال</th>
+        <th>عملیات</th>
     </tr>
     </thead>
     <tbody>
@@ -26,7 +27,10 @@
         <td th:text="${course.startDate}"></td>
         <td th:text="${course.endDate}"></td>
         <td th:text="${course.active}"></td>
-        <td><a th:href="@{/exam/list/__${course.id}__}">آزمون‌ها</a></td>
+
+        <td> <form th:action="@{/exam/list/__${course.id}__}">
+            <button class="btn-outline-primary rounded" type="submit">آزمون‌ها</button>
+        </form></td>
 
     </tr>
     </tbody>

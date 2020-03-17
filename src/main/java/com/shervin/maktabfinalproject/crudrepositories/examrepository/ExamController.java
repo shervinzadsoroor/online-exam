@@ -1,10 +1,9 @@
 package com.shervin.maktabfinalproject.crudrepositories.examrepository;
 
+import com.shervin.maktabfinalproject.crudrepositories.answerrepository.AnswerService;
 import com.shervin.maktabfinalproject.crudrepositories.courserepository.CourseService;
 import com.shervin.maktabfinalproject.crudrepositories.examquestionsscorerepository.ExamQuestionsScoreService;
-import com.shervin.maktabfinalproject.models.Course;
-import com.shervin.maktabfinalproject.models.Exam;
-import com.shervin.maktabfinalproject.models.ExamQuestionsScore;
+import com.shervin.maktabfinalproject.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -20,12 +19,12 @@ public class ExamController {
 
     @Autowired
     private ExamService examService;
-
     @Autowired
     private CourseService courseService;
-
     @Autowired
     private ExamQuestionsScoreService examQuestionsScoreService;
+    @Autowired
+    private AnswerService answerService;
 
     //showing the list of exams to instructor
     @GetMapping("/list/{id}")
@@ -135,6 +134,31 @@ public class ExamController {
 
         //we set the exam attribute again because the exam have been changed
         request.getSession().setAttribute("exam", persistedExam);
-        return "redirect:/exam/edit/"+persistedExam.getId();
+        return "redirect:/exam/edit/" + persistedExam.getId();
+    }
+
+    @GetMapping("/participant-list/{id}")
+    public String showListOfParticipants(@PathVariable("id") Long examId,
+                                         Model model,
+                                         HttpServletRequest request) {
+
+        Exam exam = examService.findById(examId);
+        List<Collegian> collegians = exam.getParticipatedCollegians();
+        request.getSession().setAttribute("examId", examId);
+        model.addAttribute("participatedCollegians", collegians);
+
+        return "allParticipants";
+    }
+
+    @GetMapping("/participant-answers/{collegianId}/{examId}")
+    public String showAnswersOfParticipants(@PathVariable("collegianId") Long collegianId,
+                                            @PathVariable("examId") Long examId,
+                                            Model model) {
+        List<Answer> answers = answerService.findAllAnswersByCollegianIdAndExamId(collegianId, examId);
+        for (Answer answer : answers) {
+            System.out.println(answer.toString());
+        }
+
+        return null;
     }
 }

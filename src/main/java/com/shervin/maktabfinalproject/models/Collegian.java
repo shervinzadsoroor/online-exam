@@ -25,7 +25,7 @@ public class Collegian extends Person {
     @ManyToMany(mappedBy = "collegians")
     private List<Course> courses = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "participatedCollegians")
     private List<Exam> participatedExams = new ArrayList<>();
 
 

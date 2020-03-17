@@ -14,8 +14,8 @@
         <input type="submit" value="داشبورد"/>
     </form>
 </div>
-
-<table class="table table-responsive table-bordered">
+<div style="display: flex; justify-content: center">
+    <table class="table table-info border-bottom table-hover" style="width: 90%; border-radius: 10px">
     <thead>
     <tr>
         <th>شناسه</th>
@@ -47,17 +47,18 @@
 
         <td th:if="${exam.active}">
             <form th:action="@{/collegian/participate-exam/__${exam.id}__/__${collegian.id}__}">
-                <button class="btn-primary" type="submit">شرکت در آزمون</button>
+                <button class="btn-primary rounded" type="submit">شرکت در آزمون</button>
             </form>
         </td>
         <td th:if="${not exam.active}">
-            <button class="btn-outline-primary" type="submit" disabled>شرکت در آزمون</button>
+            <button class="btn-outline-primary rounded" type="submit" disabled>شرکت در آزمون</button>
         </td>
 
 
     </tr>
     </tbody>
 </table>
+</div>
 
 <script src="../static/bootstrap/js/jquery-3.4.1.slim.min.js"
         crossorigin="anonymous"></script>

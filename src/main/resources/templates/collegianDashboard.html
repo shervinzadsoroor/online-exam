@@ -9,43 +9,46 @@
 <body>
 داشبورد دانشجو
 <div style="display: flex; justify-content: center"><h3>لیست دوره‌های شما</h3></div>
-<table class="table table-info table-bordered">
-    <thead>
-    <tr>
-        <th>شناسه</th>
-        <th>عنوان</th>
-        <th>تاریخ شروع</th>
-        <th>تاریخ پایان</th>
-        <th>فعال</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="course : ${collegian.courses}">
-        <td th:text="${course.id}"></td>
-        <td th:text="${course.title}"></td>
-        <td th:text="${course.startDate}"></td>
-        <td th:text="${course.endDate}"></td>
-        <td th:text="${course.active}"></td>
+<div style="display: flex; justify-content: center">
+    <table class="table table-info border-bottom table-hover" style="width: 70%; border-radius: 10px">
+        <thead>
+        <tr>
+            <th>شناسه</th>
+            <th>عنوان</th>
+            <th>تاریخ شروع</th>
+            <th>تاریخ پایان</th>
+            <th>وضعیت</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="course : ${collegian.courses}">
+            <td th:text="${course.id}"></td>
+            <td th:text="${course.title}"></td>
+            <td th:text="${course.startDate}"></td>
+            <td th:text="${course.endDate}"></td>
+            <td th:if="${course.active}">فعال</td>
+            <td th:if="${not course.active}">غیر‌فعال</td>
 
-<!--        <td th:if="${course.active}">-->
-<!--            <form th:action="@{/exam/collegian-exam-list/__${course.id}__}">-->
-<!--                <button class="btn-outline-primary" type="submit">آزمون‌ها</button>-->
-<!--            </form>-->
-<!--        </td>-->
+            <!--        <td th:if="${course.active}">-->
+            <!--            <form th:action="@{/exam/collegian-exam-list/__${course.id}__}">-->
+            <!--                <button class="btn-outline-primary" type="submit">آزمون‌ها</button>-->
+            <!--            </form>-->
+            <!--        </td>-->
 
-        <td th:if="${course.active}">
-            <form th:action="@{/collegian/course-exam-list/__${course.id}__/__${collegian.id}__}">
-                <button class="btn-outline-primary" type="submit">آزمون‌ها</button>
-            </form>
-        </td>
+            <td th:if="${course.active}">
+                <form th:action="@{/collegian/course-exam-list/__${course.id}__/__${collegian.id}__}">
+                    <button class="btn-primary rounded" type="submit">آزمون‌ها</button>
+                </form>
+            </td>
 
-        <!--        <td th:if="${course.active}"><button><a th:href="@{/exam/list/__${course.id}__}">آزمون‌ها</a></button></td>-->
-        <td th:if="${not course.active}">
-            <button disabled>آزمون‌ها</button>
-        </td>
+            <!--        <td th:if="${course.active}"><button><a th:href="@{/exam/list/__${course.id}__}">آزمون‌ها</a></button></td>-->
+            <td th:if="${not course.active}">
+                <button class="btn-outline-primary rounded" disabled>آزمون‌ها</button>
+            </td>
 
-    </tr>
-    </tbody>
-</table>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

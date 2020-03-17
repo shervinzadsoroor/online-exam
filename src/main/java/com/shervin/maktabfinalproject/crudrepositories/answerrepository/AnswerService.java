@@ -12,7 +12,7 @@ public class AnswerService {
     @Autowired
     private AnswerRepository answerRepository;
 
-    public Answer saveAnswer(Answer answer){
+    public Answer saveAnswer(Answer answer) {
         return answerRepository.save(answer);
     }
 
@@ -26,5 +26,9 @@ public class AnswerService {
 
     public List<Answer> findAllAnswersByCollegianId(Long collegianId) {
         return answerRepository.findAllByCollegian_Id(collegianId);
+    }
+
+    public List<Answer> findAllAnswersByCollegianIdAndExamId(Long collegianId, Long examId) {
+        return answerRepository.findAllByCollegian_IdAndExamQuestionsScore_Exam_id(collegianId, examId);
     }
 }

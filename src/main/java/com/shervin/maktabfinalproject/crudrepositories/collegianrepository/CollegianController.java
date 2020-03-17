@@ -119,31 +119,16 @@ public class CollegianController {
             List<ExamQuestionsScore> eqsList = exam.getExamQuestionsScores();
             int numberOfQuestions = eqsList.size();
             request.getSession().setAttribute("numOfQuestions", numberOfQuestions);
-//            for (ExamQuestionsScore e : eqsList) {
-//                Question question = e.getQuestion();
-//                if (question.isMultipleChoice()){
-//                    e.setQuestion(((MultipleChoiceQuestion) e.getQuestion()));
-//                }else {
-//                    e.setQuestion(((DescriptiveQuestion) e.getQuestion()));
-//                }
-//            }
+
             for (ExamQuestionsScore eqs : eqsList) {
-                Answer answer = new Answer(null, null, 0, collegian, eqs);
+                Answer answer = new Answer(null, null, 0, false, collegian, eqs);
                 Answer persisted = answerService.saveAnswer(answer);
                 answers.add(persisted);
             }
-//            ExamQuestionsScore eqs = null;
-//            for (int i = 0; i < eqsList.size(); i++) {
-//                eqs = eqsList.get(i);
-//                Answer answer = new Answer(null, null, 0, collegian, eqs);
-//                Answer persisted = answerService.saveAnswer(answer);
-//                answers.add(persisted);
-//            }
             request.getSession().setAttribute("isTheFirstTime", false);
             request.getSession().setAttribute("answers", answers);
         }
 
-//        request.getSession().setAttribute("isTheFirstTime", false);
         Answer answer = answers.get(order - 1);
 
         if (answer.getExamQuestionsScore().getQuestion().isMultipleChoice()) {
@@ -207,8 +192,24 @@ public class CollegianController {
     }
 
     @GetMapping("/answer-submit")
-    public String submitAnswers(@ModelAttribute Answer answer) {
-        answerService.saveAnswer(answer);
+    public String submitAnswers(@ModelAttribute Answer answer,
+                                HttpServletRequest request) {
+        int order = (int) request.getSession().getAttribute("order");
+        Exam exam = answer.getExamQuestionsScore().getExam();
+        Answer persistedAnswer = answerService.saveAnswer(answer);
+
+        List<Answer> answers = (List<Answer>) request.getSession().getAttribute("answers");
+        answers.set((order - 1), persistedAnswer);
+        request.getSession().setAttribute("answers", answers);
+
+        //add the collegian to the list of participated collegians of the exam
+        List<Collegian> collegians = exam.getParticipatedCollegians();
+        collegians.add(answer.getCollegian());
+        exam.setParticipatedCollegians(collegians);
+        examService.saveExam(exam);
+
+        examService.calculateExamResult(answers);
+
         return "answersRegistered";
     }
 //    @RequestMapping(value = "/time")

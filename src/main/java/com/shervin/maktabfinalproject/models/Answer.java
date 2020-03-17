@@ -22,10 +22,23 @@ public class Answer {
 
     private double grade;
 
+    private boolean isCorrected;
+
     @ManyToOne
     private Collegian collegian;
 
     @ManyToOne
     private ExamQuestionsScore examQuestionsScore;
 
+    @Override
+    public String toString() {
+        return "Answer{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", grade=" + grade +
+                ", isCorrected=" + isCorrected +
+                ", collegian=" + collegian.getAccount().getUsername() +
+                ", examQuestionsScore=" + examQuestionsScore.getId() +
+                '}';
+    }
 }
