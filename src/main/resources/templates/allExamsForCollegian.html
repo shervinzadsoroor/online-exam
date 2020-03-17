@@ -16,48 +16,59 @@
 </div>
 <div style="display: flex; justify-content: center">
     <table class="table table-info border-bottom table-hover" style="width: 90%; border-radius: 10px">
-    <thead>
-    <tr>
-        <th>شناسه</th>
-        <th>عنوان</th>
-        <th>زمان برگزاری</th>
-        <th>مدت زمان</th>
-        <th>سقف نمره</th>
-        <th>نوع آزمون</th>
-        <th>نام استاد طراح آزمون</th>
-        <th>وضعیت</th>
-        <th>action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:object="${course}" th:each="exam : ${exams}">
-        <td><span th:text="${exam.id}"></span></td>
-        <td><span th:text="${exam.title}"></span></td>
-        <td><span th:text="${exam.heldDate}"></span></td>
-        <td><span th:text="${exam.duration}"></span></td>
-        <td><span th:text="${exam.score}"></span></td>
+        <thead>
+        <tr>
+            <th>شناسه</th>
+            <th>عنوان</th>
+            <th>زمان برگزاری</th>
+            <th>مدت زمان</th>
+            <th>سقف نمره</th>
+            <th>نوع آزمون</th>
+            <th>نام استاد طراح آزمون</th>
+            <th>وضعیت</th>
+            <th>action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:object="${course}" th:each="exam : ${exams}">
+            <td><span th:text="${exam.id}"></span></td>
+            <td><span th:text="${exam.title}"></span></td>
+            <td><span th:text="${exam.heldDate}"></span></td>
+            <td><span th:text="${exam.duration}"></span></td>
+            <td><span th:text="${exam.score}"></span></td>
 
-        <td th:if="${exam.multipleChoice}">چند گزینه‌ای</td>
-        <td th:if="${not exam.multipleChoice}">تشریحی</td>
+            <td th:if="${exam.multipleChoice}">چند گزینه‌ای</td>
+            <td th:if="${not exam.multipleChoice}">تشریحی</td>
 
-        <td><span th:text="${exam.instructor.lastName}"></span></td>
+            <td><span th:text="${exam.instructor.lastName}"></span></td>
 
-        <td th:if="${exam.active}">فعال</td>
-        <td th:if="${not exam.active}">غیرفعال</td>
+            <td th:if="${exam.active}">فعال</td>
+            <td th:if="${not exam.active}">غیرفعال</td>
 
-        <td th:if="${exam.active}">
-            <form th:action="@{/collegian/participate-exam/__${exam.id}__/__${collegian.id}__}">
-                <button class="btn-primary rounded" type="submit">شرکت در آزمون</button>
-            </form>
-        </td>
-        <td th:if="${not exam.active}">
-            <button class="btn-outline-primary rounded" type="submit" disabled>شرکت در آزمون</button>
-        </td>
+            <!--if the collegian has been participated in this exam-->
+            <td th:each="exm : ${collegian.participatedExams}">
 
+                <form th:if="${#strings.equals(exm.id, exam.id)}"
+                      th:action="@{/collegian/exam-result/__${exam.id}__/__${collegian.id}__}">
+                    <button class="btn-primary rounded" type="submit">مشاهده‌ی نتیجه‌ی آزمون</button>
+                </form>
+            </td>
 
-    </tr>
-    </tbody>
-</table>
+            <!--if the exam is active-->
+            <td th:if="${exam.active}">
+                <form th:action="@{/collegian/participate-exam/__${exam.id}__/__${collegian.id}__}">
+                    <button class="btn-primary rounded" type="submit">شرکت در آزمون</button>
+                </form>
+            </td>
+
+            <!--if the exam is not active-->
+            <td th:if="${not exam.active}">
+                <button class="btn-outline-primary rounded" type="submit" disabled>شرکت در آزمون</button>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 <script src="../static/bootstrap/js/jquery-3.4.1.slim.min.js"

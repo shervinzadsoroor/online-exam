@@ -20,11 +20,12 @@
             <input type="hidden" th:field="*{instructor}"/><br>
             <input type="hidden" th:field="*{course}"/><br>
             عنوان*: <br><input type="text" th:field="*{title}" required/><br><br>
-            زمان برگزاری*: <br><input type="date" th:field="*{heldDate}"/><br><br>
+            زمان برگزاری*: <br><input type="date" th:field="*{heldDate}" required/><br><br>
 <!--            سقف نمره*: <br><input type="text" th:field="*{score}"/><br><br>-->
-            مدت زمان*: <br><input type="text" th:field="*{duration}" required/><br><br>
-            چند‌گزینه‌ای*: <input type="checkbox" th:field="*{multipleChoice}"/><br><br>
-            فعال*: <input type="checkbox" th:field="*{active}"/><br><br>
+            مدت زمان*: <br><input type="number" min="1" max="360"
+                                  th:field="*{duration}" required/><br><br>
+<!--            چند‌گزینه‌ای*: <input type="checkbox" th:field="*{multipleChoice}"/><br><br>-->
+            فعال: <input type="checkbox" th:field="*{active}"/><br><br>
             <div style="display: flex; justify-content: center"><input style="width: 50%" type="submit" value="افزودن"/>
             </div>
 

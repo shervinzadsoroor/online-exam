@@ -1,0 +1,69 @@
+<html dir="rtl" lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پاسخنامه‌ی دانشجو</title>
+</head>
+<body style="margin: 30px">
+<div style="display: flex; justify-content: center; margin-top: 30px"><h2>پاسخنامه</h2></div>
+
+<!--<div style="display: flex; justify-content: flex-start">-->
+<!--    <form th:action="@{/collegian/dashboard}">-->
+<!--        <input type="submit" value="داشبورد"/>-->
+<!--    </form>-->
+<!--</div>-->
+<div style="display: flex; justify-content: center; width: 90%">
+    <table class="table table-info border-bottom table-hover"
+           style="width: 100%; border-radius: 10px">
+        <thead>
+        <tr>
+            <th>صورت سوال</th>
+            <th>نوع سوال</th>
+            <th>پاسخ(گزینه/شرح)</th>
+            <th>بارم سوال</th>
+            <th>نمره‌ی کسب شده</th>
+            <th>تصحیح شده</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="answer, stat : ${answers}">
+
+            <td style="width: 400px"><span th:text="${answer.examQuestionsScore.question.content}"></span></td>
+
+            <td><span th:if="${answer.examQuestionsScore.question.multipleChoice}">چند‌گزینه‌ای</span>
+                <span th:if="${not answer.examQuestionsScore.question.multipleChoice}">تشریحی</span></td>
+            <!--            <td><span th:text="${answer.id}"></span></td>-->
+
+            <td><span th:text="${answer.content}"></span></td>
+
+            <td><span th:text="${answer.examQuestionsScore.score}"></span></td>
+
+            <!--                <input th:if="${answer.examQuestionsScore.question.multipleChoice}"-->
+            <!--                       type="hidden" th:field="*{answers[__${stat.index}__].grade}"/>-->
+            <td><span th:text="${answer.grade}"></span></td>
+
+
+            <td><span th:if="${answer.corrected}"><h5 style="font: icon">&#9989;</h5></span>
+                <span th:if="${not answer.corrected}">---</span></td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div style="width: 200px; height: 40px; background-color: #7abaff;
+ display: flex; justify-content: space-around; border-radius: 5px; align-items: center">
+    <div><b>نمره‌ی آزمون:</b></div>
+    <div><b><label th:text="${totalScore}"></label></b></div>
+</div>
+
+<script src="../static/bootstrap/js/jquery-3.4.1.slim.min.js"
+        crossorigin="anonymous"></script>
+<script src="../static/bootstrap/js/popper.min.js"
+        crossorigin="anonymous"></script>
+<script src="../static/bootstrap/js/bootstrap.min.js"
+        crossorigin="anonymous"></script>
+</body>
+</html>

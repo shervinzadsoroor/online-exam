@@ -91,9 +91,12 @@ public class CollegianController {
         request.getSession().setAttribute("isTheFirstTime", true);
         request.getSession().setAttribute("answers", new ArrayList<>());
 
+
         model.addAttribute("exams", examService.findAllExamsByCourseId(courseId));
         model.addAttribute("course", courseService.findById(courseId));
         model.addAttribute("collegian", collegianService.findById(collegianId));
+
+        model.addAttribute("isTrue", false);
 
         return "allExamsForCollegian";
     }
@@ -208,9 +211,28 @@ public class CollegianController {
         exam.setParticipatedCollegians(collegians);
         examService.saveExam(exam);
 
+        // assign score to optional questions automatically
         examService.calculateExamResult(answers);
 
         return "answersRegistered";
+    }
+
+    @GetMapping("/exam-result/{examId}/{collegianId}")
+    public String showExamResultToCollegian(@PathVariable("examId") Long examId,
+                                            @PathVariable("collegianId") Long collegianId,
+                                            Model model) {
+
+        Collegian collegian = collegianService.findById(collegianId);
+        Exam exam = examService.findById(examId);
+        double sum = 0;
+        List<Answer> answers = answerService.findAllAnswersByCollegianIdAndExamId(collegianId, examId);
+        for (Answer answer : answers) {
+            sum += answer.getGrade();
+        }
+        model.addAttribute("totalScore", sum);
+        model.addAttribute("answers", answers);
+
+        return "examResultForCollegian";
     }
 //    @RequestMapping(value = "/time")
 //    @ResponseBody

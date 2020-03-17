@@ -10,7 +10,7 @@
 داشبورد دانشجو
 <div style="display: flex; justify-content: center"><h3>لیست دوره‌های شما</h3></div>
 <div style="display: flex; justify-content: center">
-    <table class="table table-info border-bottom table-hover" style="width: 70%; border-radius: 10px">
+    <table class="table  border-bottom table-hover" style="width: 70%; border-radius: 10px; background: #17a2b8">
         <thead>
         <tr>
             <th>شناسه</th>
@@ -37,7 +37,7 @@
 
             <td th:if="${course.active}">
                 <form th:action="@{/collegian/course-exam-list/__${course.id}__/__${collegian.id}__}">
-                    <button class="btn-primary rounded" type="submit">آزمون‌ها</button>
+                    <button class="btn-outline-primary rounded" style="color:#0f6674" type="submit">آزمون‌ها</button>
                 </form>
             </td>
 

@@ -1,6 +1,7 @@
 package com.shervin.maktabfinalproject.crudrepositories.examrepository;
 
 import com.shervin.maktabfinalproject.crudrepositories.answerrepository.AnswerService;
+import com.shervin.maktabfinalproject.crudrepositories.collegianrepository.CollegianService;
 import com.shervin.maktabfinalproject.crudrepositories.courserepository.CourseService;
 import com.shervin.maktabfinalproject.crudrepositories.examquestionsscorerepository.ExamQuestionsScoreService;
 import com.shervin.maktabfinalproject.models.*;
@@ -25,6 +26,8 @@ public class ExamController {
     private ExamQuestionsScoreService examQuestionsScoreService;
     @Autowired
     private AnswerService answerService;
+    @Autowired
+    private CollegianService collegianService;
 
     //showing the list of exams to instructor
     @GetMapping("/list/{id}")
@@ -109,8 +112,6 @@ public class ExamController {
     public String showQuestionsOfExamToAssignScore(@PathVariable("id") Long examId, Model model) {
 
         Exam exam = examService.findById(examId);
-//        List<ExamQuestionsScore> list = exam.getExamQuestionsScores();
-//        model.addAttribute("examQuestionScores", list);
         model.addAttribute("exam", exam);
 
         return "allQuestionsToAssignScore";
@@ -124,13 +125,8 @@ public class ExamController {
             examQuestionsScoreService.save(eqs);
             sum += eqs.getScore();
         }
-        System.out.println("sum = " + sum);
-        System.out.println("exam = " + exam.toString());
         exam.setScore(sum);
         Exam persistedExam = examService.saveExam(exam);
-////        List<ExamQuestionsScore> list = exam.getExamQuestionsScores();
-////        model.addAttribute("examQuestionScores", list);
-//        model.addAttribute("exam", exam);
 
         //we set the exam attribute again because the exam have been changed
         request.getSession().setAttribute("exam", persistedExam);
@@ -154,11 +150,23 @@ public class ExamController {
     public String showAnswersOfParticipants(@PathVariable("collegianId") Long collegianId,
                                             @PathVariable("examId") Long examId,
                                             Model model) {
+//        Collegian collegian = collegianService.findById(collegianId);
         List<Answer> answers = answerService.findAllAnswersByCollegianIdAndExamId(collegianId, examId);
-        for (Answer answer : answers) {
-            System.out.println(answer.toString());
-        }
+        Collegian collegian = new Collegian(null, null, null, answers);
+        model.addAttribute("collegian", collegian);
+        return "collegianExam";
+    }
 
-        return null;
+    @PostMapping("/participant-scores-register")
+    public String registerScoresOfParticipants(@ModelAttribute Collegian collegian,
+                                               Model model) {
+        Long examId = collegian.getAnswers().get(0).getExamQuestionsScore().getExam().getId();
+        for (Answer answer : collegian.getAnswers()) {
+            if (!answer.getExamQuestionsScore().getQuestion().isMultipleChoice()) {
+                answer.setCorrected(true);
+                answerService.saveAnswer(answer);
+            }
+        }
+        return "redirect:/exam/participant-list/" + examId;
     }
 }

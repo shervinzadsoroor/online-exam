@@ -50,9 +50,9 @@ public class ExamService {
                 //if the answer is true it gives total score to the answer
                 if (optionalQuestion.getAnswerKey().equals(answer.getContent())) {
                     answer.setGrade(answer.getExamQuestionsScore().getScore());
-                    answer.setCorrected(true);
-                    answerService.saveAnswer(answer);
                 }
+                answer.setCorrected(true);
+                answerService.saveAnswer(answer);
             }
         }
     }

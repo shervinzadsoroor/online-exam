@@ -54,7 +54,7 @@
             <td><span th:if="${eqs.question.multipleChoice}">چندگزینه‌ای</span>
                 <span th:if="${not eqs.question.multipleChoice}">تشریحی</span></td>
 
-            <td><input style="width: 50px" type="text" th:field="*{examQuestionsScores[__${itemStat.index}__].score}"/>
+            <td><input style="width: 50px" type="number" min="1" max="10" th:field="*{examQuestionsScores[__${itemStat.index}__].score}" required/>
             </td>
 
         </tr>
