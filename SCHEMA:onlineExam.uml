@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>0bca1e6d-411c-4e0f-b97d-d87ee80bde67.SCHEMA:onlineExam</OriginalElement>
+  <nodes>
+    <node x="723.5" y="1050.5">0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.course_collegian</node>
+    <node x="796.75" y="0.0">0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.privilege</node>
+    <node x="733.5" y="203.5">0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.role_privilege</node>
+    <node x="284.0" y="1277.0">0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.exam_questions_score</node>
+    <node x="0.0" y="1301.5">0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.exams_participated_collegians</node>
+    <node x="176.0" y="966.0">0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.exam</node>
+    <node x="561.0" y="0.0">0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.role</node>
+    <node x="485.5" y="131.0">0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.account</node>
+    <node x="496.0" y="1265.0">0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.question_option</node>
+    <node x="494.0" y="406.0">0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.person</node>
+    <node x="447.25" y="715.0">0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.course</node>
+    <node x="495.5" y="978.0">0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.question</node>
+    <node x="535.4007936507937" y="1468.0">0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.answer</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.person" target="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.account">
+      <point x="0.0" y="-124.5" />
+      <point x="0.0" y="112.5" />
+    </edge>
+    <edge source="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.exam" target="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.course">
+      <point x="52.0" y="-124.5" />
+      <point x="332.0" y="946.0" />
+      <point x="479.91666666666663" y="946.0" />
+      <point x="-65.33333333333337" y="100.5" />
+    </edge>
+    <edge source="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.question_option" target="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.question">
+      <point x="0.0" y="-76.5" />
+      <point x="52.0" y="112.5" />
+    </edge>
+    <edge source="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.exam_questions_score" target="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.question">
+      <point x="48.0" y="-64.5" />
+      <point x="428.0" y="1240.0" />
+      <point x="547.5" y="1240.0" />
+      <point x="-52.0" y="112.5" />
+    </edge>
+    <edge source="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.exams_participated_collegians" target="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.person">
+      <point x="-66.0" y="-40.0" />
+      <point x="66.0" y="675.0" />
+      <point x="511.58333333333337" y="675.0" />
+      <point x="-87.91666666666663" y="124.5" />
+    </edge>
+    <edge source="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.course" target="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.person">
+      <point x="0.0" y="-100.5" />
+      <point x="545.25" y="695.0" />
+      <point x="581.9166666666666" y="695.0" />
+      <point x="-17.58333333333337" y="124.5" />
+    </edge>
+    <edge source="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.exam" target="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.person">
+      <point x="-52.0" y="-124.5" />
+      <point x="228.0" y="946.0" />
+      <point x="236.36904761904765" y="946.0" />
+      <point x="236.36904761904765" y="685.0" />
+      <point x="546.75" y="685.0" />
+      <point x="-52.75" y="124.5" />
+    </edge>
+    <edge source="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.question" target="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.course">
+      <point x="-52.0" y="-112.5" />
+      <point x="547.5" y="946.0" />
+      <point x="545.25" y="946.0" />
+      <point x="0.0" y="100.5" />
+    </edge>
+    <edge source="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.question" target="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.person">
+      <point x="52.0" y="-112.5" />
+      <point x="651.5" y="946.0" />
+      <point x="653.75" y="946.0" />
+      <point x="653.75" y="695.0" />
+      <point x="617.0833333333334" y="695.0" />
+      <point x="17.58333333333337" y="124.5" />
+    </edge>
+    <edge source="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.answer" target="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.exam_questions_score">
+      <point x="-71.75" y="-88.5" />
+      <point x="607.1507936507937" y="1443.0" />
+      <point x="380.0" y="1443.0" />
+      <point x="0.0" y="64.5" />
+    </edge>
+    <edge source="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.role_privilege" target="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.role">
+      <point x="-46.75" y="-40.0" />
+      <point x="780.25" y="106.0" />
+      <point x="676.5" y="106.0" />
+      <point x="38.5" y="40.5" />
+    </edge>
+    <edge source="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.answer" target="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.person">
+      <point x="71.75" y="-88.5" />
+      <point x="750.6507936507937" y="1443.0" />
+      <point x="924.0" y="1443.0" />
+      <point x="924.0" y="675.0" />
+      <point x="687.4166666666666" y="675.0" />
+      <point x="87.91666666666663" y="124.5" />
+    </edge>
+    <edge source="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.exam_questions_score" target="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.exam">
+      <point x="-48.0" y="-64.5" />
+      <point x="52.0" y="124.5" />
+    </edge>
+    <edge source="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.account" target="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.role">
+      <point x="0.0" y="-112.5" />
+      <point x="-38.5" y="40.5" />
+    </edge>
+    <edge source="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.exams_participated_collegians" target="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.exam">
+      <point x="66.0" y="-40.0" />
+      <point x="198.0" y="1240.0" />
+      <point x="228.0" y="1240.0" />
+      <point x="-52.0" y="124.5" />
+    </edge>
+    <edge source="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.role_privilege" target="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.privilege">
+      <point x="46.75" y="-40.0" />
+      <point x="0.0" y="40.5" />
+    </edge>
+    <edge source="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.course_collegian" target="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.course">
+      <point x="-47.5" y="-40.0" />
+      <point x="771.0" y="936.0" />
+      <point x="610.5833333333333" y="936.0" />
+      <point x="65.33333333333326" y="100.5" />
+    </edge>
+    <edge source="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.course_collegian" target="0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.person">
+      <point x="47.50000000000003" y="-40.0" />
+      <point x="866.0" y="685.0" />
+      <point x="652.25" y="685.0" />
+      <point x="52.75" y="124.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.3387387387387387" x="483.0" y="822.5" />
+  <SelectedNodes>
+    <node>0bca1e6d-411c-4e0f-b97d-d87ee80bde67.TABLE:onlineExam.answer</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Key columns</Category>
+    <Category>Columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+
