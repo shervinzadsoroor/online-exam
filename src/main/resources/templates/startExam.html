@@ -52,7 +52,7 @@
             </div>
 
             <div th:if="${not #strings.equals(session.order, session.numOfQuestions)}">
-                <input type="submit" formaction="/collegian/answer-next" value="سوال بعد"/>
+                <input type="submit" formaction="/collegian/answer/next" value="سوال بعد"/>
             </div>
             <!----------------------------------------------------------------------------------------->
 
@@ -61,7 +61,7 @@
             </div>
 
             <div th:if="${not #strings.equals(session.order, 1)}">
-                <input type="submit" formaction="/collegian/answer-previous" value="سوال قبل"/>
+                <input type="submit" formaction="/collegian/answer/previous" value="سوال قبل"/>
             </div>
             <!----------------------------------------------------------------------------------------->
 

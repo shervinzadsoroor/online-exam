@@ -151,10 +151,12 @@ public class CollegianController {
         return "startExam";
     }
 
-    @GetMapping("/answer-next")
-    public String saveAnswerAndGoToNextQuestion(@ModelAttribute Answer answer,
-                                                Model model,
-                                                HttpServletRequest request) {
+
+    @GetMapping("/answer/{step}")
+    public String saveAnswerAndGoToPreviousOrNextQuestion(@PathVariable("step") String step,
+                                                          @ModelAttribute Answer answer,
+                                                          Model model,
+                                                          HttpServletRequest request) {
         List<Answer> answers = (List<Answer>) request.getSession().getAttribute("answers");
 
         int order = (int) request.getSession().getAttribute("order");
@@ -166,29 +168,11 @@ public class CollegianController {
 
         Exam exam = answer.getExamQuestionsScore().getExam();
         Collegian collegian = answer.getCollegian();
-        order++;
-        request.getSession().setAttribute("order", order);
-//        model.addAttribute("persistedAnswer", persistedAnswer);
-        String redirect = "redirect:/collegian/participate-exam/" + exam.getId() + "/" + collegian.getId();
-        return redirect;
-    }
-
-    @GetMapping("/answer-previous")
-    public String saveAnswerAndGoToPreviousQuestion(@ModelAttribute Answer answer,
-                                                    Model model,
-                                                    HttpServletRequest request) {
-        List<Answer> answers = (List<Answer>) request.getSession().getAttribute("answers");
-
-        int order = (int) request.getSession().getAttribute("order");
-        Answer persistedAnswer = answerService.saveAnswer(answer);
-
-        //replace the new answer with the previous one
-        answers.set((order - 1), persistedAnswer);
-        request.getSession().setAttribute("answers", answers);
-
-        Exam exam = answer.getExamQuestionsScore().getExam();
-        Collegian collegian = answer.getCollegian();
-        order--;
+        if (step.equals("next")) {
+            order++;
+        } else if (step.equals("previous")) {
+            order--;
+        }
         request.getSession().setAttribute("order", order);
         String redirect = "redirect:/collegian/participate-exam/" + exam.getId() + "/" + collegian.getId();
         return redirect;
