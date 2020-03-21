@@ -46,9 +46,16 @@
             <td th:if="${not exam.active}">غیرفعال</td>
 
             <!--if the collegian has been participated in this exam-->
-            <td th:if="${exam.beenParticipated}">
+            <td th:if="${exam.beenParticipated and not exam.running}">
                 <form th:action="@{/collegian/exam-result/__${exam.id}__/__${collegian.id}__}">
                     <button class="btn-primary rounded" type="submit">مشاهده‌ی نتیجه‌ی آزمون</button>
+                </form>
+            </td>
+
+            <!--if the collegian has been participated in this exam and the time is remaining-->
+            <td th:if="${exam.beenParticipated and exam.running}">
+                <form th:action="@{/collegian/participate-exam/__${exam.id}__/__${collegian.id}__}">
+                    <button class="btn-primary rounded" type="submit">ادامه‌ی آزمون</button>
                 </form>
             </td>
 

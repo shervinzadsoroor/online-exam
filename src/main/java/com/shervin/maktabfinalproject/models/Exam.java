@@ -27,6 +27,7 @@ public class Exam implements Serializable {
 
     //useful for checking each exam if is been participated by collegian
     private transient boolean isBeenParticipated;
+    private transient boolean isRunning;
 
     @ManyToOne
     private Course course;

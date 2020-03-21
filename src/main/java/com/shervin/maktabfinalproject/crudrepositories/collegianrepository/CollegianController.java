@@ -6,25 +6,13 @@ import com.shervin.maktabfinalproject.crudrepositories.courserepository.CourseSe
 import com.shervin.maktabfinalproject.crudrepositories.examrepository.ExamService;
 import com.shervin.maktabfinalproject.crudrepositories.optionrepository.OptionService;
 import com.shervin.maktabfinalproject.models.*;
-import com.sun.net.httpserver.HttpContext;
-import org.apache.catalina.session.StandardSession;
-import org.apache.el.stream.Stream;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionContext;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
 import java.util.*;
 
 @RequestMapping("/collegian")
@@ -44,6 +32,7 @@ public class CollegianController {
     private OptionService optionService;
 
     //the timer thread use this property to access the answer object
+    private int remainingTimeInSeconds;
     private Answer ANSWER;
 
     @GetMapping("/dashboard")
@@ -99,6 +88,7 @@ public class CollegianController {
         request.getSession().setAttribute("order", 1);
         request.getSession().setAttribute("isTheFirstTime", true);
         request.getSession().setAttribute("answers", new ArrayList<>());
+        request.getSession().setAttribute("remainingTime", remainingTimeInSeconds);
 
 
         List<Exam> examList = examService.findAllExamsByCourseId(courseId);
@@ -107,6 +97,7 @@ public class CollegianController {
         model.addAttribute("course", courseService.findById(courseId));
         model.addAttribute("collegian", collegian);
 
+        //if the exam is been participated by collegian, the boolean isBeenParticipated will set to true
         for (Exam exam : examList) {
             for (Exam participatedExam : collegian.getParticipatedExams()) {
                 //we use equals instead of '==' because the type of id is wrapper, not primitive (Long)
@@ -114,9 +105,17 @@ public class CollegianController {
                     exam.setBeenParticipated(true);
                 }
             }
+            List<Answer> answer_list = answerService
+                    .findAllAnswersByCollegianIdAndExamId(collegianId, exam.getId());
+            if (!answer_list.isEmpty()) {
+                if (!answer_list.get(0).isTimeout()) {
+                    exam.setRunning(true);
+                    request.getSession().setAttribute("isTheFirstTime", false);
+                    request.getSession().setAttribute("answers", answer_list);
+                }
+            }
         }
         model.addAttribute("exams", examList);
-
 
         return "allExamsForCollegian";
     }
@@ -148,37 +147,37 @@ public class CollegianController {
             }
             request.getSession().setAttribute("isTheFirstTime", false);
             request.getSession().setAttribute("answers", answers);
-        }
-        //--------------------------------------------------------------------
 
-        //starts a countdown timer in a parallel thread
-        final Timer timer = new Timer();
-        //the 'run' method use this list for changing the value of 'isTimeout' attribute using native query
-        List<Long> answerId_list = new ArrayList<>();
+            setParticipatedCollegiansOfExam(exam, collegian);
 
-        for (Answer answer : answers) {
-            answerId_list.add(answer.getId());
-        }
-        String username = (String) request.getSession().getAttribute("username");
+            //--------------------------------------------------------------------
 
-        timer.scheduleAtFixedRate(new TimerTask() {
-            int remainingTime = (int) exam.getDuration() * 60; //converting minute to seconds
+            //starts a countdown timer in a parallel thread
+            final Timer timer = new Timer();
+            //the 'run' method use this list for changing the value of 'isTimeout' attribute using native query
+            List<Long> answerId_list = new ArrayList<>();
 
-            List<Long> answersId = answerId_list;
-            String user_name = username;
-
-            public void run() {
-                remainingTime--;
-                if (remainingTime < 0) {
-                    timer.cancel();
-                    answerService.setIsTimeoutToTrueValue(answersId);
-                    Answer answer = answerService.findById(answersId.get(0));
-                    Collegian collegian = collegianService.findCollegianByAccountUsername(user_name);
-
-                    setParticipatedExamsOfCollegian(answer, collegian);
-                }
+            for (Answer answer : answers) {
+                answerId_list.add(answer.getId());
             }
-        }, 0, 1000);
+
+            timer.scheduleAtFixedRate(new TimerTask() {
+
+                int remainingTime = (int) exam.getDuration() * 60; //converting minute to seconds
+                List<Long> answerIds = answerId_list;
+
+                public void run() {
+                    remainingTime--;
+                    //updating the remainingTimeInSeconds every second
+                    remainingTimeInSeconds = remainingTime;
+                    if (remainingTime < 0) {
+                        timer.cancel();
+                        answerService.setIsTimeoutToTrueValue(answerIds);
+                        examService.calculateExamResult(answers);
+                    }
+                }
+            }, 0, 1000);
+        }
         //---------------------------------------------------------------------------
 
         Answer answer = answerService.findById(answers.get(order - 1).getId());
@@ -191,6 +190,7 @@ public class CollegianController {
             model.addAttribute("options", options);
         }
 
+        request.getSession().setAttribute("remainingTime", remainingTimeInSeconds);
         model.addAttribute("answer", answer);
 
         return "startExam";
@@ -240,26 +240,26 @@ public class CollegianController {
 
         List<Answer> answers = (List<Answer>) request.getSession().getAttribute("answers");
         answers.set((order - 1), persistedAnswer);
-        request.getSession().setAttribute("answers", answers);
 
+        //set isTimeout of all answers to true------------------
         String username = (String) request.getSession().getAttribute("username");
         Collegian collegian = collegianService.findCollegianByAccountUsername(username);
-        //add the collegian to the list of participated collegians of the exam
-        setParticipatedExamsOfCollegian(persistedAnswer, collegian);
 
         // assign score to optional questions automatically
         examService.calculateExamResult(answers);
-
+        List<Long> answerIds = new ArrayList<>();
+        for (Answer a : answers) {
+            answerIds.add(a.getId());
+        }
+        System.out.println("answerIds = " + answerIds);
+        answerService.setIsTimeoutToTrueValue(answerIds);
+        //------------------------------------------------------
 
         return "answersRegistered";
     }
 
-    public void setParticipatedExamsOfCollegian(Answer answer, Collegian collegian) {
-        Exam exam = answer.getExamQuestionsScore().getExam();
+    public void setParticipatedCollegiansOfExam(Exam exam, Collegian collegian) {
         List<Collegian> collegians = exam.getParticipatedCollegians();
-
-        System.out.println("collegian.toString() = " + collegian.toString());
-
         collegians.add(collegian);
         exam.setParticipatedCollegians(collegians);
         examService.saveExam(exam);
@@ -282,18 +282,5 @@ public class CollegianController {
 
         return "examResultForCollegian";
     }
-
-
-//    @RequestMapping(value = "/time")
-//    @ResponseBody
-//    public Integer timer(HttpServletRequest request) {
-//        return getRemainingTime(request);
-//    }
-
-//    private int getRemainingTime(HttpServletRequest request) {
-//        final long start = (long) request.getSession().getAttribute("examStarted");
-//        final int remaining = (int) ((examTimeMins * 60) - ((Calendar.getInstance().getTimeInMillis() - start) / 1000));
-//        return remaining;
-//    }
 
 }
