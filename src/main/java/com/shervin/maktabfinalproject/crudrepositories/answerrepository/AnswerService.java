@@ -31,4 +31,10 @@ public class AnswerService {
     public List<Answer> findAllAnswersByCollegianIdAndExamId(Long collegianId, Long examId) {
         return answerRepository.findAllByCollegian_IdAndExamQuestionsScore_Exam_id(collegianId, examId);
     }
+
+    public void setIsTimeoutToTrueValue(List<Long> answerIds){
+        for (Long id : answerIds) {
+            answerRepository.setIsTimeoutToTrue(true, id);
+        }
+    }
 }

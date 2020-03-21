@@ -24,6 +24,8 @@ public class Answer {
 
     private boolean isCorrected;
 
+    private boolean isTimeout;
+
     @ManyToOne
     private Collegian collegian;
 

@@ -6,12 +6,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>شروع آزمون</title>
+
 </head>
 <body style="display: flex; justify-content: center; padding-top: 50px">
 
-
-
-<div style="display: flex; justify-content: center; align-items: center;
+<div th:if="${not answer.timeout}" style="display: flex; justify-content: center; align-items: center;
                         width: 80%; height: 500px; background-color: lightblue">
     <form action="#" th:object="${answer}" style="width: 90%; height: 90%">
         <h3>متن سوال</h3>
@@ -40,10 +39,11 @@
         <input type="hidden" th:field="*{corrected}"/>
         <input type="hidden" th:field="*{collegian}"/>
         <input type="hidden" th:field="*{grade}"/>
+        <input type="hidden" th:field="*{timeout}"/>
 
-<!--        <div th:text="${session.order}"></div>-->
+        <!--        <div th:text="${session.order}"></div>-->
 
-<!--        <div th:text="${session.numOfQuestions}"></div>-->
+        <!--        <div th:text="${session.numOfQuestions}"></div>-->
 
         <div style="display:flex; justify-content: center">
             <!----------------------------------------------------------------------------------------->
@@ -66,84 +66,20 @@
             <!----------------------------------------------------------------------------------------->
 
         </div>
-        <input id="sb" class="btn-warning img-rounded" type="submit" formaction="/collegian/answer-submit" value="ثبت جواب"/>
+        <input id="sb" class="btn-warning img-rounded" type="submit" formaction="/collegian/answer-submit"
+               value="ثبت جواب"/>
 
         <!--    <input id="tm" type="hidden" th:value="${answer.examQuestionsScore.exam.duration}"/>-->
-        <div style="width: 100%">زمان باقیمانده:<p  id="demo"></p></div>
+        <div style="width: 100%">زمان باقیمانده:<p id="demo"></p></div>
     </form>
 </div>
-
+<div th:if="${answer.timeout}">
+    <h3>زمان آزمون به پایان رسیده است</h3>
+</div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
-<script>
-    var paginationHandler = function () {
-        // store pagination container so we only select it once
-        var $paginationContainer = $(".pagination-container"),
-            $pagination = $paginationContainer.find('.pagination ul');
-        // click event
-        $pagination.find("li a").on('click.pageChange', function (e) {
-            e.preventDefault();
-            // get parent li's data-page attribute and current page
-            var parentLiPage = $(this).parent('li').data("page"),
-                currentPage = parseInt($(".pagination-container div[data-page]:visible").data('page')),
-                numPages = $paginationContainer.find("div[data-page]").length;
-            // make sure they aren't clicking the current page
-            if (parseInt(parentLiPage) !== parseInt(currentPage)) {
-                // hide the current page
-                $paginationContainer.find("div[data-page]:visible").hide();
-                if (parentLiPage === '+') {
-                    // next page
-                    $paginationContainer.find("div[data-page=" + (currentPage + 1 > numPages ? numPages : currentPage + 1) + "]").show();
-                } else if (parentLiPage === '-') {
-                    // previous page
-                    $paginationContainer.find("div[data-page=" + (currentPage - 1 < 1 ? 1 : currentPage - 1) + "]").show();
-                } else {
-                    // specific page
-                    $paginationContainer.find("div[data-page=" + parseInt(parentLiPage) + "]").show();
-                }
-            }
-        });
-    };
-    $(document).ready(paginationHandler);
-</script>
-
-<script>
-    // Set the date we're counting down to
-    let date = new Date();
-    let minute = date.setMinutes(date.getMinutes() + 1);
-    var countDownDate = minute;
-
-    // Update the count down every 1 second
-    var x = setInterval(function () {
-
-        // Get today's date and time
-        var now = new Date().getTime();
-
-        // Find the distance between now and the count down date
-        var distance = countDownDate - now;
-
-        // Time calculations for days, hours, minutes and seconds
-
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        // Output the result in an element with id="demo"
-        document.getElementById("demo").innerHTML = minutes + "m " + seconds + "s ";
-
-        if (distance < 0) {
-            $('#sb').click();
-        }
-        // If the count down is over, write some text
-        // if (distance < 0) {
-        //     clearInterval(x);
-        //     document.getElementById("demo").innerHTML = "EXPIRED";
-        // }
-    }, 1000);
-
-</script>
-
-<script>
+<script type="text/javascript">
     // Set the date we're counting down to
     function startTimer(duration, display) {
         var timer = duration, minutes, seconds;
@@ -173,12 +109,13 @@
         if (parseInt(min * sec)) {
             var fiveMinutes = (parseInt(min * 60) + sec);
         } else {
-            var fiveMinutes = 60;
+            var fiveMinutes = 5 * 60;
         }
         // var fiveMinutes = 60 * 5;
         display = document.querySelector('#demo');
         startTimer(fiveMinutes, display);
     };
 </script>
+
 </body>
 </html>

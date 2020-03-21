@@ -1,10 +1,13 @@
 package com.shervin.maktabfinalproject.models;
 
 import lombok.*;
+import org.hibernate.validator.constraints.pl.NIP;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -14,8 +17,9 @@ public class Account implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Size(min = 3)
     private String username;
+    @Size(min = 4)
     private String password;
     private boolean isActive;
     private Date lastLoginDate;

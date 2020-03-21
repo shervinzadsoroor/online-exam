@@ -25,11 +25,14 @@ public class Exam implements Serializable {
     private boolean isMultipleChoice;
     private boolean isActive;
 
+    //useful for checking each exam if is been participated by collegian
+    private transient boolean isBeenParticipated;
+
     @ManyToOne
     private Course course;
 
     @ManyToMany
-    @JoinTable(name = "exams_participatedCollegians",
+    @JoinTable(name = "exams_participated_collegians",
             joinColumns = {@JoinColumn(name = "exam_id", nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "collegian_id", nullable = false)})
     private List<Collegian> participatedCollegians = new ArrayList<>();

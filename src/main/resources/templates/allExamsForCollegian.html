@@ -46,18 +46,16 @@
             <td th:if="${not exam.active}">غیرفعال</td>
 
             <!--if the collegian has been participated in this exam-->
-            <td th:each="exm : ${collegian.participatedExams}">
-
-                <form th:if="${#strings.equals(exm.id, exam.id)}"
-                      th:action="@{/collegian/exam-result/__${exam.id}__/__${collegian.id}__}">
+            <td th:if="${exam.beenParticipated}">
+                <form th:action="@{/collegian/exam-result/__${exam.id}__/__${collegian.id}__}">
                     <button class="btn-primary rounded" type="submit">مشاهده‌ی نتیجه‌ی آزمون</button>
                 </form>
             </td>
 
             <!--if the exam is active-->
-            <td th:if="${exam.active}">
+            <td th:if="${exam.active and not exam.beenParticipated}">
                 <form th:action="@{/collegian/participate-exam/__${exam.id}__/__${collegian.id}__}">
-                    <button class="btn-primary rounded" type="submit">شرکت در آزمون</button>
+                    <button id="participate" class="btn-primary rounded" type="submit">شرکت در آزمون</button>
                 </form>
             </td>
 
@@ -77,5 +75,6 @@
         crossorigin="anonymous"></script>
 <script src="../static/bootstrap/js/bootstrap.min.js"
         crossorigin="anonymous"></script>
+
 </body>
 </html>

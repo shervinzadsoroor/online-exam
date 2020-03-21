@@ -22,6 +22,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
         String userName = authentication.getName();
+        httpServletRequest.getSession().setAttribute("username", userName);
         if (roles.contains("ROLE_MANAGER")) {
             httpServletResponse.sendRedirect("/manager/dashboard/" + userName);
         } else if (roles.contains("ROLE_INSTRUCTOR")) {

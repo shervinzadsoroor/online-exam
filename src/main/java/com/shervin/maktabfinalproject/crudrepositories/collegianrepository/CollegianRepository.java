@@ -9,4 +9,5 @@ import java.util.List;
 
 @Repository
 public interface CollegianRepository extends JpaRepository<Collegian, Long> {
+    Collegian findByAccount_Username(String username);
 }

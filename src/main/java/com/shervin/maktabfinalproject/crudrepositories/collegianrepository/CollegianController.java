@@ -6,24 +6,30 @@ import com.shervin.maktabfinalproject.crudrepositories.courserepository.CourseSe
 import com.shervin.maktabfinalproject.crudrepositories.examrepository.ExamService;
 import com.shervin.maktabfinalproject.crudrepositories.optionrepository.OptionService;
 import com.shervin.maktabfinalproject.models.*;
+import com.sun.net.httpserver.HttpContext;
+import org.apache.catalina.session.StandardSession;
+import org.apache.el.stream.Stream;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionContext;
+import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @RequestMapping("/collegian")
 @Controller
 public class CollegianController {
-    private static long examTimeMins = 1;
     @Autowired
     private CollegianService collegianService;
     @Autowired
@@ -36,6 +42,9 @@ public class CollegianController {
     private AnswerService answerService;
     @Autowired
     private OptionService optionService;
+
+    //the timer thread use this property to access the answer object
+    private Answer ANSWER;
 
     @GetMapping("/dashboard")
     public String CollegianDashboard() {
@@ -92,11 +101,22 @@ public class CollegianController {
         request.getSession().setAttribute("answers", new ArrayList<>());
 
 
-        model.addAttribute("exams", examService.findAllExamsByCourseId(courseId));
-        model.addAttribute("course", courseService.findById(courseId));
-        model.addAttribute("collegian", collegianService.findById(collegianId));
+        List<Exam> examList = examService.findAllExamsByCourseId(courseId);
+        Collegian collegian = collegianService.findById(collegianId);
 
-        model.addAttribute("isTrue", false);
+        model.addAttribute("course", courseService.findById(courseId));
+        model.addAttribute("collegian", collegian);
+
+        for (Exam exam : examList) {
+            for (Exam participatedExam : collegian.getParticipatedExams()) {
+                //we use equals instead of '==' because the type of id is wrapper, not primitive (Long)
+                if (exam.getId().equals(participatedExam.getId())) {
+                    exam.setBeenParticipated(true);
+                }
+            }
+        }
+        model.addAttribute("exams", examList);
+
 
         return "allExamsForCollegian";
     }
@@ -108,15 +128,13 @@ public class CollegianController {
                                   Model model) {
 
         List<Answer> answers = (List<Answer>) request.getSession().getAttribute("answers");
-
         Exam exam = examService.findById(examId);
         Collegian collegian = collegianService.findById(collegianId);
 
         int order = (int) request.getSession().getAttribute("order");
-
         boolean isTheFirstTime = (boolean) request.getSession().getAttribute("isTheFirstTime");
 
-        //application enters the 'if scope' only for the first time
+        //application enters the 'if scope' only for the first time ---------------------
         if (isTheFirstTime) {
 
             List<ExamQuestionsScore> eqsList = exam.getExamQuestionsScores();
@@ -124,15 +142,48 @@ public class CollegianController {
             request.getSession().setAttribute("numOfQuestions", numberOfQuestions);
 
             for (ExamQuestionsScore eqs : eqsList) {
-                Answer answer = new Answer(null, null, 0, false, collegian, eqs);
+                Answer answer = new Answer(null, null, 0, false, false, collegian, eqs);
                 Answer persisted = answerService.saveAnswer(answer);
                 answers.add(persisted);
             }
             request.getSession().setAttribute("isTheFirstTime", false);
             request.getSession().setAttribute("answers", answers);
         }
+        //--------------------------------------------------------------------
 
-        Answer answer = answers.get(order - 1);
+        //starts a countdown timer in a parallel thread
+        final Timer timer = new Timer();
+        //the 'run' method use this list for changing the value of 'isTimeout' attribute using native query
+        List<Long> answerId_list = new ArrayList<>();
+
+        for (Answer answer : answers) {
+            answerId_list.add(answer.getId());
+        }
+        String username = (String) request.getSession().getAttribute("username");
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+            int remainingTime = (int) exam.getDuration() * 60; //converting minute to seconds
+
+            List<Long> answersId = answerId_list;
+            String user_name = username;
+
+            public void run() {
+                remainingTime--;
+                if (remainingTime < 0) {
+                    timer.cancel();
+                    answerService.setIsTimeoutToTrueValue(answersId);
+                    Answer answer = answerService.findById(answersId.get(0));
+                    Collegian collegian = collegianService.findCollegianByAccountUsername(user_name);
+
+                    setParticipatedExamsOfCollegian(answer, collegian);
+                }
+            }
+        }, 0, 1000);
+        //---------------------------------------------------------------------------
+
+        Answer answer = answerService.findById(answers.get(order - 1).getId());
+        //timer thread can access this 'ANSWER' object
+        ANSWER = answer;
 
         if (answer.getExamQuestionsScore().getQuestion().isMultipleChoice()) {
             List<QuestionOption> options = optionService
@@ -141,12 +192,6 @@ public class CollegianController {
         }
 
         model.addAttribute("answer", answer);
-//        Date date = Calendar.getInstance().getTime();
-//        Long finish = System.currentTimeMillis() + ((long)exam.getDuration()*60_000);
-//        request.getSession().setAttribute("examStarted", date.getTime());
-//        request.getSession().setAttribute("examStarted", protocol.getStart().getTime());
-//        final int remaining = getRemainingTime(request);
-//        model.addAttribute("examTime", remaining);
 
         return "startExam";
     }
@@ -159,8 +204,12 @@ public class CollegianController {
                                                           HttpServletRequest request) {
         List<Answer> answers = (List<Answer>) request.getSession().getAttribute("answers");
 
+        //we fetch answer again because one of its properties may be change in database by timer
+        Answer answer1 = answerService.findById(answer.getId());
+        answer1.setContent(answer.getContent());
+
         int order = (int) request.getSession().getAttribute("order");
-        Answer persistedAnswer = answerService.saveAnswer(answer);
+        Answer persistedAnswer = answerService.saveAnswer(answer1);
 
         //replace the new answer with the previous one
         answers.set((order - 1), persistedAnswer);
@@ -181,24 +230,39 @@ public class CollegianController {
     @GetMapping("/answer-submit")
     public String submitAnswers(@ModelAttribute Answer answer,
                                 HttpServletRequest request) {
+        //we fetch answer again because one of its properties may be change in database by timer
+        Answer answer1 = answerService.findById(answer.getId());
+        answer1.setContent(answer.getContent());
+
         int order = (int) request.getSession().getAttribute("order");
-        Exam exam = answer.getExamQuestionsScore().getExam();
-        Answer persistedAnswer = answerService.saveAnswer(answer);
+        Exam exam = answer1.getExamQuestionsScore().getExam();
+        Answer persistedAnswer = answerService.saveAnswer(answer1);
 
         List<Answer> answers = (List<Answer>) request.getSession().getAttribute("answers");
         answers.set((order - 1), persistedAnswer);
         request.getSession().setAttribute("answers", answers);
 
+        String username = (String) request.getSession().getAttribute("username");
+        Collegian collegian = collegianService.findCollegianByAccountUsername(username);
         //add the collegian to the list of participated collegians of the exam
-        List<Collegian> collegians = exam.getParticipatedCollegians();
-        collegians.add(answer.getCollegian());
-        exam.setParticipatedCollegians(collegians);
-        examService.saveExam(exam);
+        setParticipatedExamsOfCollegian(persistedAnswer, collegian);
 
         // assign score to optional questions automatically
         examService.calculateExamResult(answers);
 
+
         return "answersRegistered";
+    }
+
+    public void setParticipatedExamsOfCollegian(Answer answer, Collegian collegian) {
+        Exam exam = answer.getExamQuestionsScore().getExam();
+        List<Collegian> collegians = exam.getParticipatedCollegians();
+
+        System.out.println("collegian.toString() = " + collegian.toString());
+
+        collegians.add(collegian);
+        exam.setParticipatedCollegians(collegians);
+        examService.saveExam(exam);
     }
 
     @GetMapping("/exam-result/{examId}/{collegianId}")
@@ -218,6 +282,8 @@ public class CollegianController {
 
         return "examResultForCollegian";
     }
+
+
 //    @RequestMapping(value = "/time")
 //    @ResponseBody
 //    public Integer timer(HttpServletRequest request) {

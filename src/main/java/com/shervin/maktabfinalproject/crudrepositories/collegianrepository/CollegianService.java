@@ -22,4 +22,8 @@ public class CollegianService {
     public Collegian findById(Long id){
         return collegianRepository.findById(id).get();
     }
+
+    public Collegian findCollegianByAccountUsername(String username){
+       return collegianRepository.findByAccount_Username(username);
+    }
 }
