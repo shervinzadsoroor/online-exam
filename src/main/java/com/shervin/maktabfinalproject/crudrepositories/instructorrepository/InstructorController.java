@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RequestMapping("/instructor")
@@ -34,6 +35,8 @@ public class InstructorController {
         //else if status is waiting redirect to registrationWaitingDetails.html
         //and else if status is registered show the dashboard to the instructor
         Account account = accountService.findAccountByUsername(username);
+        account.setLastLoginDate(new Date());
+        account = accountService.saveAccount(account);
         if (account.getStatus().equalsIgnoreCase("not registered")){
 
             Instructor instructor = new Instructor();

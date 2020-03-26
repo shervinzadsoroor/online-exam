@@ -19,16 +19,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     MyUserDetailsService userDetailsService;
 
-    //for authentication
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
-    }
-
     //redirect
     @Autowired
     public void WebSecurityConfig(AuthenticationSuccessHandler authenticationSuccessHandler) {
         this.authenticationSuccessHandler = authenticationSuccessHandler;
+    }
+
+    //for authentication
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService);
     }
 
 
@@ -36,8 +36,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-//                .antMatchers("/account/register").hasAnyRole( "COLLEGIAN", "INSTRUCTOR")
-//                .antMatchers("/", "/account/signUp", "/account/login").permitAll()
                 .antMatchers("/", "/account/login", "/account/signUp")
                 .permitAll()
                 .antMatchers("/account/**", "/manager/**").hasRole("MANAGER")
@@ -49,6 +47,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginPage("/account/login")
                 .successHandler(authenticationSuccessHandler)
                 .failureUrl("/login.html?error=true")
+                .and()
+                .logout()
                 .permitAll();
 
     }

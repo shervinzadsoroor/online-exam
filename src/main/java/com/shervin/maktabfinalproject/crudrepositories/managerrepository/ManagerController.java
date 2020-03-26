@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Date;
+
 @RequestMapping("/manager")
 @Controller
 public class ManagerController {
@@ -26,6 +28,8 @@ public class ManagerController {
     @GetMapping("/dashboard/{userName}")
     public String showManagerDashboard(@PathVariable("userName") String username) {
         Account account = accountService.findAccountByUsername(username);
+        account.setLastLoginDate(new Date());
+        accountService.saveAccount(account);
         //the account is not been used.
         // TODO: 3/7/20 use manager account details in manager dashboard page
         return "managerDashboard";
