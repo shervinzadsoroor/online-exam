@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -38,18 +39,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/", "/account/login", "/account/signUp")
                 .permitAll()
-                .antMatchers("/account/**", "/manager/**").hasRole("MANAGER")
-                .antMatchers("/instructor/**", "/exam/**").hasRole("INSTRUCTOR")
-                .antMatchers("/collegian/**").hasRole("COLLEGIAN")
+                .antMatchers("/account/**", "/manager/**", "/logout").hasRole("MANAGER")
+                .antMatchers("/instructor/**", "/exam/**", "/logout").hasRole("INSTRUCTOR")
+                .antMatchers("/collegian/**", "/logout").hasRole("COLLEGIAN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/account/login")
                 .successHandler(authenticationSuccessHandler)
                 .failureUrl("/login.html?error=true")
+                .permitAll()
                 .and()
-                .logout()
-                .permitAll();
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/account/login");
 
     }
 }
