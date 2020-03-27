@@ -16,7 +16,7 @@ public class CourseService {
     }
 
     public List<Course> showAllCourses(){
-        return courseRepository.findAll();
+        return courseRepository.findAllByOrderByIdDesc();
     }
 
     public Course findById(Long id){
@@ -24,7 +24,7 @@ public class CourseService {
     }
 
     public List<Course> findAllCoursesOfTheInstructor(Long id){
-        return courseRepository.findAllByInstructor_Id(id);
+        return courseRepository.findAllByInstructor_IdOrderByIdDesc(id);
     }
 
 }

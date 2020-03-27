@@ -9,5 +9,8 @@ import java.util.List;
 
 @Repository
 public interface CollegianRepository extends JpaRepository<Collegian, Long> {
+
+    List<Collegian> findAllByOrderByIdDesc();
+
     Collegian findByAccount_Username(String username);
 }

@@ -16,13 +16,11 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     List<Account> findAllByUsername(String username);
 
-//    Account findByUsername(String username);
-
     Optional<Account> findByUsername(String username);
 
     List<Account> findAllByPassword(String password);
 
     List<Account> findAllByStatus(String status);
 
-    List<Account> findAllByRole_Id(Long roleId);
+    List<Account> findAllByRole_IdOrderByIdDesc(Long roleId);
 }

@@ -51,7 +51,7 @@ public class AccountService {
     }
 
     public List<Account> findAllAccountsByRoleId(Long roleId) {
-        return accountRepository.findAllByRole_Id(roleId);
+        return accountRepository.findAllByRole_IdOrderByIdDesc(roleId);
     }
 
 }

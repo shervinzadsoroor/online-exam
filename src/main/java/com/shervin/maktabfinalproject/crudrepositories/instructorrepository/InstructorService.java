@@ -20,6 +20,6 @@ public class InstructorService  {
     }
 
     public List<Instructor> findAll(){
-        return instructorRepository.findAll();
+        return instructorRepository.findAllByOrderByIdDesc();
     }
 }

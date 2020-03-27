@@ -200,6 +200,9 @@ public class AccountController {
     public String showAllCollegianAccounts(Model model) {
 
         Role role = roleService.findRoleById(3L); // ROLE_COLLEGIAN
+        List<Account> accounts = accountService.findAllAccountsByRoleId(3L);
+        //again we set accounts of the role because the new list is in descending order
+        role.setAccounts(accounts);
         model.addAttribute("role", role);
         return "allCollegianAccounts";
     }
@@ -222,6 +225,9 @@ public class AccountController {
     public String showAllInstructorAccounts(Model model) {
 
         Role role = roleService.findRoleById(2L); // ROLE_INSTRUCTOR
+        List<Account> accounts = accountService.findAllAccountsByRoleId(2L);
+        //again we set accounts of the role because the new list is in descending order
+        role.setAccounts(accounts);
         model.addAttribute("role", role);
         return "allInstructorAccounts";
     }

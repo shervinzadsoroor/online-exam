@@ -16,7 +16,7 @@ public class CollegianService {
     }
 
     public List<Collegian> finaAll() {
-        return collegianRepository.findAll();
+        return collegianRepository.findAllByOrderByIdDesc();
     }
 
     public Collegian findById(Long id){
