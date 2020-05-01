@@ -42,9 +42,12 @@ public class AccountController {
     public String login(@ModelAttribute Account account, Model model) {
         //checks the existence of the account by username
         boolean isAccountExist = accountService.isAccountExist(account);
-        boolean isPasswordValid = accountService.isPasswordValid(account);
+//        boolean isPasswordValid = false;
+//        if (isAccountExist) {
+//            isPasswordValid = accountService.isPasswordValid(account);
+//        }
 
-        if (isAccountExist && isPasswordValid) {
+        if (isAccountExist) {
             Account loggedInAccount = accountService.findAccountByUsername(account.getUsername());
             loggedInAccount.setLastLoginDate(new Date());
             accountService.saveAccount(loggedInAccount);
@@ -152,13 +155,11 @@ public class AccountController {
         return "registrationSuccessful";
     }
 
-
     @PostMapping("/confirm")
     public String confirmAccounts() {
         // TODO: 2/24/20
         return null;
     }
-
 
     @GetMapping("/waiting/all")
     public String showAllWaitingAccounts(Model model) {
@@ -194,7 +195,6 @@ public class AccountController {
         }
         return "managerDashboard";
     }
-
 
     @GetMapping("/collegian/all")
     public String showAllCollegianAccounts(Model model) {
@@ -246,5 +246,9 @@ public class AccountController {
         return "managerDashboard";
     }
 
-
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.GET, value = "/test-rest")
+    public Account sendAccount() {
+        return accountService.findAccountByUsername("shervin");
+    }
 }

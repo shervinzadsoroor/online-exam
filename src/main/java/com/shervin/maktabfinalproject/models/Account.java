@@ -1,13 +1,20 @@
 package com.shervin.maktabfinalproject.models;
 
-import lombok.*;
-import org.hibernate.validator.constraints.pl.NIP;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author shervin zadsoroor
+ * <h2>this the Account model</h2>
+ * this entity is using for working with accounts
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

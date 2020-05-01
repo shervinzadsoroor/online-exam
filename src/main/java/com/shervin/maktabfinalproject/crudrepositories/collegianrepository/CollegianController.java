@@ -38,16 +38,20 @@ public class CollegianController {
     @GetMapping("/dashboard")
     public String CollegianDashboard() {
 
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        return "redirect:/collegian/dashboard/" + userName;
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return "redirect:/collegian/dashboard/" + username;
     }
 
-    @GetMapping("/dashboard/{userName}")
-    public String showCollegianDashboard(@PathVariable("userName") String username, Model model) {
+    @GetMapping("/dashboard/{username}")
+    public String showCollegianDashboard(@PathVariable("username") String username,
+                                         Model model,
+                                         HttpServletRequest request) {
 
         //if collegian account's status is not registered redirect to registrationForm.html
         //else if status is waiting redirect to registrationWaitingDetails.html
         //and else if status is registered show the dashboard to the collegian
+
+
         Account account = accountService.findAccountByUsername(username);
         account.setLastLoginDate(new Date());
         account = accountService.saveAccount(account);

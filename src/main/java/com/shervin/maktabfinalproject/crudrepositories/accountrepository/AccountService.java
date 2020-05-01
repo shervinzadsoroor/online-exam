@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 
@@ -13,7 +14,6 @@ public class AccountService {
 
     @Autowired
     AccountRepository accountRepository;
-
 
     public Account saveAccount(Account account) {
         return accountRepository.save(account);
@@ -24,8 +24,9 @@ public class AccountService {
     }
 
     public boolean isAccountExist(Account account) {
-        List<Account> list = accountRepository.findAllByUsername(account.getUsername());
-        return list.size() > 0;
+//        List<Account> list = accountRepository.findAllByUsername(account.getUsername());
+//        return list.size() > 0;
+        return findAccountByUsernameAndPass(account.getUsername(), account.getPassword());
     }
 
     public boolean isPasswordValid(Account account) {
@@ -42,6 +43,18 @@ public class AccountService {
         return accountRepository.findByUsername(username).get();
     }
 
+    public boolean findAccountByUsernameAndPass(String username, String password) {
+        try {
+            Optional<Account> account = accountRepository.findByUsernameAndPassword(username, password);
+            if (account.isPresent()) {
+                return true;
+            }
+        } catch (NoSuchElementException exception) {
+            exception.printStackTrace();
+        }
+        return false;
+    }
+
     public List<Account> showWaitingAccountsList() {
         return accountRepository.findAllByStatus("waiting");
     }
@@ -53,5 +66,6 @@ public class AccountService {
     public List<Account> findAllAccountsByRoleId(Long roleId) {
         return accountRepository.findAllByRole_IdOrderByIdDesc(roleId);
     }
+
 
 }
