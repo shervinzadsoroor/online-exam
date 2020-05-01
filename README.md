@@ -1,4 +1,5 @@
 this is a web application for online exam(version 1.0.0, march 2020)
+it is built by maven and spring boot and the security is enabled with spring security
 
 there are three roles in this app: MANAGER, INSTRUCTOR, COLLEGIAN.
 
