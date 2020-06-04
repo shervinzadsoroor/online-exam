@@ -3,7 +3,6 @@ package com.shervin.maktabfinalproject.crudrepositories.personrepository;
 import com.shervin.maktabfinalproject.crudrepositories.accountrepository.AccountService;
 import com.shervin.maktabfinalproject.crudrepositories.rolerepository.RoleService;
 import com.shervin.maktabfinalproject.models.Account;
-import com.shervin.maktabfinalproject.models.Person;
 import com.shervin.maktabfinalproject.models.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,12 +19,16 @@ import java.util.stream.Collectors;
 @RequestMapping("/person")
 @Controller
 public class PersonController {
+    private final PersonService personService;
+    private final RoleService roleService;
+    private final AccountService accountService;
+
     @Autowired
-    private PersonService personService;
-    @Autowired
-    private RoleService roleService;
-    @Autowired
-    private AccountService accountService;
+    public PersonController(PersonService personService, RoleService roleService, AccountService accountService) {
+        this.personService = personService;
+        this.roleService = roleService;
+        this.accountService = accountService;
+    }
 
     @GetMapping("/search")
     public String sendSearchForm(Model model) {

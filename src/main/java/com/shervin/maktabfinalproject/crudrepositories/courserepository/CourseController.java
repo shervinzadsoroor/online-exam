@@ -15,12 +15,16 @@ import java.util.Date;
 @RequestMapping("/course")
 @Controller
 public class CourseController {
+    private final CourseService courseService;
+    private final InstructorService instructorService;
+    private final CollegianService collegianService;
+
     @Autowired
-    private CourseService courseService;
-    @Autowired
-    private InstructorService instructorService;
-    @Autowired
-    private CollegianService collegianService;
+    public CourseController(CourseService courseService, InstructorService instructorService, CollegianService collegianService) {
+        this.courseService = courseService;
+        this.instructorService = instructorService;
+        this.collegianService = collegianService;
+    }
 
     @GetMapping("/create")
     public String sendCreationForm(Model model) {

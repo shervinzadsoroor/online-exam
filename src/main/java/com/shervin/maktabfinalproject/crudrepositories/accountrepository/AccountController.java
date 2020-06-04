@@ -1,7 +1,6 @@
 package com.shervin.maktabfinalproject.crudrepositories.accountrepository;
 
 import com.shervin.maktabfinalproject.crudrepositories.collegianrepository.CollegianService;
-import com.shervin.maktabfinalproject.crudrepositories.courserepository.CourseService;
 import com.shervin.maktabfinalproject.crudrepositories.instructorrepository.InstructorService;
 import com.shervin.maktabfinalproject.crudrepositories.personrepository.PersonService;
 import com.shervin.maktabfinalproject.crudrepositories.rolerepository.RoleService;
@@ -19,18 +18,20 @@ import java.util.List;
 @Controller
 public class AccountController {
 
+    private final AccountService accountService;
+    private final PersonService personService;
+    private final RoleService roleService;
+    private final CollegianService collegianService;
+    private final InstructorService instructorService;
+
     @Autowired
-    private AccountService accountService;
-    @Autowired
-    private PersonService personService;
-    @Autowired
-    private RoleService roleService;
-    @Autowired
-    private CollegianService collegianService;
-    @Autowired
-    private InstructorService instructorService;
-    @Autowired
-    private CourseService courseService;
+    public AccountController(AccountService accountService, PersonService personService, RoleService roleService, CollegianService collegianService, InstructorService instructorService) {
+        this.accountService = accountService;
+        this.personService = personService;
+        this.roleService = roleService;
+        this.collegianService = collegianService;
+        this.instructorService = instructorService;
+    }
 
     @GetMapping("/login")
     public String sendLoginForm(Model model) {
@@ -115,7 +116,7 @@ public class AccountController {
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute Person person, Model model) {
+    public String register(@ModelAttribute Person person) {
         Account account = accountService.findAccountById(person.getAccount().getId()).get();
         Role role = roleService.findRoleById(person.getAccount().getRole().getId());
         account.setRole(role);
@@ -132,8 +133,7 @@ public class AccountController {
             Instructor persistedInstructor = instructorService.saveInstructor(instructor);
             Account account1 = persistedInstructor.getAccount();
             account1.setStatus("waiting");
-            Account account2 = accountService.saveAccount(account1);
-//            model.addAttribute("account",account2);
+            accountService.saveAccount(account1);
         }
 
         if (role.getId() == 3) {

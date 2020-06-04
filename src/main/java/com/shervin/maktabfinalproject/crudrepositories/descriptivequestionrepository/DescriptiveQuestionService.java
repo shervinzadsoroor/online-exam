@@ -6,8 +6,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DescriptiveQuestionService {
+    private final DescriptiveQuestionRepository descriptiveQuestionRepository;
+
     @Autowired
-    private DescriptiveQuestionRepository descriptiveQuestionRepository;
+    public DescriptiveQuestionService(DescriptiveQuestionRepository descriptiveQuestionRepository) {
+        this.descriptiveQuestionRepository = descriptiveQuestionRepository;
+    }
 
     public DescriptiveQuestion save(DescriptiveQuestion question) {
         return descriptiveQuestionRepository.save(question);

@@ -17,8 +17,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private AuthenticationSuccessHandler authenticationSuccessHandler;
 
+    final MyUserDetailsService userDetailsService;
+
     @Autowired
-    MyUserDetailsService userDetailsService;
+    public SecurityConfiguration(MyUserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     //redirect
     @Autowired

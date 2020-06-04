@@ -15,8 +15,8 @@
 
         <div style="display: flex; justify-content: center; height: 20%"><h3>ثبت نام</h3></div>
         <form action="#" th:action="@{/account/signUp}" th:object="${account}" method="post">
-            <p>نام کاربری:* <input dir="ltr" type="text" th:field="*{username}" required/></p>
-            <p>کلمه‌ی عبور:* <input dir="ltr" type="password" th:field="*{password}" required/></p>
+            <p>نام کاربری:* <input dir="ltr" type="text" minlength="4" th:field="*{username}" required/></p>
+            <p>کلمه‌ی عبور:* <input dir="ltr" type="password" minlength="4" th:field="*{password}" required/></p>
             <select th:field="${account.role}">
                 <option th:each="role : ${roles}"
                         th:value="${role.id}"

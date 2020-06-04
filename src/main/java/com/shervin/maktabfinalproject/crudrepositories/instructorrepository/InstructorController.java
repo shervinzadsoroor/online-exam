@@ -3,7 +3,6 @@ package com.shervin.maktabfinalproject.crudrepositories.instructorrepository;
 import com.shervin.maktabfinalproject.crudrepositories.accountrepository.AccountService;
 import com.shervin.maktabfinalproject.crudrepositories.courserepository.CourseService;
 import com.shervin.maktabfinalproject.models.Account;
-import com.shervin.maktabfinalproject.models.Collegian;
 import com.shervin.maktabfinalproject.models.Course;
 import com.shervin.maktabfinalproject.models.Instructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +16,16 @@ import java.util.List;
 @RequestMapping("/instructor")
 @Controller
 public class InstructorController {
+    private final InstructorService instructorService;
+    private final AccountService accountService;
+    private final CourseService courseService;
+
     @Autowired
-    private InstructorService instructorService;
-    @Autowired
-    private AccountService accountService;
-    @Autowired
-    private CourseService courseService;
+    public InstructorController(InstructorService instructorService, AccountService accountService, CourseService courseService) {
+        this.instructorService = instructorService;
+        this.accountService = accountService;
+        this.courseService = courseService;
+    }
 
 //    public InstructorController(InstructorService instructorService) {
 //        this.instructorService = instructorService;
@@ -37,7 +40,7 @@ public class InstructorController {
         Account account = accountService.findAccountByUsername(username);
         account.setLastLoginDate(new Date());
         account = accountService.saveAccount(account);
-        if (account.getStatus().equalsIgnoreCase("not registered")){
+        if (account.getStatus().equalsIgnoreCase("not registered")) {
 
             Instructor instructor = new Instructor();
             instructor.setAccount(account);
@@ -46,11 +49,11 @@ public class InstructorController {
 
             return "registrationFormForInstructor";
 
-        }else if (account.getStatus().equalsIgnoreCase("waiting")){
+        } else if (account.getStatus().equalsIgnoreCase("waiting")) {
             model.addAttribute("account", account);
             return "registrationWaitingDetails";
 
-        }else if (account.getStatus().equalsIgnoreCase("registered")){
+        } else if (account.getStatus().equalsIgnoreCase("registered")) {
             List<Course> courseList = courseService
                     .findAllCoursesOfTheInstructor(account.getPerson().getId());
             model.addAttribute("courses", courseList);
@@ -59,7 +62,7 @@ public class InstructorController {
     }
 
     @PostMapping("/register")
-    public String registerCollegian(@ModelAttribute Instructor instructor){
+    public String registerCollegian(@ModelAttribute Instructor instructor) {
         instructor.getAccount().setStatus("waiting");
         instructorService.saveInstructor(instructor);
         return "registrationSuccessful";

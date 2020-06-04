@@ -18,22 +18,26 @@ import java.util.*;
 @RequestMapping("/collegian")
 @Controller
 public class CollegianController {
-    @Autowired
-    private CollegianService collegianService;
-    @Autowired
-    private AccountService accountService;
-    @Autowired
-    private ExamService examService;
-    @Autowired
-    private CourseService courseService;
-    @Autowired
-    private AnswerService answerService;
-    @Autowired
-    private OptionService optionService;
+    private final CollegianService collegianService;
+    private final AccountService accountService;
+    private final ExamService examService;
+    private final CourseService courseService;
+    private final AnswerService answerService;
+    private final OptionService optionService;
 
     //the timer thread use this property to access the answer object
     private int remainingTimeInSeconds;
     private Answer ANSWER;
+
+    @Autowired
+    public CollegianController(CollegianService collegianService, AccountService accountService, ExamService examService, CourseService courseService, AnswerService answerService, OptionService optionService) {
+        this.collegianService = collegianService;
+        this.accountService = accountService;
+        this.examService = examService;
+        this.courseService = courseService;
+        this.answerService = answerService;
+        this.optionService = optionService;
+    }
 
     @GetMapping("/dashboard")
     public String CollegianDashboard() {

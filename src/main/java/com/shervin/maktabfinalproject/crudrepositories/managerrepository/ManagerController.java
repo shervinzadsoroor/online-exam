@@ -13,10 +13,14 @@ import java.util.Date;
 @RequestMapping("/manager")
 @Controller
 public class ManagerController {
+    private final ManagerService managerService;
+    private final AccountService accountService;
+
     @Autowired
-    private ManagerService managerService;
-    @Autowired
-    private AccountService accountService;
+    public ManagerController(ManagerService managerService, AccountService accountService) {
+        this.managerService = managerService;
+        this.accountService = accountService;
+    }
 
 
     @GetMapping("/home")

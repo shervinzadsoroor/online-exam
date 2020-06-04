@@ -4,22 +4,24 @@ import com.shervin.maktabfinalproject.crudrepositories.answerrepository.AnswerSe
 import com.shervin.maktabfinalproject.crudrepositories.examquestionsscorerepository.ExamQuestionsScoreService;
 import com.shervin.maktabfinalproject.models.Answer;
 import com.shervin.maktabfinalproject.models.Exam;
-import com.shervin.maktabfinalproject.models.ExamQuestionsScore;
 import com.shervin.maktabfinalproject.models.MultipleChoiceQuestion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Service
 public class ExamService {
+    private final ExamRepository examRepository;
+    private final ExamQuestionsScoreService examQuestionsScoreService;
+    private final AnswerService answerService;
+
     @Autowired
-    private ExamRepository examRepository;
-    @Autowired
-    private ExamQuestionsScoreService examQuestionsScoreService;
-    @Autowired
-    private AnswerService answerService;
+    public ExamService(ExamRepository examRepository, ExamQuestionsScoreService examQuestionsScoreService, AnswerService answerService) {
+        this.examRepository = examRepository;
+        this.examQuestionsScoreService = examQuestionsScoreService;
+        this.answerService = answerService;
+    }
 
     public Exam saveExam(Exam exam) {
         return examRepository.save(exam);

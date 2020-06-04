@@ -9,13 +9,13 @@ import java.util.List;
 
 @Service
 public class PersonService {
-
-    private PersonRepository personRepository;
+    private final PersonRepository personRepository;
 
     @Autowired
-    public void setPersonRepository(PersonRepository personRepository) {
+    public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
+
 
     public boolean isPersonHasAccount(Account account) {
         List<Person> list = personRepository.findByAccount(account);

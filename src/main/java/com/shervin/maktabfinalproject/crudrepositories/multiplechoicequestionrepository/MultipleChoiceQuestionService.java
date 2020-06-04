@@ -6,14 +6,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MultipleChoiceQuestionService {
-    @Autowired
-    private MultipleChoiceQuestionRepository multipleChoiceQuestionRepository;
+    private final MultipleChoiceQuestionRepository multipleChoiceQuestionRepository;
 
-    public MultipleChoiceQuestion save(MultipleChoiceQuestion question) {
-       return multipleChoiceQuestionRepository.save(question);
+    @Autowired
+    public MultipleChoiceQuestionService(MultipleChoiceQuestionRepository multipleChoiceQuestionRepository) {
+        this.multipleChoiceQuestionRepository = multipleChoiceQuestionRepository;
     }
 
-    public MultipleChoiceQuestion findById(Long id){
+    public MultipleChoiceQuestion save(MultipleChoiceQuestion question) {
+        return multipleChoiceQuestionRepository.save(question);
+    }
+
+    public MultipleChoiceQuestion findById(Long id) {
         return multipleChoiceQuestionRepository.findById(id).get();
     }
 }

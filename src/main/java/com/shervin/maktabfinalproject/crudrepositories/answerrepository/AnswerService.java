@@ -9,8 +9,12 @@ import java.util.List;
 @Service
 public class AnswerService {
 
+    private final AnswerRepository answerRepository;
+
     @Autowired
-    private AnswerRepository answerRepository;
+    public AnswerService(AnswerRepository answerRepository) {
+        this.answerRepository = answerRepository;
+    }
 
     public Answer saveAnswer(Answer answer) {
         return answerRepository.save(answer);

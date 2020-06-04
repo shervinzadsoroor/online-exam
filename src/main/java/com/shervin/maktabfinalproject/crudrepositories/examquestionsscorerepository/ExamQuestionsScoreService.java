@@ -10,8 +10,12 @@ import java.util.List;
 
 @Service
 public class ExamQuestionsScoreService {
+    private final ExamQuestionsScoreRepository examQuestionsScoreRepository;
+
     @Autowired
-    private ExamQuestionsScoreRepository examQuestionsScoreRepository;
+    public ExamQuestionsScoreService(ExamQuestionsScoreRepository examQuestionsScoreRepository) {
+        this.examQuestionsScoreRepository = examQuestionsScoreRepository;
+    }
 
     public ExamQuestionsScore save(ExamQuestionsScore examQuestionsScore) {
         return examQuestionsScoreRepository.save(examQuestionsScore);

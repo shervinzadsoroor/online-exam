@@ -8,18 +8,22 @@ import java.util.List;
 
 @Service
 public class OptionService {
+    private final OptionRepository optionRepository;
+
     @Autowired
-    private OptionRepository optionRepository;
+    public OptionService(OptionRepository optionRepository) {
+        this.optionRepository = optionRepository;
+    }
 
     public QuestionOption save(QuestionOption option) {
         return optionRepository.save(option);
     }
 
-    public QuestionOption findById(Long id){
+    public QuestionOption findById(Long id) {
         return optionRepository.findById(id).get();
     }
 
-    public List<QuestionOption> findAllByQuestionId(Long id){
+    public List<QuestionOption> findAllByQuestionId(Long id) {
         return optionRepository.findAllByMultipleChoiceQuestion_id(id);
     }
 

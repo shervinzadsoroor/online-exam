@@ -7,7 +7,6 @@ import com.shervin.maktabfinalproject.crudrepositories.multiplechoicequestionrep
 import com.shervin.maktabfinalproject.crudrepositories.optionrepository.OptionService;
 import com.shervin.maktabfinalproject.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,24 +15,27 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 @RequestMapping("/question")
 @Controller
 public class QuestionController {
 
+    private final QuestionService questionService;
+    private final MultipleChoiceQuestionService multipleChoiceQuestionService;
+    private final DescriptiveQuestionService descriptiveQuestionService;
+    private final ExamService examService;
+    private final ExamQuestionsScoreService examQuestionsScoreService;
+    private final OptionService optionService;
+
     @Autowired
-    private QuestionService questionService;
-    @Autowired
-    private MultipleChoiceQuestionService multipleChoiceQuestionService;
-    @Autowired
-    private DescriptiveQuestionService descriptiveQuestionService;
-    @Autowired
-    private ExamService examService;
-    @Autowired
-    private ExamQuestionsScoreService examQuestionsScoreService;
-    @Autowired
-    private OptionService optionService;
+    public QuestionController(QuestionService questionService, MultipleChoiceQuestionService multipleChoiceQuestionService, DescriptiveQuestionService descriptiveQuestionService, ExamService examService, ExamQuestionsScoreService examQuestionsScoreService, OptionService optionService) {
+        this.questionService = questionService;
+        this.multipleChoiceQuestionService = multipleChoiceQuestionService;
+        this.descriptiveQuestionService = descriptiveQuestionService;
+        this.examService = examService;
+        this.examQuestionsScoreService = examQuestionsScoreService;
+        this.optionService = optionService;
+    }
 
     @GetMapping("/list/{id}")
     public String showAllQuestionsOfInstructor(@PathVariable("id") Long examId, Model model) {
@@ -125,9 +127,9 @@ public class QuestionController {
             optionService.save(option);
         }
         examQuestionsScoreService
-                .save(new ExamQuestionsScore(null,exam,persistedQuestion,null,0));
+                .save(new ExamQuestionsScore(null, exam, persistedQuestion, null, 0));
 
-        return "redirect:/exam/edit/"+exam.getId();
+        return "redirect:/exam/edit/" + exam.getId();
     }
 
     @GetMapping("/create/descriptive/{id}")
@@ -170,7 +172,7 @@ public class QuestionController {
         descriptiveQuestionService.save(descriptiveQuestion);
 
         Exam exam = (Exam) request.getSession().getAttribute("exam");
-        return "redirect:/exam/edit/"+exam.getId();
+        return "redirect:/exam/edit/" + exam.getId();
     }
 
 }

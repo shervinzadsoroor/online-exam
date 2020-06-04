@@ -6,7 +6,6 @@ import com.shervin.maktabfinalproject.crudrepositories.courserepository.CourseSe
 import com.shervin.maktabfinalproject.crudrepositories.examquestionsscorerepository.ExamQuestionsScoreService;
 import com.shervin.maktabfinalproject.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,16 +17,20 @@ import java.util.List;
 @Controller
 public class ExamController {
 
+    private final ExamService examService;
+    private final CourseService courseService;
+    private final ExamQuestionsScoreService examQuestionsScoreService;
+    private final AnswerService answerService;
+    private final CollegianService collegianService;
+
     @Autowired
-    private ExamService examService;
-    @Autowired
-    private CourseService courseService;
-    @Autowired
-    private ExamQuestionsScoreService examQuestionsScoreService;
-    @Autowired
-    private AnswerService answerService;
-    @Autowired
-    private CollegianService collegianService;
+    public ExamController(ExamService examService, CourseService courseService, ExamQuestionsScoreService examQuestionsScoreService, AnswerService answerService, CollegianService collegianService) {
+        this.examService = examService;
+        this.courseService = courseService;
+        this.examQuestionsScoreService = examQuestionsScoreService;
+        this.answerService = answerService;
+        this.collegianService = collegianService;
+    }
 
     //showing the list of exams to instructor
     @GetMapping("/list/{id}")
